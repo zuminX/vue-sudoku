@@ -1,6 +1,6 @@
 <template>
   <div class="actions">
-    <div @click="$emit('clickCancel')" class="ui red basic cancel inverted button">
+    <div @click="$emit('clickCancel')" class="ui red cancel inverted button">
       <i class="remove icon"></i>取消
     </div>
     <div @click="$emit('clickCheck')" class="ui green ok inverted button">

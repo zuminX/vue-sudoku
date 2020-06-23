@@ -3,8 +3,7 @@
  */
 
 import axios from 'axios'
-import router from '../router'
-import {Message} from "element-ui";
+import {showErrorToast} from "../utils/publicUtils";
 
 //设置POST请求的内容类型为JSON且编码格式为UTF-8
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
@@ -15,39 +14,48 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
 axios.interceptors.response.use(success => {
   let response = success.data;
   //请求失败
-  if (!response.success) {
+  let status = response.success;
+  if (!status) {
     //显示错误信息
-    Message.error({message: response.message})
-    return;
+    showErrorToast({
+      message: response.message
+    });
   }
-  //否则返回请求数据
-  return response.data;
+  return {
+    success: status,
+    data: response.data
+  };
 }, error => {
+  let message;
   //根据请求响应的状态，显示不同的错误信息
-  let status = error.response.status;
-  if (status === 500 || status === 504) {
-    Message.error({message: '服务器发生异常'})
-  } else if (status === 403) {
-    Message.error({message: '权限不足'})
-  } else if (status === 401) {
-    Message.error({message: '尚未登录，请先登录'})
-    //跳转到首页
-    router.replace('/');
-  } else {
-    //发送未知异常
-    let message = error.response.data.message;
-    if (message) {
-      Message.error({message: message})
-    } else {
-      Message.error({message: '未知错误!'})
-    }
+  switch (error.response.status) {
+    case 500:
+    case 504:
+      message = '服务器发生异常';
+      break;
+    case 403:
+      message = '权限不足';
+      break;
+    case 401:
+      message = '尚未登录，请先登录';
+      break;
+    default :
+      message = error.response.data.message || '未知错误';
+      break;
   }
+  showErrorToast({
+    message
+  });
+  return {
+    success: false,
+    data: null
+  };
 })
 
 /**
  * 基地址
  */
-let base = '';
+const base = '';
 
 /**
  * 发送POST请求

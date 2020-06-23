@@ -13,7 +13,7 @@
       </button>
     </div>
     <div class="left aligned column basic segment" id="tipsButton">
-      <button @click="$emit('clickTips')" :class="{'disabled': recordMode}"
+      <button :class="{'disabled': recordMode}" @click="$emit('clickTips')"
               class="ui blue basic circular button tip-popup" data-content="显示一个空格的数字或提示错误填写的格子">
         <i class="question icon"></i>提示
       </button>
@@ -23,8 +23,12 @@
 
 <script>
   import {animateCSS} from "../../utils/publicUtils";
-  import {mapMutations, mapState} from "vuex";
-  import {getTwoDimensionalArray} from "../../utils/coreUtils";
+  import {
+    mapMutations,
+    mapState
+  } from "vuex";
+  import {getTwoDimeNumArray} from "../../utils/coreUtils";
+  import {isNotHole} from "../../utils/sudokuUtils";
 
   export default {
     name: "SudokuGameButtons",
@@ -35,46 +39,27 @@
         recordMode: state => state.sudoku.recordMode
       }),
     },
-    mounted() {
-      //初始化弹出提示
-      $(".tip-popup").popup();
-    },
     methods: {
       ...mapMutations([
         'updateSudokuData',
       ]),
       /**
-       * 判断给定位置是否空缺
-       * @param i 行
-       * @param j 列
-       * @returns {boolean} 空缺返回true，否则返回false
-       */
-      isHole(i, j) {
-        return this.holesData[i][j] === 1;
-      },
-      /**
        * 重置玩家填写的数独数据
        */
       resetSudokuData() {
-        let newSudokuData = getTwoDimensionalArray();
+        let newSudokuData = getTwoDimeNumArray();
         for (let i = 0; i < 9; i++) {
           for (let j = 0; j < 9; j++) {
-            //若该位置为空缺，则该位置的数独数据为null
-            if (this.isHole(i, j)) {
-              newSudokuData[i][j] = null;
-            } else {
-              newSudokuData[i][j] = this.sudokuData[i][j];
-            }
+            newSudokuData[i][j] = isNotHole(this.holesData, i, j) ? this.sudokuData[i][j] : null;
           }
         }
         this.updateSudokuData(newSudokuData);
       },
       /**
-       * 设置提示按钮的动画
-       * @param animate 动画名
+       * 触发提示按钮的动画
        */
-      setTipsButtonAnimate(animate) {
-        animateCSS('#tipsButton', animate);
+      triggerTipsButtonAnimate() {
+        animateCSS('#tipsButton', "shakeX");
       },
     },
   }

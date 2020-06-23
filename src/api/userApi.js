@@ -3,7 +3,7 @@ import {getRequest, postRequest} from "./basicApi";
 /**
  * 用户API的基地址
  */
-let base = "/user";
+const base = "/user";
 
 /**
  * 登录用户

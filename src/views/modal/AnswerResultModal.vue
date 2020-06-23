@@ -22,7 +22,7 @@
   import BasicModalContent from "../../components/modal/content/BasicModalContent";
   import OKModalActions from "../../components/modal/actions/OKModalActions";
   import Modal from "../../components/modal/Modal";
-  import {formatShowMilliseconds} from "../../utils/publicUtils";
+  import {formatShowMS} from "../../utils/publicUtils";
 
   export default {
     name: "AnswerResultModal",
@@ -38,7 +38,7 @@
         return this.answerInformation.situation !== 2;
       },
       spendTime() {
-        return `${formatShowMilliseconds(this.answerInformation.spendTime)}秒`;
+        return `${formatShowMS(this.answerInformation.spendTime)}秒`;
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ui modal" :id="modalId">
+  <div :id="modalId" class="ui modal">
     <slot name="header"></slot>
     <slot></slot>
     <slot name="actions"></slot>

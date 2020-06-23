@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <style>
   @import "../semantic/dist/semantic.css";
   @import "~animate.css";

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import {getSudokuArray} from "../../utils/coreUtils";
+  import {getSudokuArray} from "../../utils/sudokuUtils";
 
   export default {
     name: "SudokuInputArea",

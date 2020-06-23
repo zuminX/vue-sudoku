@@ -1,35 +1,28 @@
 /**
- * 获取9x9的二维数组
- * @returns {number[][]} 二维数组
+ * 获取二维number型数组
+ * @returns {number[][]} 二维number型数组
  */
-export const getTwoDimensionalArray = () => {
-  return [[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]];
+export const getTwoDimeNumArray = (row = 9, column = 9) => {
+  return getTwoDimeArray(row, column, 0);
 }
 
 /**
- * 获取数独数字数组
- * @returns {number[][]} 数独数组
+ * 获取二维boolean型数组
+ * @returns {boolean[][]} 二维boolean型数组
  */
-export const getSudokuArray = () => {
-  return [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+export const getTwoDimeBoolArray = (row = 9, column = 9) => {
+  return getTwoDimeArray(row, column, false);
 }
 
-/**
- * 隐藏数独数据中为零的数据
- * @param sudokuData 数独数据
- * @param holesData 挖洞数据
- */
-export const hideSudokuZeroData = (sudokuData, holesData) => {
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      //若该位置为空缺，则修改该位置的数独数据为null
-      if (holesData[i][j] === 1) {
-        sudokuData[i][j] = null;
-      }
+const getTwoDimeArray = (row, column, data) => {
+  let result = [];
+  for (let i = 0; i < row; i++) {
+    result.push([]);
+    for (let j = 0; j < column; j++) {
+      result[i].push(data);
     }
   }
+  return result;
 }
 
 /**
@@ -83,17 +76,4 @@ export const validateForm = (selector) => {
   return $form.form('is valid');
 }
 
-/**
- * 将字符串转化为数独矩阵
- * @param sudokuData 数独矩阵的字符串形式
- */
-export const convertToSudokuMatrix = (sudokuData) => {
-  let array = getTwoDimensionalArray();
-  for (let i = 0, num = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      array[i][j] = sudokuData.charAt(num++);
-    }
-  }
-  return array;
-}
 

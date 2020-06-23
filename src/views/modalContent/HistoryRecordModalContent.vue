@@ -19,7 +19,7 @@
           <td>
             <div :key="i" class="sudoku-row absolute-center" v-for="(rowData, i) in record.sudokuMatrix">
               <div :key="j" class="mini-number" v-for="(data, j) in rowData">
-                <input :class="[record.sudokuHoles[i][j]==='1'?'input-color':'background-color-gray']" :value="data"
+                <input :class="[record.sudokuHoles[i][j]?'input-color':'background-color-gray']" :value="data"
                        class="sudoku-number-input" disabled type="text">
               </div>
             </div>
@@ -28,10 +28,10 @@
             {{record.sudokuLevelName}}
           </td>
           <td>
-            {{handleNullTime(record.startTime)}}
+            {{formatData(record.startTime)}}
           </td>
           <td>
-            {{handleNullTime(record.endTime)}}
+            {{formatData(record.endTime)}}
           </td>
           <td>
             <i :class="[record.correct ? 'checkmark green' : 'remove red']" class="icon"></i>
@@ -63,11 +63,18 @@
 
 <script>
   import {getHistoryGameRecord} from "../../api/userApi";
-  import {convertToSudokuMatrix} from "../../utils/coreUtils";
   import {
     mapMutations,
     mapState
   } from "vuex";
+  import {
+    convertToSudokuHoles,
+    convertToSudokuMatrix
+  } from "../../utils/sudokuUtils";
+  import {
+    formatData,
+    formatDate
+  } from "../../utils/publicUtils";
 
   export default {
     name: "HistoryRecordModalContent",
@@ -86,10 +93,13 @@
     },
     mounted() {
       this.updateCurrentPageData();
-      //添加游戏结束后调用初始游戏信息
       this.addGameFinishCallback(() => this.updateCurrentPageData());
     },
     methods: {
+      ...mapMutations([
+        'addGameFinishCallback'
+      ]),
+      formatData,
       /**
        * 转换游戏记录中的数独矩阵和空缺字符串为二维数组
        * @param recordData 游戏记录数据
@@ -98,41 +108,30 @@
       convertGameRecordToMatrix(recordData) {
         for (let i = 0, size = recordData.length; i < size; i++) {
           recordData[i].sudokuMatrix = convertToSudokuMatrix(recordData[i].sudokuMatrix);
-          recordData[i].sudokuHoles = convertToSudokuMatrix(recordData[i].sudokuHoles);
+          recordData[i].sudokuHoles = convertToSudokuHoles(recordData[i].sudokuHoles);
         }
         return recordData;
       },
       /**
-       * 处理空日期
-       * @param time 日期
-       * @returns {String} 处理后的字符串
-       */
-      handleNullTime(time) {
-        return time === null ? "----" : time;
-      },
-      ...mapMutations([
-        'addGameFinishCallback'
-      ]),
-      /**
        * 更新当前页的数据
        * @param page 页数
        */
-      updateCurrentPageData(page = 1) {
+      async updateCurrentPageData(page = 1) {
         this.changeTableDimmer(true);
-        getHistoryGameRecord(page, this.pageSize).then(data => {
-          if (data) {
-            this.recordData = this.convertGameRecordToMatrix(data.gameRecord);
-            this.currentPage = data.currentPage;
-            this.totalPage = data.totalPage;
-            this.pageSize = data.pageSize;
-            //滚动到表头
-            this.$refs.tableHead.scrollIntoView();
-            this.changeTableDimmer(false);
-          }
-        })
+        const {success, data} = await getHistoryGameRecord(page, this.pageSize);
+        this.changeTableDimmer(false);
+        if (success) {
+          this.recordData = this.convertGameRecordToMatrix(data.gameRecord);
+          this.currentPage = data.currentPage;
+          this.totalPage = data.totalPage;
+          this.pageSize = data.pageSize;
+
+          this.scrollToHeader();
+        }
       },
       /**
        * 处理每页条数的改变
+       * @param pageSize 每页条数
        */
       handleSizeChange(pageSize) {
         this.pageSize = pageSize;
@@ -144,6 +143,12 @@
        */
       changeTableDimmer(show) {
         $('#historyTable').dimmer(show ? 'show' : 'hide');
+      },
+      /**
+       * 滚动到头部
+       */
+      scrollToHeader() {
+        this.$refs.tableHead.scrollIntoView();
       }
     }
   }

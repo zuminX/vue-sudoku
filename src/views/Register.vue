@@ -44,13 +44,17 @@
 </template>
 
 <script>
-  import {register} from "../api/userApi";
+  import {
+    login,
+    register
+  } from "../api/userApi";
   import {
     passwordRules,
     usernameRules,
     validateForm
   } from "../utils/coreUtils";
   import {Message} from "element-ui";
+  import {showSuccessToast} from "../utils/publicUtils";
 
   export default {
     name: "Register",
@@ -66,9 +70,36 @@
       }
     },
     mounted() {
-      //视图渲染完后调用
       this.$nextTick(() => {
-        //加载表单验证规则
+        this.initRegisterForm();
+      });
+    },
+    methods: {
+      /**
+       * 跳转到登陆页面
+       */
+      jumpToLogin() {
+        this.$router.replace('/');
+      },
+      /**
+       * 提交表单，进行注册
+       */
+      async submitRegister() {
+        if (validateForm('#registerForm')) {
+          const {success, data} = await register(this.registerForm);
+          if (success) {
+            showSuccessToast({
+              message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
+            });
+            //跳转到登陆页面，并携带用户名
+            this.$router.replace(`/?username=${data.username}`);
+          }
+        }
+      },
+      /**
+       * 加载注册表单验证规则
+       */
+      initRegisterForm() {
         $('#registerForm').form({
           transition: 'slide down',
           fields: {
@@ -109,30 +140,6 @@
           onSuccess() {
           }
         });
-      });
-    },
-    methods: {
-      /**
-       * 跳转到登陆页面
-       */
-      jumpToLogin() {
-        this.$router.replace('/');
-      },
-      /**
-       * 提交表单，进行注册
-       */
-      submitRegister() {
-        //验证表单
-        if (validateForm('#registerForm')) {
-          register(this.registerForm).then(data => {
-            //注册成功
-            if (data) {
-              Message.success({message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`});
-              //跳转到登陆页面，并携带用户名
-              this.$router.replace(`/?username=${data.username}`);
-            }
-          })
-        }
       }
     }
   }

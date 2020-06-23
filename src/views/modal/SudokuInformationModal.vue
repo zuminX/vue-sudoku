@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--显示数独简介的弹出层-->
     <Modal modal-id="sudokuWhatModal">
       <template v-slot:header>
         <BasicModalHeader>数独是什么</BasicModalHeader>
@@ -11,7 +10,6 @@
       </template>
     </Modal>
 
-    <!--显示数独规则的弹出层-->
     <Modal class="small" modal-id="sudokuHowModal">
       <template v-slot:header>
         <BasicModalHeader>数独如何玩</BasicModalHeader>

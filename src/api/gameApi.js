@@ -7,7 +7,7 @@ import LeaderboardModalContent from "../views/modalContent/LeaderboardModalConte
 /**
  * 数独API的基地址
  */
-let base = "/game";
+const base = "/game";
 
 /**
  * 获取数独数据

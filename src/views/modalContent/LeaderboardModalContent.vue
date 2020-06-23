@@ -18,10 +18,10 @@
                v-for="(item, j) in
           value">
             <div class="value absolute-center">
-              {{handleNullItem(item.data)}}
+              {{formatData(item.data)}}
             </div>
             <div class="label absolute-center">
-              {{handleNullItem(item.nickname)}}
+              {{formatData(item.nickname)}}
             </div>
           </div>
         </div>
@@ -32,6 +32,10 @@
 
 <script>
   import {getLeaderboardData} from "../../api/gameApi";
+  import {
+    formatData,
+    initMenuItem
+  } from "../../utils/publicUtils";
 
   import("jquery-address")
 
@@ -46,13 +50,13 @@
       this.initLeaderboardData();
     },
     updated() {
-      //更新菜单项
-      $('#context .menu .item').tab({
-        content: $('#context'),
-        history: false
-      });
+      initMenuItem('#context .menu .item', '#context');
     },
     methods: {
+      formatData,
+      /**
+       * 交换显示的排行
+       */
       swapDataToShowThreeUser(data) {
         for (let i = 0, size = data.length; i < size; i++) {
           const rankItemMap = data[i].rankItemMap;
@@ -65,19 +69,15 @@
         }
         return data;
       },
-      handleNullItem(item) {
-        return item === null ? "----" : item;
-      },
       /**
        * 初始化排行榜数据
        */
-      initLeaderboardData() {
-        getLeaderboardData().then(data => {
-          if (data) {
-            this.leaderboardData = this.swapDataToShowThreeUser(data);
-          }
-        })
-      }
+      async initLeaderboardData() {
+        const {success, data} = await getLeaderboardData()
+        if (success) {
+          this.leaderboardData = this.swapDataToShowThreeUser(data);
+        }
+      },
     }
   }
 </script>

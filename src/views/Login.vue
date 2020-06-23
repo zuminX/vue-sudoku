@@ -38,6 +38,7 @@
     usernameRules,
     validateForm
   } from "../utils/coreUtils";
+  import {generateSudokuTopic} from "../api/gameApi";
 
   export default {
     name: "Login",
@@ -51,15 +52,45 @@
       }
     },
     mounted() {
-      //从路由中获取用户名
-      let username = this.$router.currentRoute.query.username;
-      //若存在，则设置为登陆表单的用户名
-      if (username !== undefined) {
-        this.loginForm.username = username;
-      }
-      //视图渲染完后调用
+      this.setUsername();
       this.$nextTick(() => {
-        //加载表单验证规则
+        this.initLoginForm();
+      });
+    },
+    methods: {
+      /**
+       * 跳转到注册页面
+       */
+      jumpToRegister() {
+        this.$router.replace('/register');
+      },
+      /**
+       * 提交表单，进行登录
+       */
+      async submitLogin() {
+        if (validateForm('#loginForm')) {
+          const {success, data} = await login(this.loginForm);
+          if (success) {
+            this.$store.commit('INIT_CURRENT_USER', data);
+            //保存用户信息
+            window.sessionStorage.setItem("user", JSON.stringify(data));
+            this.$router.replace('/home');
+          }
+        }
+      },
+      /**
+       * 从路由中获取用户名，并设置到表单中
+       */
+      setUsername() {
+        let username = this.$router.currentRoute.query.username;
+        if (username) {
+          this.loginForm.username = username;
+        }
+      },
+      /**
+       * 加载登录表单验证规则
+       */
+      initLoginForm() {
         $('#loginForm').form({
           transition: 'slide down',
           fields: {
@@ -76,32 +107,7 @@
           onSuccess() {
           }
         });
-      });
-    },
-    methods: {
-      /**
-       * 跳转到注册页面
-       */
-      jumpToRegister() {
-        this.$router.replace('/register');
-      },
-      /**
-       * 提交表单，进行登录
-       */
-      submitLogin() {
-        if (validateForm('#loginForm')) {
-          login(this.loginForm).then(data => {
-            if (data) {
-              //初始化当前用户
-              this.$store.commit('INIT_CURRENT_USER', data);
-              //设置用户信息
-              window.sessionStorage.setItem("user", JSON.stringify(data));
-              //跳转到主页
-              this.$router.replace('/home');
-            }
-          })
-        }
-      },
+      }
     }
   }
 </script>

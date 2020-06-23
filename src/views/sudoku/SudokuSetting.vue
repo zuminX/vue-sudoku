@@ -94,20 +94,17 @@
       }
     },
     mounted() {
-      //初始化下拉选
-      $(".ui.dropdown").dropdown();
       this.initSudokuLevels();
     },
     methods: {
       /**
        * 初始化数独难度等级
        */
-      initSudokuLevels() {
-        getSudokuLevels().then(data => {
-          if (data) {
-            this.sudokuLevels = data;
-          }
-        })
+      async initSudokuLevels() {
+        const {success, data} = await getSudokuLevels();
+        if (success) {
+          this.sudokuLevels = data;
+        }
       }
     }
   }

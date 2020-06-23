@@ -5,21 +5,30 @@
     </div>
     <div class="ui bottom attached segment m-padded-tb-large">
       <div class="center aligned">
-        <button @click="$emit('clickSudokuWhat')" class="ui green basic circular button fluid">
+        <button @click="showModal('sudokuWhatModal')" class="ui green basic circular button fluid">
           数独是什么？
         </button>
       </div>
       <div class="center aligned m-padded-tb-large">
-        <button @click="$emit('clickSudokuHow')" class="ui green basic circular button fluid">
+        <button @click="showModal('sudokuHowModal')" class="ui green basic circular button fluid">
           数独如何玩？
         </button>
       </div>
     </div>
+
+  <SudokuInformationModal/>
   </div>
 </template>
 
 <script>
+  import {showModal} from "../../utils/publicUtils";
+  import SudokuInformationModal from "../modal/SudokuInformationModal";
+
   export default {
-    name: "SudokuHelp"
+    name: "SudokuHelp",
+    components: {SudokuInformationModal},
+    methods:{
+      showModal
+    }
   }
 </script>

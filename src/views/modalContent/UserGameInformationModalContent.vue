@@ -103,11 +103,15 @@
 
 <script>
   import {getUserGameInformation} from "../../api/userApi";
-  import {formatShowMilliseconds} from "../../utils/publicUtils";
+  import {
+    formatShowMS,
+    initMenuItem
+  } from "../../utils/publicUtils";
   import {
     mapMutations,
     mapState
   } from "vuex";
+  import {getLeaderboardData} from "../../api/gameApi";
 
   import("jquery-address")
 
@@ -133,84 +137,90 @@
     },
     mounted() {
       this.initGameInformation();
-      //添加游戏结束后调用初始游戏信息
       this.addGameFinishCallback(() => this.initGameInformation());
     },
     updated() {
-      //更新菜单项
-      $('.menu .item').tab({
-        history: false
-      });
+      initMenuItem('.menu .item');
     },
     methods: {
-      /**
-       * 根据各模式的游戏信息，计算出总的游戏信息
-       */
-      calculateOverviewGameInformation(data) {
-        let total = 0, correctNumber = 0, averageSpendTime = 0, minSpendTime = Number.MAX_VALUE, maxSpendTime = -1, size = 0;
-        for (let i = 0; i < data.length; i++) {
-          const dataMinSpendTime = data[i].minSpendTime;
-          const dataMaxSpendTime = data[i].maxSpendTime;
-          //计算游戏总数和回答正确数
-          total += data[i].total;
-          correctNumber += data[i].correctNumber;
-          //计算平均用时
-          if (data[i].averageSpendTime !== null) {
-            averageSpendTime += data[i].averageSpendTime;
-            size++;
-          }
-          //若数据的最短用时不为空且该时间小于当前最短用时，将当前最短用时替换为该数据
-          if (dataMinSpendTime !== null && dataMinSpendTime < minSpendTime) {
-            minSpendTime = dataMinSpendTime;
-          }
-          //若数据的最长用时不为空且该时间大于当前最长用时，将当前最长用时替换为该数据
-          if (dataMaxSpendTime !== null && dataMaxSpendTime > maxSpendTime) {
-            maxSpendTime = dataMaxSpendTime;
-          }
-        }
-        if (minSpendTime === Number.MAX_VALUE) {
-          minSpendTime = null;
-        }
-        if (maxSpendTime === -1) {
-          maxSpendTime = null;
-        }
-        //计算平均用时
-        if (size !== 0) {
-          averageSpendTime = averageSpendTime / size;
-        } else {
-          averageSpendTime = null;
-        }
-        return {total, correctNumber, averageSpendTime, minSpendTime, maxSpendTime};
-      },
-      /**
-       * 格式化花费的时间
-       */
-      formatSpendTime(overviewData, data) {
-        overviewData.averageSpendTime = formatShowMilliseconds(overviewData.averageSpendTime);
-        overviewData.minSpendTime = formatShowMilliseconds(overviewData.minSpendTime);
-        overviewData.maxSpendTime = formatShowMilliseconds(overviewData.maxSpendTime);
-        for (let i = 0; i < data.length; i++) {
-          data[i].averageSpendTime = formatShowMilliseconds(data[i].averageSpendTime);
-          data[i].minSpendTime = formatShowMilliseconds(data[i].minSpendTime);
-          data[i].maxSpendTime = formatShowMilliseconds(data[i].maxSpendTime);
-        }
-        return {overviewData, data};
-      },
       ...mapMutations([
         'addGameFinishCallback'
       ]),
       /**
        * 初始化用户游戏信息
        */
-      initGameInformation() {
-        getUserGameInformation().then(data => {
-          if (data) {
-            let overviewGameInformation = this.calculateOverviewGameInformation(data);
-            const formatData = this.formatSpendTime(overviewGameInformation, data);
-            this.overviewGameInformation = formatData.overviewData;
-            this.gameInformationList = formatData.data;
+      async initGameInformation() {
+        const {success, data} = await getUserGameInformation();
+        if (success) {
+          this.overviewGameInformation = this.calculateOverviewGameInformation(data);
+          this.gameInformationList = this.formatSpendTime(data);
+        }
+      },
+      /**
+       * 根据各模式的游戏信息，计算出总的游戏信息
+       */
+      calculateOverviewGameInformation(data) {
+        const total = this.calculateTotal(data);
+        const correctNumber = this.calculateCorrectNumber(data);
+        const averageSpendTime = formatShowMS(this.calculateAverageSpendTime(data));
+        const minSpendTime = formatShowMS(this.calculateMinSpendTime(data));
+        const maxSpendTime = formatShowMS(this.calculateMaxSpendTime(data));
+        return {total, correctNumber, averageSpendTime, minSpendTime, maxSpendTime};
+      },
+      /**
+       * 格式化花费的时间
+       */
+      formatSpendTime(data) {
+        for (let i = 0; i < data.length; i++) {
+          data[i].averageSpendTime = formatShowMS(data[i].averageSpendTime);
+          data[i].minSpendTime = formatShowMS(data[i].minSpendTime);
+          data[i].maxSpendTime = formatShowMS(data[i].maxSpendTime);
+        }
+        return data;
+      },
+      calculateAverageSpendTime(data) {
+        let times = 0, correctNum = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].averageSpendTime) {
+            times += data[i].averageSpendTime;
+            correctNum++;
           }
-        });
+        }
+        return correctNum === 0 ? null : times / correctNum;
+      },
+      calculateMinSpendTime(data) {
+        let result = Number.MAX_VALUE;
+        for (let i = 0; i < data.length; i++) {
+          const dataMinSpendTime = data[i].minSpendTime;
+          if (dataMinSpendTime !== null && dataMinSpendTime < result) {
+            result = dataMinSpendTime;
+          }
+        }
+        return result !== Number.MAX_VALUE ? result : null;
+      },
+      calculateMaxSpendTime(data) {
+        let result = -1;
+        for (let i = 0; i < data.length; i++) {
+          const dataMaxSpendTime = data[i].maxSpendTime;
+          if (dataMaxSpendTime !== null && dataMaxSpendTime > result) {
+            result = dataMaxSpendTime;
+          }
+        }
+        return result ? result : null;
+      },
+      calculateTotal(data) {
+        let result = 0;
+        for (let i = 0; i < data.length; i++) {
+          result += data[i].total;
+        }
+        return result;
+      },
+      calculateCorrectNumber(data) {
+        let result = 0;
+        for (let i = 0; i < data.length; i++) {
+          result += data[i].correctNumber;
+        }
+        return result;
       }
     },
   }

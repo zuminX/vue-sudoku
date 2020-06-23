@@ -2,6 +2,8 @@
  * 提交数独后的信息
  */
 export class AnswerInformation {
+  _situation;
+  _spendTime;
 
   constructor(situation = 2, spendTime = -1) {
     this._situation = situation;
