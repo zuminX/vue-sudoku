@@ -5,13 +5,6 @@ import {getRequest, postRequest} from "./basicApi";
  */
 const base = "/user";
 
-/**
- * 登录用户
- * @param loginForm 账号表单
- */
-export const login = (loginForm) => {
-  return postRequest("/doLogin", loginForm);
-}
 
 /**
  * 注册用户

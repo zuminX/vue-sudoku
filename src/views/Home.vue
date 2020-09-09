@@ -207,6 +207,7 @@
           let row = data.row;
           let column = data.column;
           this.responseSetSudokuData(new TwoDimensionalArrayValue(row, column, data.value));
+          //TODO 空缺格子为shakeX，应该为flash
           this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? "shakeX" : "flash", row, column);
         }
       },

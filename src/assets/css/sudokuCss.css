@@ -139,6 +139,10 @@ input::-webkit-inner-spin-button {
   padding-left: 5em !important;
 }
 
+.m-margin-l {
+  margin-left: 0.5em !important;
+}
+
 /*容器大小*/
 .m-container-tiny {
   max-width: 40em !important;

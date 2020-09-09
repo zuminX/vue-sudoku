@@ -19,6 +19,9 @@
               <input name="password" placeholder="密码" type="password" v-model="loginForm.password">
             </div>
           </div>
+          <div class="field">
+            <CaptchaInput ref="loginCaptcha" :code="loginForm.code" @changeUuid="updateUuid" v-model="loginForm.code"/>
+          </div>
           <div @click="submitLogin" class="ui fluid large teal button">登录</div>
         </div>
         <div class="ui error message"></div>
@@ -32,27 +35,29 @@
 </template>
 
 <script>
-  import {login} from "../api/userApi";
-  import {
-    passwordRules,
-    usernameRules,
-    validateForm
-  } from "../utils/coreUtils";
-  import {generateSudokuTopic} from "../api/gameApi";
+  import {login} from "../api/securityApi";
+  import {setData} from "../utils/sessionStorageUtils";
+  import CaptchaInput from "../components/CaptchaInput";
+  import {FormValidation} from "../model/FormValidation";
 
   export default {
     name: "Login",
+    components: {CaptchaInput},
     data() {
       return {
         //登陆表单
         loginForm: {
           username: '',
           password: '',
+          code: '',
+          uuid: ''
         },
+        captchaBaseUrl: ''
       }
     },
     mounted() {
       this.setUsername();
+      this.refreshCaptcha();
       this.$nextTick(() => {
         this.initLoginForm();
       });
@@ -68,13 +73,16 @@
        * 提交表单，进行登录
        */
       async submitLogin() {
-        if (validateForm('#loginForm')) {
+        if (FormValidation.validateForm('loginForm')) {
           const {success, data} = await login(this.loginForm);
           if (success) {
-            this.$store.commit('INIT_CURRENT_USER', data);
-            //保存用户信息
-            window.sessionStorage.setItem("user", JSON.stringify(data));
+            const user = data.user;
+            this.$store.commit('INIT_CURRENT_USER', user);
+            setData("user", JSON.stringify(user));
+            setData("token", data.token);
             this.$router.replace('/home');
+          } else {
+            this.refreshCaptcha();
           }
         }
       },
@@ -88,25 +96,32 @@
         }
       },
       /**
+       * 更新UUID
+       */
+      updateUuid(uuid) {
+        this.loginForm.uuid = uuid;
+      },
+      /**
        * 加载登录表单验证规则
        */
       initLoginForm() {
-        $('#loginForm').form({
-          transition: 'slide down',
-          fields: {
-            username: {
-              rules: usernameRules()
-            },
-            password: {
-              rules: passwordRules()
-            }
+        FormValidation.init('loginForm', {
+          username: {
+            rules: FormValidation.usernameRules
           },
-          /**
-           * 防止表单验证成功后自动发送GET请求
-           */
-          onSuccess() {
+          password: {
+            rules: FormValidation.passwordRules
+          },
+          code: {
+            rules: FormValidation.captchaRules
           }
         });
+      },
+      /**
+       * 刷新验证码
+       */
+      refreshCaptcha() {
+        this.$refs.loginCaptcha.getCaptchaImage();
       }
     }
   }

@@ -4,17 +4,33 @@
 
 import axios from 'axios'
 import {showErrorToast} from "../utils/publicUtils";
+import {getData} from "../utils/sessionStorageUtils";
 
 //设置POST请求的内容类型为JSON且编码格式为UTF-8
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'
 
 /**
- * 使用axios中的拦截器进行请求的拦截
+ * 使用axios中的拦截器对request进行请拦截
+ */
+axios.interceptors.request.use(config => {
+  const token = getData("token");
+  if (token) {
+    config.headers['Authorization'] = `token:${token}`;
+  }
+  return config;
+}, error => {
+  showErrorToast({
+    message: '请求失败'
+  });
+});
+
+/**
+ * 使用axios中的拦截器对response进行请拦截
  */
 axios.interceptors.response.use(success => {
   let response = success.data;
-  //请求失败
   let status = response.success;
+  //请求失败
   if (!status) {
     //显示错误信息
     showErrorToast({

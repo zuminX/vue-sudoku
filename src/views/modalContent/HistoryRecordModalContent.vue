@@ -121,10 +121,11 @@
         const {success, data} = await getHistoryGameRecord(page, this.pageSize);
         this.changeTableDimmer(false);
         if (success) {
-          this.recordData = this.convertGameRecordToMatrix(data.gameRecord);
-          this.currentPage = data.currentPage;
-          this.totalPage = data.totalPage;
-          this.pageSize = data.pageSize;
+          this.recordData = this.convertGameRecordToMatrix(data.list);
+          const pageInformation = data.pageInformation;
+          this.currentPage = pageInformation.currentPage;
+          this.totalPage = pageInformation.totalPage;
+          this.pageSize = pageInformation.pageSize;
 
           this.scrollToHeader();
         }

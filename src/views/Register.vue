@@ -31,6 +31,9 @@
               <input name="nickname" placeholder="昵称" type="text" v-model="registerForm.nickname">
             </div>
           </div>
+          <div class="field">
+            <CaptchaInput ref="registerCaptcha" :code="registerForm.code" @changeUuid="updateUuid" v-model="registerForm.code"/>
+          </div>
           <div @click="submitRegister" class="ui fluid large teal button">注册</div>
         </div>
         <div class="ui error message"></div>
@@ -44,32 +47,26 @@
 </template>
 
 <script>
-  import {
-    login,
-    register
-  } from "../api/userApi";
-  import {
-    passwordRules,
-    usernameRules,
-    validateForm
-  } from "../utils/coreUtils";
-  import {Message} from "element-ui";
+  import {register} from "../api/userApi";
   import {showSuccessToast} from "../utils/publicUtils";
+  import {FormValidation} from "../model/FormValidation";
 
   export default {
     name: "Register",
     data() {
       return {
-        //注册表单
         registerForm: {
           username: '',
           password: '',
           repeatPassword: '',
-          nickname: ''
+          nickname: '',
+          code: '',
+          uuid: ''
         },
       }
     },
     mounted() {
+      this.refreshCaptcha();
       this.$nextTick(() => {
         this.initRegisterForm();
       });
@@ -85,7 +82,7 @@
        * 提交表单，进行注册
        */
       async submitRegister() {
-        if (validateForm('#registerForm')) {
+        if (FormValidation.validateForm('registerForm')) {
           const {success, data} = await register(this.registerForm);
           if (success) {
             showSuccessToast({
@@ -93,53 +90,41 @@
             });
             //跳转到登陆页面，并携带用户名
             this.$router.replace(`/?username=${data.username}`);
+          } else {
+            this.refreshCaptcha();
           }
         }
+      },
+      /**
+       * 更新UUID
+       */
+      updateUuid() {
+        this.registerForm.uuid = uuid;
       },
       /**
        * 加载注册表单验证规则
        */
       initRegisterForm() {
-        $('#registerForm').form({
-          transition: 'slide down',
-          fields: {
-            username: {
-              rules: usernameRules()
-            },
-            password: {
-              rules: passwordRules()
-            },
-            repeatPassword: {
-              rules: [
-                {
-                  type: 'match[password]',
-                  prompt: '重复输入的密码与密码不一致'
-                }
-              ]
-            },
-            nickname: {
-              rules: [
-                {
-                  type: 'minLength[4]',
-                  prompt: '昵称的长度不能小于4位'
-                },
-                {
-                  type: 'maxLength[32]',
-                  prompt: '昵称的长度不能大于32位'
-                },
-                {
-                  type: 'empty',
-                  prompt: '请输入你的昵称'
-                }
-              ]
-            }
+        FormValidation.init('registerForm', {
+          username: {
+            rules: FormValidation.usernameRules
           },
-          /**
-           * 防止表单验证成功后自动发送GET请求
-           */
-          onSuccess() {
+          password: {
+            rules: FormValidation.passwordRules
+          },
+          repeatPassword: {
+            rules: FormValidation.repeatPasswordRules
+          },
+          nickname: {
+            rules: FormValidation.nicknameRules
           }
         });
+      },
+      /**
+       * 刷新验证码
+       */
+      refreshCaptcha() {
+        this.$refs.registerCaptcha.getCaptchaImage();
       }
     }
   }
