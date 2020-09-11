@@ -31,9 +31,9 @@
   will-change: top, left, margin, transform, opacity;
 }
 .ui.modal > :first-child:not(.icon):not(.dimmer),
-.ui.modal > .icon:first-child + *,
+.ui.modal > i.icon:first-child + *,
 .ui.modal > .dimmer:first-child + *:not(.icon),
-.ui.modal > .dimmer:first-child + .icon + * {
+.ui.modal > .dimmer:first-child + i.icon + * {
   border-top-left-radius: 0.28571429rem;
   border-top-right-radius: 0.28571429rem;
 }
@@ -134,7 +134,7 @@
   min-width: 0;
   align-self: start;
 }
-.ui.modal > .content > .icon + .description,
+.ui.modal > .content > i.icon + .description,
 .ui.modal > .content > .image + .description {
   flex: 0 1 auto;
   min-width: '';

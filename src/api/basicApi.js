@@ -30,6 +30,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(success => {
   let response = success.data;
   let status = response.success;
+  console.log(success);
   //请求失败
   if (!status) {
     //显示错误信息
@@ -43,6 +44,7 @@ axios.interceptors.response.use(success => {
   };
 }, error => {
   let message;
+  console.log(error);
   //根据请求响应的状态，显示不同的错误信息
   switch (error.response.status) {
     case 500:
