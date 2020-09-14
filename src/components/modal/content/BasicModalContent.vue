@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  export default {
-    name: "BasicModalContent"
-  }
+export default {
+  name: "BasicModalContent"
+}
 </script>

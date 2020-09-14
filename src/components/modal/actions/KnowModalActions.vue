@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  export default {
-    name: "KnowModalActions"
-  }
+export default {
+  name: "KnowModalActions"
+}
 </script>

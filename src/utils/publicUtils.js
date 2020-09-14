@@ -142,4 +142,3 @@ export const showErrorToast = ({message, displayTime = 5, position = 'top center
     message
   });
 }
-

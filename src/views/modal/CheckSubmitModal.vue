@@ -15,12 +15,13 @@
 </template>
 
 <script>
-  import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
-  import BasicModalContent from "../../components/modal/content/BasicModalContent";
-  import OkOrCancelModalActions from "../../components/modal/actions/OkOrCancelModalActions";
-  import Modal from "../../components/modal/Modal";
-  export default {
-    name: "CheckSubmitModal",
-    components: {Modal, OkOrCancelModalActions, BasicModalContent, BasicModalHeader}
-  }
+import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
+import BasicModalContent from "../../components/modal/content/BasicModalContent";
+import OkOrCancelModalActions from "../../components/modal/actions/OkOrCancelModalActions";
+import Modal from "../../components/modal/Modal";
+
+export default {
+  name: "CheckSubmitModal",
+  components: {Modal, OkOrCancelModalActions, BasicModalContent, BasicModalHeader}
+}
 </script>

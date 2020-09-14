@@ -17,15 +17,15 @@
 </template>
 
 <script>
-  import Modal from "../Modal";
-  import BasicModalContent from "../content/BasicModalContent";
-  import OKModalActions from "../actions/OKModalActions";
+import Modal from "../Modal";
+import BasicModalContent from "../content/BasicModalContent";
+import OKModalActions from "../actions/OKModalActions";
 
-  export default {
-    name: "ErrorMessageModal",
-    components: {OKModalActions, BasicModalContent, Modal},
-    props: {
-      errorMessage: String
-    }
+export default {
+  name: "ErrorMessageModal",
+  components: {OKModalActions, BasicModalContent, Modal},
+  props: {
+    errorMessage: String
   }
+}
 </script>

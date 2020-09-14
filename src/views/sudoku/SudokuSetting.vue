@@ -14,13 +14,13 @@
           <div class="ui center aligned container">
             <div class="m-padded-tb">
               <label>
-                <select class="ui dropdown" v-model:value="gameModel">
-                  <option :key="index" :value="level.level" v-for="(level, index) in sudokuLevels">{{level.name}}</option>
+                <select v-model:value="gameModel" class="ui dropdown">
+                  <option v-for="(level, index) in sudokuLevels" :key="index" :value="level.level">{{level.name}}</option>
                 </select>
               </label>
             </div>
             <div class="m-padded-tb-large">
-              <button @click="$emit('clickNewGame')" class="ui blue basic circular button">
+              <button class="ui blue basic circular button" @click="$emit('clickNewGame')">
                 <i class="gamepad icon"></i>新游戏
               </button>
             </div>
@@ -30,15 +30,15 @@
           <h4 class="ui green basic header">其他设置</h4>
           <div class="ui container">
             <div class="ui toggle checkbox m-padded-tb tip-popup" data-content="辅助显示鼠标所在的行、列和3x3宫格中">
-              <input id="tipsStyleSwitchCheckbox" type="checkbox" v-model="positionTips">
+              <input id="tipsStyleSwitchCheckbox" v-model="positionTips" type="checkbox">
               <label for="tipsStyleSwitchCheckbox">位置提示</label>
             </div>
             <div class="ui toggle checkbox m-padded-tb tip-popup" data-content="选择该模式后，点击空缺的数独框，将弹出数字选择框">
-              <input id="clickModeSwitchCheckbox" type="checkbox" v-model="clickMode">
+              <input id="clickModeSwitchCheckbox" v-model="clickMode" type="checkbox">
               <label for="clickModeSwitchCheckbox">点击模式</label>
             </div>
             <div class="ui toggle checkbox m-padded-tb tip-popup" data-content="选择该模式后，将记录你的每次游戏记录到服务器中">
-              <input id="recordModeSwitchCheckbox" type="checkbox" v-model="recordMode">
+              <input id="recordModeSwitchCheckbox" v-model="recordMode" type="checkbox">
               <label for="recordModeSwitchCheckbox">记录模式</label>
             </div>
           </div>
@@ -50,71 +50,71 @@
 </template>
 
 <script>
-  import {getSudokuLevels} from "../../api/gameApi";
+import {getSudokuLevels} from "@/api/gameApi";
 
-  export default {
-    name: "SudokuSetting",
-    data() {
-      return {
-        sudokuLevels: []
+export default {
+  name: "SudokuSetting",
+  data() {
+    return {
+      sudokuLevels: []
+    }
+  },
+  computed: {
+    clickMode: {
+      get() {
+        return this.$store.state.sudoku.clickMode;
+      },
+      set(value) {
+        this.$store.commit('updateClickMode', value);
       }
     },
-    computed: {
-      clickMode: {
-        get() {
-          return this.$store.state.sudoku.clickMode;
-        },
-        set(value) {
-          this.$store.commit('updateClickMode', value);
-        }
+    gameModel: {
+      get() {
+        return this.$store.state.sudoku.gameModel;
       },
-      gameModel: {
-        get() {
-          return this.$store.state.sudoku.gameModel;
-        },
-        set(value) {
-          this.$store.commit('updateGameModel', value);
-        }
-      },
-      positionTips: {
-        get() {
-          return this.$store.state.sudoku.positionTips;
-        },
-        set(value) {
-          this.$store.commit('updatePositionTips', value);
-        }
-      },
-      recordMode: {
-        get() {
-          return this.$store.state.sudoku.recordMode;
-        },
-        set(value) {
-          this.$store.commit('updateRecordMode', value);
-        }
+      set(value) {
+        this.$store.commit('updateGameModel', value);
       }
     },
-    mounted() {
-      this.initSudokuLevels();
+    positionTips: {
+      get() {
+        return this.$store.state.sudoku.positionTips;
+      },
+      set(value) {
+        this.$store.commit('updatePositionTips', value);
+      }
     },
-    methods: {
-      /**
-       * 初始化数独难度等级
-       */
-      async initSudokuLevels() {
-        const {success, data} = await getSudokuLevels();
-        if (success) {
-          this.sudokuLevels = data;
-        }
+    recordMode: {
+      get() {
+        return this.$store.state.sudoku.recordMode;
+      },
+      set(value) {
+        this.$store.commit('updateRecordMode', value);
+      }
+    }
+  },
+  mounted() {
+    this.initSudokuLevels();
+  },
+  methods: {
+    /**
+     * 初始化数独难度等级
+     */
+    async initSudokuLevels() {
+      const {success, data} = await getSudokuLevels();
+      if (success) {
+        this.sudokuLevels = data;
       }
     }
   }
+}
 </script>
 
 <style scoped>
-  /*小屏时隐藏分隔线*/
-  @media only screen and (max-width: 770px) {
-    .divider {
-      display: none;
-    }
+/*小屏时隐藏分隔线*/
+@media only screen and (max-width: 770px) {
+  .divider {
+    display: none;
   }
+}
 </style>

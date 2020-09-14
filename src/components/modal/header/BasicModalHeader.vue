@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  export default {
-    name: "BasicModalHeader",
-  }
+export default {
+  name: "BasicModalHeader",
+}
 </script>

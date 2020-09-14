@@ -1,4 +1,4 @@
-import {responseSetTwoDimensionalArray} from "../../utils/publicUtils";
+import {responseSetTwoDimensionalArray} from "@/utils/publicUtils";
 
 const state = {
   //游戏设置

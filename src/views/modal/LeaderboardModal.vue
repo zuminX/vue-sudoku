@@ -13,17 +13,13 @@
 </template>
 
 <script>
-  import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
-  import Modal from "../../components/modal/Modal";
-  import LeaderboardModalContent from "../modalContent/LeaderboardModalContent";
-  import OKModalActions from "../../components/modal/actions/OKModalActions";
+import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
+import Modal from "../../components/modal/Modal";
+import LeaderboardModalContent from "../modalContent/LeaderboardModalContent";
+import OKModalActions from "../../components/modal/actions/OKModalActions";
 
-  export default {
-    name: "LeaderboardModal",
-    components: {OKModalActions, LeaderboardModalContent, Modal, BasicModalHeader}
-  }
+export default {
+  name: "LeaderboardModal",
+  components: {OKModalActions, LeaderboardModalContent, Modal, BasicModalHeader}
+}
 </script>
-
-<style scoped>
-
-</style>

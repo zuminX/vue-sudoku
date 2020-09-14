@@ -31,11 +31,11 @@
 </template>
 
 <script>
-  import {getLeaderboardData} from "../../api/gameApi";
+  import {getLeaderboardData} from "@/api/gameApi";
   import {
     formatData,
     initMenuItem
-  } from "../../utils/publicUtils";
+  } from "@/utils/publicUtils";
 
   import("jquery-address")
 

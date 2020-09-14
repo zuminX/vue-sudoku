@@ -13,13 +13,13 @@
 </template>
 
 <script>
-  import Modal from "../../components/modal/Modal";
-  import OKModalActions from "../../components/modal/actions/OKModalActions";
-  import HistoryRecordModalContent from "../modalContent/HistoryRecordModalContent";
-  import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
+import Modal from "../../components/modal/Modal";
+import OKModalActions from "../../components/modal/actions/OKModalActions";
+import HistoryRecordModalContent from "../modalContent/HistoryRecordModalContent";
+import BasicModalHeader from "../../components/modal/header/BasicModalHeader";
 
-  export default {
-    name: "HistoryRecordModal",
-    components: {BasicModalHeader, HistoryRecordModalContent, OKModalActions, Modal}
-  }
+export default {
+  name: "HistoryRecordModal",
+  components: {BasicModalHeader, HistoryRecordModalContent, OKModalActions, Modal}
+}
 </script>

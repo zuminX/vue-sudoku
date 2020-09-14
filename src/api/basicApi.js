@@ -1,10 +1,9 @@
 /**
  * axios请求封装
  */
-
 import axios from 'axios'
-import {showErrorToast} from "../utils/publicUtils";
-import {getData} from "../utils/sessionStorageUtils";
+import {showErrorToast} from "@/utils/publicUtils";
+import {getData} from "@/utils/sessionStorageUtils";
 
 //设置POST请求的内容类型为JSON且编码格式为UTF-8
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8'

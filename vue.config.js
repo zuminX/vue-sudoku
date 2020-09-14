@@ -1,7 +1,7 @@
 const Webpack = require('webpack')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 //反向代理
 let proxyObj = {};

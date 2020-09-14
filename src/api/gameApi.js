@@ -2,7 +2,6 @@ import {
   getRequest,
   postRequest
 } from "./basicApi";
-import LeaderboardModalContent from "../views/modalContent/LeaderboardModalContent";
 
 /**
  * 数独API的基地址

@@ -7,14 +7,14 @@
 </template>
 
 <script>
-  export default {
-    name: "Modal",
-    props: {
-      modalId: {
-        type: String,
-        required: true
-      }
+export default {
+  name: "Modal",
+  props: {
+    modalId: {
+      type: String,
+      required: true
     }
   }
+}
 </script>
 
