@@ -1,7 +1,7 @@
 /**
- * 二维数组中的一个值
+ * 数独矩阵的格子
  */
-export class TwoDimensionalArrayValue {
+export class SudokuMatrixGrid {
   constructor(row, column, value) {
     if (row < 0 || column < 0) {
       throw new Error("下标越界");

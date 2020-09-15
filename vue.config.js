@@ -3,6 +3,8 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+const production = process.env.NODE_ENV === "production";
+
 //反向代理
 let proxyObj = {};
 proxyObj['/'] = {

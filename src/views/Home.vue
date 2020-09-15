@@ -93,7 +93,7 @@ import SudokuGameButtons from "./sudoku/SudokuGameButtons";
 import Sidebar from "./Sidebar";
 import AnswerResultModal from "./modal/AnswerResultModal";
 import CheckSubmitModal from "./modal/CheckSubmitModal";
-import {TwoDimensionalArrayValue} from "@/model/TwoDimensionalArrayValue";
+import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
 import {AnswerInformation} from "@/model/AnswerInformation";
 import {
   hasInput,
@@ -168,7 +168,8 @@ export default {
       'updateHolesData',
       'updateGameFinish',
       'updateShowRightAnswer',
-      'responseSetSudokuData'
+      'responseSetSudokuData',
+      'updateSerialNumber'
     ]),
     showModal,
     showSidebar,
@@ -186,6 +187,7 @@ export default {
         this.updateHolesData(data.holes);
         this.updateShowRightAnswer(false);
         this.updateGameFinish(false);
+        this.updateSerialNumber();
 
         await animateCSS("#sudokuArea", "bounceIn");
       }
@@ -206,7 +208,7 @@ export default {
         }
         let row = data.row;
         let column = data.column;
-        this.responseSetSudokuData(new TwoDimensionalArrayValue(row, column, data.value));
+        this.responseSetSudokuData(new SudokuMatrixGrid(row, column, data.value));
         //TODO 空缺格子为shakeX，应该为flash
         this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? "shakeX" : "flash", row, column);
       }

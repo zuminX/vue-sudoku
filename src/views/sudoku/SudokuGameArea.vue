@@ -31,7 +31,7 @@ import {
 import {animateCSS} from "@/utils/publicUtils";
 import {getTwoDimeNumArray} from "@/utils/coreUtils";
 import TimeRecord from "../../components/TimeRecord";
-import {TwoDimensionalArrayValue} from "@/model/TwoDimensionalArrayValue";
+import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
 import {ClickPosition} from "@/model/ClickPosition";
 import {
   isHole,
@@ -67,7 +67,7 @@ export default {
       showRightAnswer: state => state.sudoku.showRightAnswer,
       positionTips: state => state.sudoku.positionTips,
       clickMode: state => state.sudoku.clickMode,
-      sudokuInputNumber: state => state.sudoku.sudokuInputNumber
+      sudokuInput: state => state.sudoku.sudokuInput
     }),
   },
   watch: {
@@ -83,8 +83,8 @@ export default {
     /**
      * 在选择模式下选择数字
      */
-    sudokuInputNumber(newValue) {
-      let number = newValue.number;
+    sudokuInput(newValue) {
+      let number = newValue.value;
       if (number !== -1) {
         this.selectSudokuNumber(number);
       }
@@ -97,7 +97,8 @@ export default {
   methods: {
     ...mapMutations([
       'responseSetSudokuData',
-      'updateSudokuInputNumber'
+      'updateSudokuInput',
+      'updateClickPosition'
     ]),
     /**
      * 隐藏数独选择框
@@ -124,7 +125,7 @@ export default {
      * @param value 值
      */
     inputSudokuNumber(i, j, value) {
-      this.responseSetSudokuData(new TwoDimensionalArrayValue(i, j, value));
+      this.responseSetSudokuData(new SudokuMatrixGrid(i, j, value));
     },
     /**
      * 从数独选择框中选择数字
@@ -133,7 +134,7 @@ export default {
     selectSudokuNumber(number) {
       let {row, column} = this.clickPosition;
       //将选择的数字填入数独数据中
-      this.responseSetSudokuData(new TwoDimensionalArrayValue(row, column, number));
+      this.responseSetSudokuData(new SudokuMatrixGrid(row, column, number));
       this.hideSudokuNumber();
     },
     /**
@@ -172,6 +173,8 @@ export default {
         this.hideSudokuNumber();
         this.showSudokuInputArea(i, j);
         this.clickPosition = new ClickPosition(i, j);
+
+        this.updateClickPosition(this.clickPosition);
       }
     },
     /**

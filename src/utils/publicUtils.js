@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import ar from "element-ui/src/locale/lang/ar";
 
 /**
  * 显示弹出层
@@ -78,12 +79,12 @@ export const formatData = (data) => {
 }
 
 /**
- * 响应式的设置二维数组中的一个值
- * @param array 二维数组
- * @param twoDimensionalArrayValue 二维数组中的一个值
+ * 响应式的设置数独矩阵中的一个格子
+ * @param array 数独矩阵
+ * @param sudokuMatrixGrid 数独矩阵中的一个格子
  */
-export const responseSetTwoDimensionalArray = (array, twoDimensionalArrayValue) => {
-  let {row, column, value} = twoDimensionalArrayValue;
+export const responseSetTwoDimensionalArray = (array, sudokuMatrixGrid) => {
+  let {row, column, value} = sudokuMatrixGrid;
   let rowArrayData = array[row];
   rowArrayData[column] = value;
   Vue.set(array, row, rowArrayData);

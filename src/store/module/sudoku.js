@@ -1,4 +1,6 @@
 import {responseSetTwoDimensionalArray} from "@/utils/publicUtils";
+import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
+import {ClickPosition} from "@/model/ClickPosition";
 
 const state = {
   //游戏设置
@@ -14,9 +16,13 @@ const state = {
   gameFinish: true,
   showRightAnswer: false,
   //选择的数独数
-  sudokuInputNumber: {number: -1},
+  sudokuInput: new SudokuMatrixGrid(0, 0, 0),
+  //点击位置
+  clickPosition: new ClickPosition(),
   //游戏结束执行的回调函数数组
-  gameFinishCallback: []
+  gameFinishCallback: [],
+  //序列号
+  serialNumber: 0,
 }
 
 const getters = {}
@@ -37,8 +43,8 @@ const mutations = {
   updateSudokuData(state, sudokuData) {
     state.sudokuData = sudokuData;
   },
-  responseSetSudokuData(state, twoDimensionalArrayValue) {
-    responseSetTwoDimensionalArray(state.sudokuData, twoDimensionalArrayValue);
+  responseSetSudokuData(state, sudokuMatrixGrid) {
+    responseSetTwoDimensionalArray(state.sudokuData, sudokuMatrixGrid);
   },
   updateSourceSudokuData(state, sourceSudokuData) {
     state.sourceSudokuData = sourceSudokuData;
@@ -52,11 +58,17 @@ const mutations = {
   updateShowRightAnswer(state, showRightAnswer) {
     state.showRightAnswer = showRightAnswer;
   },
-  updateSudokuInputNumber(state, sudokuInputNumber) {
-    state.sudokuInputNumber = sudokuInputNumber;
+  updateSudokuInput(state, sudokuInput) {
+    state.sudokuInput = sudokuInput;
   },
   addGameFinishCallback(state, callback) {
     state.gameFinishCallback.push(callback);
+  },
+  updateSerialNumber(state) {
+    state.serialNumber++;
+  },
+  updateClickPosition(state, clickPosition) {
+    state.clickPosition = clickPosition;
   }
 }
 

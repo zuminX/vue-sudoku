@@ -11,6 +11,8 @@
 
 <script>
 import {getSudokuArray} from "@/utils/sudokuUtils";
+import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
+import {mapState} from "vuex";
 
 export default {
   name: "SudokuInputArea",
@@ -19,14 +21,18 @@ export default {
       sudokuNumber: getSudokuArray()
     }
   },
+  computed: {
+    ...mapState({
+      clickPosition: state => state.sudoku.clickPosition
+    }),
+  },
   methods: {
     /**
      * 选择数独数字
      * @param data 数字
      */
     selectNumber(data) {
-      //更新数独输入数字，采用对象形式，防止选择相同数字时watch失效
-      this.$store.commit("updateSudokuInputNumber", {number: data});
+      this.$store.commit("updateSudokuInput", new SudokuMatrixGrid(this.clickPosition.row, this.clickPosition.column, data));
     }
   }
 }
