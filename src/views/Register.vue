@@ -32,7 +32,8 @@
             </div>
           </div>
           <div class="field">
-            <CaptchaInput ref="registerCaptcha" v-model="registerForm.code" :code="registerForm.code" @changeUuid="updateUuid"/>
+            <CaptchaInput ref="registerCaptcha" v-model="registerForm.code" :code="registerForm.code"
+                          :uuid.sync="registerForm.uuid" />
           </div>
           <div class="ui fluid large teal button" @click="submitRegister">注册</div>
         </div>
@@ -50,9 +51,11 @@
 import {register} from "@/api/userApi";
 import {showSuccessToast} from "@/utils/publicUtils";
 import {FormValidation} from "@/model/FormValidation";
+import CaptchaInput from "@/components/CaptchaInput";
 
 export default {
   name: "Register",
+  components: {CaptchaInput},
   data() {
     return {
       registerForm: {
@@ -89,17 +92,11 @@ export default {
             message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
           });
           //跳转到登陆页面，并携带用户名
-          this.$router.replace(`/?username=${data.username}`);
+          await this.$router.replace(`/?username=${data.username}`);
         } else {
           this.refreshCaptcha();
         }
       }
-    },
-    /**
-     * 更新UUID
-     */
-    updateUuid() {
-      this.registerForm.uuid = uuid;
     },
     /**
      * 加载注册表单验证规则

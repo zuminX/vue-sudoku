@@ -5,7 +5,7 @@ export class FormValidation {
    * @returns {boolean} 合法返回true，否则返回false
    */
   static validateForm(selector) {
-    let $form = $(`#${selector}`);
+  let $form = $(`#${selector}`);
     $form.form('validate form');
     return $form.form('is valid');
   }
@@ -40,10 +40,6 @@ export class FormValidation {
       {
         type: 'maxLength[16]',
         prompt: '用户名的长度不能大于16位'
-      },
-      {
-        type: 'empty',
-        prompt: '请输入你的用户名'
       }
     ];
   }
@@ -60,10 +56,6 @@ export class FormValidation {
       {
         type: 'maxLength[32]',
         prompt: '密码的长度不能大于32位'
-      },
-      {
-        type: 'empty',
-        prompt: '请输入你的密码'
       }
     ];
   }
@@ -86,10 +78,6 @@ export class FormValidation {
       {
         type: 'maxLength[32]',
         prompt: '昵称的长度不能大于32位'
-      },
-      {
-        type: 'empty',
-        prompt: '请输入你的昵称'
       }
     ];
   }
@@ -102,10 +90,6 @@ export class FormValidation {
       {
         type: 'exactLength[5]',
         prompt: '验证码的长度必须为5位'
-      },
-      {
-        type: 'empty',
-        prompt: '请输入验证码'
       }
     ];
   }

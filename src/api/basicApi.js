@@ -29,7 +29,6 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(success => {
   let response = success.data;
   let status = response.success;
-  console.log(success);
   //请求失败
   if (!status) {
     //显示错误信息

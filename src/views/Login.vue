@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="field">
-            <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :code="loginForm.code" @changeUuid="updateUuid"/>
+            <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :uuid.sync="loginForm.uuid" />
           </div>
           <div class="ui fluid large teal button" @click="submitLogin">登录</div>
         </div>
@@ -80,7 +80,7 @@ export default {
           this.$store.commit('INIT_CURRENT_USER', user);
           setData("user", JSON.stringify(user));
           setData("token", data.token);
-          this.$router.replace('/home');
+          await this.$router.replace('/home');
         } else {
           this.refreshCaptcha();
         }
@@ -94,12 +94,6 @@ export default {
       if (username) {
         this.loginForm.username = username;
       }
-    },
-    /**
-     * 更新UUID
-     */
-    updateUuid(uuid) {
-      this.loginForm.uuid = uuid;
     },
     /**
      * 加载登录表单验证规则
@@ -121,7 +115,6 @@ export default {
      * 刷新验证码
      */
     refreshCaptcha() {
-      this.loginForm.code = '';
       this.$refs.loginCaptcha.getCaptchaImage();
     }
   }
