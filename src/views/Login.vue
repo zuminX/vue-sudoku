@@ -9,13 +9,13 @@
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
-              <i class="user icon"></i>
+              <i class="user icon" />
               <input v-model="loginForm.username" name="username" placeholder="用户名" type="text">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
-              <i class="lock icon"></i>
+              <i class="lock icon" />
               <input v-model="loginForm.password" name="password" placeholder="密码" type="password">
             </div>
           </div>
@@ -24,7 +24,7 @@
           </div>
           <div class="ui fluid large teal button" @click="submitLogin">登录</div>
         </div>
-        <div class="ui error message"></div>
+        <div class="ui error message" />
       </form>
 
       <div class="ui message">
@@ -35,17 +35,17 @@
 </template>
 
 <script>
-import {login} from "@/api/securityApi";
-import {setData} from "@/utils/sessionStorageUtils";
-import CaptchaInput from "../components/CaptchaInput";
-import {FormValidation} from "@/model/FormValidation";
+import { login } from '@/api/securityApi'
+import { setData } from '@/utils/sessionStorageUtils'
+import CaptchaInput from '../components/CaptchaInput'
+import { FormValidation } from '@/model/FormValidation'
 
 export default {
-  name: "Login",
-  components: {CaptchaInput},
+  name: 'Login',
+  components: { CaptchaInput },
   data() {
     return {
-      //登陆表单
+      // 登陆表单
       loginForm: {
         username: '',
         password: '',
@@ -56,33 +56,33 @@ export default {
     }
   },
   mounted() {
-    this.setUsername();
-    this.refreshCaptcha();
+    this.setUsername()
+    this.refreshCaptcha()
     this.$nextTick(() => {
-      this.initLoginForm();
-    });
+      this.initLoginForm()
+    })
   },
   methods: {
     /**
      * 跳转到注册页面
      */
     jumpToRegister() {
-      this.$router.replace('/register');
+      this.$router.replace('/register')
     },
     /**
      * 提交表单，进行登录
      */
     async submitLogin() {
       if (FormValidation.validateForm('loginForm')) {
-        const {success, data} = await login(this.loginForm);
+        const { success, data } = await login(this.loginForm)
         if (success) {
-          const user = data.user;
-          this.$store.commit('INIT_CURRENT_USER', user);
-          setData("user", JSON.stringify(user));
-          setData("token", data.token);
-          await this.$router.replace('/home');
+          const user = data.user
+          this.$store.commit('INIT_CURRENT_USER', user)
+          setData('user', JSON.stringify(user))
+          setData('token', data.token)
+          await this.$router.replace('/home')
         } else {
-          this.refreshCaptcha();
+          this.refreshCaptcha()
         }
       }
     },
@@ -90,9 +90,9 @@ export default {
      * 从路由中获取用户名，并设置到表单中
      */
     setUsername() {
-      let username = this.$router.currentRoute.query.username;
+      const username = this.$router.currentRoute.query.username
       if (username) {
-        this.loginForm.username = username;
+        this.loginForm.username = username
       }
     },
     /**
@@ -109,13 +109,13 @@ export default {
         code: {
           rules: FormValidation.captchaRules
         }
-      });
+      })
     },
     /**
      * 刷新验证码
      */
     refreshCaptcha() {
-      this.$refs.loginCaptcha.getCaptchaImage();
+      this.$refs.loginCaptcha.getCaptchaImage()
     }
   }
 }

@@ -1,20 +1,20 @@
 <template>
   <div>
     <div class="ui segment">
-      <p>用户名：{{currentUser.username}}</p>
-      <p>昵称：{{currentUser.nickname}}</p>
+      <p>用户名：{{ currentUser.username }}</p>
+      <p>昵称：{{ currentUser.nickname }}</p>
     </div>
     <div class="ui top attached tabular menu">
       <a class="item active" data-tab="-1">总览</a>
       <a v-for="(information,index) in gameInformationList" :key="index" :data-tab="index" class="item">
-        {{information.sudokuLevelName}}
+        {{ information.sudokuLevelName }}
       </a>
     </div>
     <div class="ui bottom attached tab segment active" data-tab="-1">
       <div class="ui five statistics">
         <div class="statistic">
           <div class="value">
-            {{overviewGameInformation.total}}
+            {{ overviewGameInformation.total }}
           </div>
           <div class="label">
             总局数(次)
@@ -22,7 +22,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{overviewGameInformation.correctNumber}}
+            {{ overviewGameInformation.correctNumber }}
           </div>
           <div class="label">
             提交正确的局数(次)
@@ -30,7 +30,7 @@
         </div>
         <div class="ui statistic">
           <div class="value">
-            {{overviewGameInformation.averageSpendTime}}
+            {{ overviewGameInformation.averageSpendTime }}
           </div>
           <div class="label">
             各模式的平均用时(秒)
@@ -38,7 +38,7 @@
         </div>
         <div class="ui statistic">
           <div class="value">
-            {{overviewGameInformation.minSpendTime}}
+            {{ overviewGameInformation.minSpendTime }}
           </div>
           <div class="label">
             最短用时(秒)
@@ -46,7 +46,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{overviewGameInformation.maxSpendTime}}
+            {{ overviewGameInformation.maxSpendTime }}
           </div>
           <div class="label">
             最长用时(秒)
@@ -58,7 +58,7 @@
       <div class="ui five statistics">
         <div class="statistic">
           <div class="value">
-            {{information.total}}
+            {{ information.total }}
           </div>
           <div class="label">
             局数(次)
@@ -66,7 +66,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{information.correctNumber}}
+            {{ information.correctNumber }}
           </div>
           <div class="label">
             提交正确的局数(次)
@@ -74,7 +74,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{information.averageSpendTime}}
+            {{ information.averageSpendTime }}
           </div>
           <div class="label">
             平均用时(秒)
@@ -82,7 +82,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{information.minSpendTime}}
+            {{ information.minSpendTime }}
           </div>
           <div class="label">
             最短用时(秒)
@@ -90,7 +90,7 @@
         </div>
         <div class="statistic">
           <div class="value">
-            {{information.maxSpendTime}}
+            {{ information.maxSpendTime }}
           </div>
           <div class="label">
             最长用时(秒)
@@ -102,20 +102,20 @@
 </template>
 
 <script>
-import {getUserGameInformation} from "@/api/userApi";
+import { getUserGameInformation } from '@/api/userApi'
 import {
   formatShowMS,
   initMenuItem
-} from "@/utils/publicUtils";
+} from '@/utils/publicUtils'
 import {
   mapMutations,
   mapState
-} from "vuex";
+} from 'vuex'
 
-import("jquery-address")
+import('jquery-address')
 
 export default {
-  name: "UserGameInformationModalContent",
+  name: 'UserGameInformationModalContent',
   data() {
     return {
       gameInformationList: [],
@@ -125,21 +125,21 @@ export default {
         averageSpendTime: null,
         minSpendTime: null,
         maxSpendTime: null
-      },
+      }
     }
   },
   computed: {
     ...mapState({
       currentUser: state => state.currentUser,
       gameFinishCallback: state => state.sudoku.gameFinishCallback
-    }),
+    })
   },
   mounted() {
-    this.initGameInformation();
-    this.addGameFinishCallback(() => this.initGameInformation());
+    this.initGameInformation()
+    this.addGameFinishCallback(() => this.initGameInformation())
   },
   updated() {
-    initMenuItem('.menu .item');
+    initMenuItem('.menu .item')
   },
   methods: {
     ...mapMutations([
@@ -149,79 +149,79 @@ export default {
      * 初始化用户游戏信息
      */
     async initGameInformation() {
-      const {success, data} = await getUserGameInformation();
+      const { success, data } = await getUserGameInformation()
       if (success) {
-        this.overviewGameInformation = this.calculateOverviewGameInformation(data);
-        this.gameInformationList = this.formatSpendTime(data);
+        this.overviewGameInformation = this.calculateOverviewGameInformation(data)
+        this.gameInformationList = this.formatSpendTime(data)
       }
     },
     /**
      * 根据各模式的游戏信息，计算出总的游戏信息
      */
     calculateOverviewGameInformation(data) {
-      const total = this.calculateTotal(data);
-      const correctNumber = this.calculateCorrectNumber(data);
-      const averageSpendTime = formatShowMS(this.calculateAverageSpendTime(data));
-      const minSpendTime = formatShowMS(this.calculateMinSpendTime(data));
-      const maxSpendTime = formatShowMS(this.calculateMaxSpendTime(data));
-      return {total, correctNumber, averageSpendTime, minSpendTime, maxSpendTime};
+      const total = this.calculateTotal(data)
+      const correctNumber = this.calculateCorrectNumber(data)
+      const averageSpendTime = formatShowMS(this.calculateAverageSpendTime(data))
+      const minSpendTime = formatShowMS(this.calculateMinSpendTime(data))
+      const maxSpendTime = formatShowMS(this.calculateMaxSpendTime(data))
+      return { total, correctNumber, averageSpendTime, minSpendTime, maxSpendTime }
     },
     /**
      * 格式化花费的时间
      */
     formatSpendTime(data) {
       for (let i = 0; i < data.length; i++) {
-        data[i].averageSpendTime = formatShowMS(data[i].averageSpendTime);
-        data[i].minSpendTime = formatShowMS(data[i].minSpendTime);
-        data[i].maxSpendTime = formatShowMS(data[i].maxSpendTime);
+        data[i].averageSpendTime = formatShowMS(data[i].averageSpendTime)
+        data[i].minSpendTime = formatShowMS(data[i].minSpendTime)
+        data[i].maxSpendTime = formatShowMS(data[i].maxSpendTime)
       }
-      return data;
+      return data
     },
     calculateAverageSpendTime(data) {
-      let times = 0, correctNum = 0;
+      let times = 0; let correctNum = 0
       for (let i = 0; i < data.length; i++) {
         if (data[i].averageSpendTime) {
-          times += data[i].averageSpendTime;
-          correctNum++;
+          times += data[i].averageSpendTime
+          correctNum++
         }
       }
-      return correctNum === 0 ? null : times / correctNum;
+      return correctNum === 0 ? null : times / correctNum
     },
     calculateMinSpendTime(data) {
-      let result = Number.MAX_VALUE;
+      let result = Number.MAX_VALUE
       for (let i = 0; i < data.length; i++) {
-        const dataMinSpendTime = data[i].minSpendTime;
+        const dataMinSpendTime = data[i].minSpendTime
         if (dataMinSpendTime !== null && dataMinSpendTime < result) {
-          result = dataMinSpendTime;
+          result = dataMinSpendTime
         }
       }
-      return result !== Number.MAX_VALUE ? result : null;
+      return result !== Number.MAX_VALUE ? result : null
     },
     calculateMaxSpendTime(data) {
-      let result = -1;
+      let result = -1
       for (let i = 0; i < data.length; i++) {
-        const dataMaxSpendTime = data[i].maxSpendTime;
+        const dataMaxSpendTime = data[i].maxSpendTime
         if (dataMaxSpendTime !== null && dataMaxSpendTime > result) {
-          result = dataMaxSpendTime;
+          result = dataMaxSpendTime
         }
       }
-      return result ? result : null;
+      return result || null
     },
     calculateTotal(data) {
-      let result = 0;
+      let result = 0
       for (let i = 0; i < data.length; i++) {
-        result += data[i].total;
+        result += data[i].total
       }
-      return result;
+      return result
     },
     calculateCorrectNumber(data) {
-      let result = 0;
+      let result = 0
       for (let i = 0; i < data.length; i++) {
-        result += data[i].correctNumber;
+        result += data[i].correctNumber
       }
-      return result;
+      return result
     }
-  },
+  }
 }
 </script>
 

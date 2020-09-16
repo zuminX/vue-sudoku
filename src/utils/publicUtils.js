@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import ar from "element-ui/src/locale/lang/ar";
+import ar from 'element-ui/src/locale/lang/ar'
 
 /**
  * 显示弹出层
  * @param selector ID选择器
  */
 export const showModal = (selector) => {
-  $(`#${selector}`).modal('show');
+  $(`#${selector}`).modal('show')
 }
 
 /**
@@ -14,7 +14,7 @@ export const showModal = (selector) => {
  * @param selector ID选择器
  */
 export const showSidebar = (selector) => {
-  $(`#${selector}`).sidebar('toggle');
+  $(`#${selector}`).sidebar('toggle')
 }
 
 /**
@@ -26,7 +26,7 @@ export const initMenuItem = (selector, contentSelector = null) => {
   $(selector).tab({
     history: false,
     content: contentSelector ? $(contentSelector) : undefined
-  });
+  })
 }
 
 /**
@@ -37,24 +37,24 @@ export const initMenuItem = (selector, contentSelector = null) => {
  */
 export const animateCSS = (element, animation, prefix = 'animate__') => {
   return new Promise((resolve, reject) => {
-    //拼接动画名
-    const animationName = `${prefix}${animation}`;
-    //获取节点
-    const node = document.querySelector(element);
-    //添加class
-    node.classList.add(`${prefix}animated`, animationName);
+    // 拼接动画名
+    const animationName = `${prefix}${animation}`
+    // 获取节点
+    const node = document.querySelector(element)
+    // 添加class
+    node.classList.add(`${prefix}animated`, animationName)
 
-    //处理动画结束后的事件
+    // 处理动画结束后的事件
     function handleAnimationEnd() {
-      //移除添加的class
-      node.classList.remove(`${prefix}animated`, animationName);
-      //移除动画结束后的事件监听器
-      node.removeEventListener('animationend', handleAnimationEnd);
-      resolve('Animation ended');
+      // 移除添加的class
+      node.classList.remove(`${prefix}animated`, animationName)
+      // 移除动画结束后的事件监听器
+      node.removeEventListener('animationend', handleAnimationEnd)
+      resolve('Animation ended')
     }
 
-    node.addEventListener('animationend', handleAnimationEnd);
-  });
+    node.addEventListener('animationend', handleAnimationEnd)
+  })
 }
 
 /**
@@ -64,9 +64,9 @@ export const animateCSS = (element, animation, prefix = 'animate__') => {
  */
 export const formatShowMS = (milliseconds) => {
   if (milliseconds === undefined || milliseconds === null || typeof milliseconds !== 'number') {
-    return '--';
+    return '--'
   }
-  return Math.ceil(milliseconds / 1000) + "";
+  return Math.ceil(milliseconds / 1000) + ''
 }
 
 /**
@@ -75,7 +75,7 @@ export const formatShowMS = (milliseconds) => {
  * @returns {string} 格式化后的数据
  */
 export const formatData = (data) => {
-  return data ? data : "----";
+  return data || '----'
 }
 
 /**
@@ -84,10 +84,10 @@ export const formatData = (data) => {
  * @param sudokuMatrixGrid 数独矩阵中的一个格子
  */
 export const responseSetTwoDimensionalArray = (array, sudokuMatrixGrid) => {
-  let {row, column, value} = sudokuMatrixGrid;
-  let rowArrayData = array[row];
-  rowArrayData[column] = value;
-  Vue.set(array, row, rowArrayData);
+  const { row, column, value } = sudokuMatrixGrid
+  const rowArrayData = array[row]
+  rowArrayData[column] = value
+  Vue.set(array, row, rowArrayData)
 }
 
 /**
@@ -96,16 +96,16 @@ export const responseSetTwoDimensionalArray = (array, sudokuMatrixGrid) => {
  * @param displayTime 显示时间
  * @param position 位置
  */
-export const showSuccessToast = ({message, displayTime = 5, position = 'top center'}) => {
+export const showSuccessToast = ({ message, displayTime = 5, position = 'top center' }) => {
   $('body')
-  .toast({
-    class: 'success',
-    position,
-    showIcon: 'checkmark',
-    showProgress: 'bottom',
-    displayTime: displayTime * 1000,
-    message
-  });
+    .toast({
+      class: 'success',
+      position,
+      showIcon: 'checkmark',
+      showProgress: 'bottom',
+      displayTime: displayTime * 1000,
+      message
+    })
 }
 
 /**
@@ -114,16 +114,16 @@ export const showSuccessToast = ({message, displayTime = 5, position = 'top cent
  * @param displayTime 显示时间
  * @param position 位置
  */
-export const showWarnToast = ({message, displayTime = 5, position = 'top center'}) => {
+export const showWarnToast = ({ message, displayTime = 5, position = 'top center' }) => {
   $('body')
-  .toast({
-    class: 'warning',
-    position,
-    showIcon: 'exclamation',
-    showProgress: 'bottom',
-    displayTime: displayTime * 1000,
-    message
-  });
+    .toast({
+      class: 'warning',
+      position,
+      showIcon: 'exclamation',
+      showProgress: 'bottom',
+      displayTime: displayTime * 1000,
+      message
+    })
 }
 
 /**
@@ -132,14 +132,14 @@ export const showWarnToast = ({message, displayTime = 5, position = 'top center'
  * @param displayTime 显示时间
  * @param position 位置
  */
-export const showErrorToast = ({message, displayTime = 5, position = 'top center'}) => {
+export const showErrorToast = ({ message, displayTime = 5, position = 'top center' }) => {
   $('body')
-  .toast({
-    class: 'error',
-    position,
-    showIcon: 'remove',
-    showProgress: 'bottom',
-    displayTime: displayTime * 1000,
-    message
-  });
+    .toast({
+      class: 'error',
+      position,
+      showIcon: 'remove',
+      showProgress: 'bottom',
+      displayTime: displayTime * 1000,
+      message
+    })
 }

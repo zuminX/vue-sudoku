@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  export default {
-    name: "SudokuAboutModalContent"
-  }
+export default {
+  name: 'SudokuAboutModalContent'
+}
 </script>

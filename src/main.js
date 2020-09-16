@@ -6,8 +6,10 @@ import $ from 'jquery'
 import semantic from '../semantic/dist/semantic'
 import 'element-ui/lib/theme-chalk/index.css';
 import './plugins/element.js'
+import preventClick from './utils/controlClickState'
 
 Vue.config.productionTip = false
+Vue.use(preventClick)
 
 router.beforeEach((to, from, next) => {
   //路由发生变化修改页面title

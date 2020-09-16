@@ -6,5 +6,5 @@ import {
 
 Vue.use(Pagination)
 
-Vue.component(Message.name, Message);
+Vue.component(Message.name, Message)
 

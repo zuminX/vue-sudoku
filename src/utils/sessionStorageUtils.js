@@ -4,7 +4,7 @@
  * @param value
  */
 export const setData = (key, value) => {
-  window.sessionStorage.setItem(key, value);
+  window.sessionStorage.setItem(key, value)
 }
 
 /**
@@ -12,5 +12,5 @@ export const setData = (key, value) => {
  * @param key
  */
 export const getData = (key) => {
-  return window.sessionStorage.getItem(key);
+  return window.sessionStorage.getItem(key)
 }

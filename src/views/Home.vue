@@ -1,7 +1,7 @@
 <template>
   <div id="root" class="fullHeight">
 
-    <Sidebar/>
+    <Sidebar />
 
     <div class="pusher">
       <div class="ui segment m-shadow-small">
@@ -9,19 +9,23 @@
       </div>
 
       <!--菜单图标，点击打开侧边栏-->
-      <div class="ui black big launch right attached fixed button" @click="showSidebar('toc')" @mouseenter="changeMenuNameVisible"
-           @mouseleave="changeMenuNameVisible">
-        <i class="content icon"></i>
+      <div
+        class="ui black big launch right attached fixed button"
+        @click="showSidebar('toc')"
+        @mouseenter="changeMenuNameVisible"
+        @mouseleave="changeMenuNameVisible"
+      >
+        <i class="content icon" />
         <span id="menuName" class="text">菜单</span>
       </div>
 
       <div id="sudokuArea" class="ui container m-padded-tb-large">
         <!--加载数独区域时的占位符-->
         <div v-if="loading.sudokuDataDown" class="absolute-center">
-          <div class="ui placeholder sudoku-placeholder"></div>
+          <div class="ui placeholder sudoku-placeholder" />
         </div>
         <!--数独区域-->
-        <SudokuGameArea v-else ref="sudokuGameArea"></SudokuGameArea>
+        <SudokuGameArea v-else ref="sudokuGameArea" />
       </div>
 
       <!--按钮区域-->
@@ -30,8 +34,12 @@
           <!--向服务器上传数独数据时，显示的提示信息-->
           <div v-if="loading.sudokuDataUp" class="ui active centered inline text loader">正在向服务器上传您的数独数据，请勿进行其他操作！</div>
           <!--数独游戏的按钮-->
-          <SudokuGameButtons v-else-if="!gameFinish" ref="sudokuGameButtons" @clickSubmit="submitSudokuData"
-                             @clickTips="showTips"></SudokuGameButtons>
+          <SudokuGameButtons
+            v-else-if="!gameFinish"
+            ref="sudokuGameButtons"
+            @clickSubmit="submitSudokuData"
+            @clickTips="showTips"
+          />
           <!--游戏结束时显示-->
           <div v-else class="ui one column centered grid">
             <div class="ui center aligned column">
@@ -49,23 +57,21 @@
         <div class="ui container">
           <div class="ui two column centered grid">
             <div class="eleven wide column">
-              <SudokuSetting @clickNewGame="initSudokuData"></SudokuSetting>
+              <SudokuSetting @clickNewGame="initSudokuData" />
             </div>
 
             <!--帮助按钮区域-->
             <div class="five wide column">
-              <SudokuHelp/>
+              <SudokuHelp />
             </div>
           </div>
         </div>
       </div>
 
-      <!--数独选择框-->
-      <SudokuInputArea id="sudokuInputArea"></SudokuInputArea>
     </div>
 
-    <CheckSubmitModal @clickCheck="submitSudokuData"/>
-    <AnswerResultModal :answer-information="answerInformation"/>
+    <CheckSubmitModal @clickCheck="submitSudokuData" />
+    <AnswerResultModal :answer-information="answerInformation" />
   </div>
 </template>
 
@@ -76,29 +82,28 @@ import {
   showSidebar,
   showWarnToast
 } from '@/utils/publicUtils'
-import SudokuSetting from "./sudoku/SudokuSetting";
+import SudokuSetting from './sudoku/SudokuSetting'
 import {
   mapMutations,
   mapState
-} from "vuex";
-import SudokuHelp from "./sudoku/SudokuHelp";
-import SudokuInputArea from "./sudoku/SudokuInputArea";
+} from 'vuex'
+import SudokuHelp from './sudoku/SudokuHelp'
 import {
   generateSudokuTopic,
   getSudokuHelp,
   submitSudokuData
-} from "@/api/gameApi";
-import SudokuGameArea from "./sudoku/SudokuGameArea";
-import SudokuGameButtons from "./sudoku/SudokuGameButtons";
-import Sidebar from "./Sidebar";
-import AnswerResultModal from "./modal/AnswerResultModal";
-import CheckSubmitModal from "./modal/CheckSubmitModal";
-import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
-import {AnswerInformation} from "@/model/AnswerInformation";
+} from '@/api/gameApi'
+import SudokuGameArea from './sudoku/SudokuGameArea'
+import SudokuGameButtons from './sudoku/SudokuGameButtons'
+import Sidebar from './Sidebar'
+import AnswerResultModal from './modal/AnswerResultModal'
+import CheckSubmitModal from './modal/CheckSubmitModal'
+import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
+import { AnswerInformation } from '@/model/AnswerInformation'
 import {
   hasInput,
   hideSudokuZeroData
-} from "@/utils/sudokuUtils";
+} from '@/utils/sudokuUtils'
 
 export default {
   name: 'Home',
@@ -107,7 +112,6 @@ export default {
     AnswerResultModal,
     SudokuGameButtons,
     SudokuGameArea,
-    SudokuInputArea,
     SudokuHelp,
     SudokuSetting,
     Sidebar
@@ -116,7 +120,7 @@ export default {
     return {
       loading: {
         sudokuDataDown: true,
-        sudokuDataUp: false,
+        sudokuDataUp: false
       },
       answerInformation: new AnswerInformation()
     }
@@ -131,12 +135,12 @@ export default {
     }),
     showRightAnswer: {
       get() {
-        return this.$store.state.sudoku.showRightAnswer;
+        return this.$store.state.sudoku.showRightAnswer
       },
       set(value) {
-        this.$store.commit('updateShowRightAnswer', value);
+        this.$store.commit('updateShowRightAnswer', value)
       }
-    },
+    }
   },
   watch: {
     /**
@@ -145,21 +149,21 @@ export default {
      */
     gameFinish(newValue) {
       if (newValue === true && this.recordMode === true) {
-        const callback = this.gameFinishCallback;
+        const callback = this.gameFinishCallback
         for (let i = 0, size = callback.length; i < size; i++) {
-          callback[i]();
+          callback[i]()
         }
       }
-    },
+    }
   },
   updated() {
-    this.initPopup();
-    this.initDropdown();
+    this.initPopup()
+    this.initDropdown()
   },
   mounted() {
-    this.initSudokuData();
-    this.initSidebar();
-    this.changeMenuNameVisible();
+    this.initSudokuData()
+    this.initSidebar()
+    this.changeMenuNameVisible()
   },
   methods: {
     ...mapMutations([
@@ -177,86 +181,85 @@ export default {
      * 初始化数独数据
      */
     async initSudokuData() {
-      this.startSudokuDataDown();
-      const {success, data} = await generateSudokuTopic(+this.gameModel, this.recordMode);
-      this.stopSudokuDataDown();
+      this.startSudokuDataDown()
+      const { success, data } = await generateSudokuTopic(+this.gameModel, this.recordMode)
+      this.stopSudokuDataDown()
       if (success) {
-        hideSudokuZeroData(data.matrix, data.holes);
+        hideSudokuZeroData(data.matrix, data.holes)
 
-        this.updateSudokuData(data.matrix);
-        this.updateHolesData(data.holes);
-        this.updateShowRightAnswer(false);
-        this.updateGameFinish(false);
-        this.updateSerialNumber();
+        this.updateSudokuData(data.matrix)
+        this.updateHolesData(data.holes)
+        this.updateShowRightAnswer(false)
+        this.updateGameFinish(false)
+        this.updateSerialNumber()
 
-        await animateCSS("#sudokuArea", "bounceIn");
+        await animateCSS('#sudokuArea', 'bounceIn')
       }
     },
     /**
      * 显示数独的提示信息
      */
     async showTips() {
-      const {success, data} = await getSudokuHelp(this.sudokuData);
+      const { success, data } = await getSudokuHelp(this.sudokuData)
       if (success) {
-        //不存在提示信息
+        // 不存在提示信息
         if (!data) {
           showWarnToast({
-            message: "已无更多的提示信息"
-          });
-          this.$refs.sudokuGameButtons.triggerTipsButtonAnimate();
-          return;
+            message: '已无更多的提示信息'
+          })
+          this.$refs.sudokuGameButtons.triggerTipsButtonAnimate()
+          return
         }
-        let row = data.row;
-        let column = data.column;
-        this.responseSetSudokuData(new SudokuMatrixGrid(row, column, data.value));
-        //TODO 空缺格子为shakeX，应该为flash
-        this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? "shakeX" : "flash", row, column);
+        const { row, column } = data
+        // 根据填写是否正确，显示不同的动画shakeX
+        this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? 'shakeX' : 'flash', row, column)
+        this.responseSetSudokuData(new SudokuMatrixGrid(row, column, data.value))
       }
     },
     /**
      * 向服务器提交数独数据
      */
     async submitSudokuData() {
-      this.startSudokuDataUp();
-      const {success, data} = await submitSudokuData(this.sudokuData)
-      this.stopSudokuDataUp();
+      this.startSudokuDataUp()
+      const { success, data } = await submitSudokuData(this.sudokuData)
+      this.stopSudokuDataUp()
       if (success) {
-        //更新答题信息并显示答题结果的弹出层
-        this.answerInformation = new AnswerInformation(data.situation, data.spendTime);
-        this.showModal('answerResultModal');
-        this.updateSourceSudokuData(data.matrix);
-        this.updateGameFinish(true);
+        // 更新答题信息并显示答题结果的弹出层
+        this.answerInformation = new AnswerInformation(data.situation, data.spendTime)
+        this.showModal('answerResultModal')
+        this.updateSourceSudokuData(data.matrix)
+        this.updateGameFinish(true)
       }
     },
     /**
      * 开始上传数独数据
      */
     startSudokuDataUp() {
-      this.loading.sudokuDataUp = true;
+      this.loading.sudokuDataUp = true
     },
     /**
      * 结束上传数独数据
      */
     stopSudokuDataUp() {
-      this.loading.sudokuDataUp = false;
+      this.loading.sudokuDataUp = false
     },
     /**
      * 开始接收数独数据
      */
     startSudokuDataDown() {
-      this.loading.sudokuDataDown = true;
+      this.loading.sudokuDataDown = true
     },
     /**
      * 结束接收数独数据
      */
     stopSudokuDataDown() {
-      this.loading.sudokuDataDown = false;
+      this.loading.sudokuDataDown = false
     },
     /**
      * 初始化弹出提示
      */
     initPopup() {
-      $(".tip-popup").popup();
+      $('.tip-popup').popup()
     },
     /**
      * 初始化侧边栏
@@ -264,21 +267,21 @@ export default {
     initSidebar() {
       $('.ui.sidebar').sidebar({
         context: $('#root')
-      }).sidebar('setting', 'transition', 'overlay');
+      }).sidebar('setting', 'transition', 'overlay')
     },
     /**
      * 初始化下拉选
      */
     initDropdown() {
-      $(`.ui.dropdown`).dropdown();
+      $(`.ui.dropdown`).dropdown()
     },
     /**
      * 改变菜单名字的可见性
      */
     changeMenuNameVisible() {
-      $('#menuName').transition('horizontal flip');
-    },
-  },
+      $('#menuName').transition('horizontal flip')
+    }
+  }
 }
 </script>
 

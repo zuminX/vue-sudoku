@@ -1,25 +1,36 @@
 <template>
   <div>
     <div class="ui center aligned container">
-      <i class="clock outline icon"></i>
-      <TimeRecord ref="timeRecord"/>
+      <i class="clock outline icon" />
+      <TimeRecord ref="timeRecord" />
     </div>
     <div v-for="(rowData, i) in sudokuData" :key="i" class="sudoku-row absolute-center">
-      <div v-for="(data, j) in rowData" :key="j" class="number" @click="showSudokuNumber(i, j)"
-           @mouseenter="setTipStyle(i, j)" @mouseleave="hideTipStyle">
-        <input :id="inputId(i, j)"
-               :class="[tipsStyle[i][j]!==0?style.tipColor:'',
-                 tipsStyle[i][j]===1?style.secondaryOpacity:'',
-                 gameFinish&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBorderColor:style.errorBorderColor):'',
-                 !holesData[i][j]&&tipsStyle[i][j]===0?style.disabledBackgroundColor:'',
-                 showRightAnswer&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBackgroundColor:style.errorBackgroundColor):'']"
-               :disabled="inputDisabled(i, j)"
-               :value="inputValue(i, j)"
-               class="sudoku-number-input"
-               type="number"
-               @input="inputSudokuNumber(i,j,$event.target.value)">
+      <div
+        v-for="(data, j) in rowData"
+        :key="j"
+        class="number"
+        @click="showSudokuNumber(i, j)"
+        @mouseenter="setTipStyle(i, j)"
+        @mouseleave="hideTipStyle"
+      >
+        <input
+          :id="inputId(i, j)"
+          :class="[tipsStyle[i][j]!==0?style.tipColor:'',
+                   tipsStyle[i][j]===1?style.secondaryOpacity:'',
+                   gameFinish&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBorderColor:style.errorBorderColor):'',
+                   !holesData[i][j]&&tipsStyle[i][j]===0?style.disabledBackgroundColor:'',
+                   showRightAnswer&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBackgroundColor:style.errorBackgroundColor):'']"
+          :disabled="inputDisabled(i, j)"
+          :value="inputValue(i, j)"
+          class="sudoku-number-input"
+          type="number"
+          @input="inputSudokuNumber(i,j,$event.target.value)"
+        >
       </div>
     </div>
+
+    <!--数独选择框-->
+    <SudokuInputArea id="sudokuInputArea" :click-position="clickPosition" />
   </div>
 </template>
 
@@ -27,22 +38,23 @@
 import {
   mapMutations,
   mapState
-} from "vuex";
-import {animateCSS} from "@/utils/publicUtils";
-import {getTwoDimeNumArray} from "@/utils/coreUtils";
-import TimeRecord from "../../components/TimeRecord";
-import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
-import {ClickPosition} from "@/model/ClickPosition";
+} from 'vuex'
+import { animateCSS } from '@/utils/publicUtils'
+import { getTwoDimeNumArray } from '@/utils/coreUtils'
+import TimeRecord from '../../components/TimeRecord'
+import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
+import { ClickPosition } from '@/model/ClickPosition'
 import {
   isHole,
   setSudokuColumn,
   setSudokuPalace,
   setSudokuRow
-} from "@/utils/sudokuUtils";
+} from '@/utils/sudokuUtils'
+import SudokuInputArea from '@/views/sudoku/SudokuInputArea'
 
 export default {
-  name: "SudokuGameArea",
-  components: {TimeRecord},
+  name: 'SudokuGameArea',
+  components: { SudokuInputArea, TimeRecord },
   data() {
     return {
       clickPosition: new ClickPosition(),
@@ -54,8 +66,8 @@ export default {
         secondaryOpacity: 'm-opacity-big',
         tipColor: 'tip-color',
         rightBorderColor: 'border-color-green',
-        errorBorderColor: 'border-color-red',
-      },
+        errorBorderColor: 'border-color-red'
+      }
     }
   },
   computed: {
@@ -68,7 +80,7 @@ export default {
       positionTips: state => state.sudoku.positionTips,
       clickMode: state => state.sudoku.clickMode,
       sudokuInput: state => state.sudoku.sudokuInput
-    }),
+    })
   },
   watch: {
     /**
@@ -77,37 +89,36 @@ export default {
      */
     gameFinish(newValue) {
       if (newValue === true) {
-        this.$refs.timeRecord.stop();
+        this.$refs.timeRecord.stop()
       }
     },
     /**
      * 在选择模式下选择数字
      */
     sudokuInput(newValue) {
-      let number = newValue.value;
+      const number = newValue.value
       if (number !== -1) {
-        this.selectSudokuNumber(number);
+        this.selectSudokuNumber(number)
       }
-    },
+    }
   },
   mounted() {
-    //开始计时
-    this.$refs.timeRecord.start();
+    // 开始计时
+    this.$refs.timeRecord.start()
   },
   methods: {
     ...mapMutations([
       'responseSetSudokuData',
-      'updateSudokuInput',
-      'updateClickPosition'
+      'updateSudokuInput'
     ]),
     /**
      * 隐藏数独选择框
      */
     hideSudokuNumber() {
       if (ClickPosition.isNotInit(this.clickPosition)) {
-        let {row, column} = this.clickPosition;
-        //隐藏该位置对应的数独选择框
-        $(`#numberInput${row}${column}`).popup('hide');
+        const { row, column } = this.clickPosition
+        // 隐藏该位置对应的数独选择框
+        $(`#numberInput${row}${column}`).popup('hide')
       }
     },
     /**
@@ -115,7 +126,7 @@ export default {
      */
     hideTipStyle() {
       if (this.positionTips) {
-        this.tipsStyle = getTwoDimeNumArray();
+        this.tipsStyle = getTwoDimeNumArray()
       }
     },
     /**
@@ -125,17 +136,17 @@ export default {
      * @param value 值
      */
     inputSudokuNumber(i, j, value) {
-      this.responseSetSudokuData(new SudokuMatrixGrid(i, j, value));
+      this.responseSetSudokuData(new SudokuMatrixGrid(i, j, value))
     },
     /**
      * 从数独选择框中选择数字
      * @param number 选择的数字
      */
     selectSudokuNumber(number) {
-      let {row, column} = this.clickPosition;
-      //将选择的数字填入数独数据中
-      this.responseSetSudokuData(new SudokuMatrixGrid(row, column, number));
-      this.hideSudokuNumber();
+      const { row, column } = this.clickPosition
+      // 将选择的数字填入数独数据中
+      this.responseSetSudokuData(new SudokuMatrixGrid(row, column, number))
+      this.hideSudokuNumber()
     },
     /**
      * 设置动画
@@ -144,7 +155,7 @@ export default {
      * @param j 列
      */
     setInputAnimate(animate, i, j) {
-      animateCSS(`#numberInput${i}${j}`, animate);
+      animateCSS(`#numberInput${i}${j}`, animate)
     },
     /**
      * 设置数独位置提示的信息
@@ -153,14 +164,14 @@ export default {
      */
     setTipStyle(i, j) {
       if (this.positionTips) {
-        let newTipsStyle = getTwoDimeNumArray();
-        setSudokuRow(newTipsStyle, i, 1);
-        setSudokuColumn(newTipsStyle, j, 1);
-        setSudokuPalace(newTipsStyle, i, j, 1);
-        //设置该点的样式为当前样式
-        newTipsStyle[i][j] = 2;
+        const newTipsStyle = getTwoDimeNumArray()
+        setSudokuRow(newTipsStyle, i, 1)
+        setSudokuColumn(newTipsStyle, j, 1)
+        setSudokuPalace(newTipsStyle, i, j, 1)
+        // 设置该点的样式为当前样式
+        newTipsStyle[i][j] = 2
 
-        this.tipsStyle = newTipsStyle;
+        this.tipsStyle = newTipsStyle
       }
     },
     /**
@@ -170,11 +181,9 @@ export default {
      */
     showSudokuNumber(i, j) {
       if (this.clickMode && isHole(this.holesData, i, j) && !this.gameFinish) {
-        this.hideSudokuNumber();
-        this.showSudokuInputArea(i, j);
-        this.clickPosition = new ClickPosition(i, j);
-
-        this.updateClickPosition(this.clickPosition);
+        this.hideSudokuNumber()
+        this.showSudokuInputArea(i, j)
+        this.clickPosition = new ClickPosition(i, j)
       }
     },
     /**
@@ -183,13 +192,13 @@ export default {
      * @param j 列
      */
     showSudokuInputArea(i, j) {
-      let thisNode = $(`#${this.inputId(i, j)}`);
+      const thisNode = $(`#${this.inputId(i, j)}`)
       thisNode.popup({
-        popup: $("#sudokuInputArea"),
+        popup: $('#sudokuInputArea'),
         position: 'bottom center',
         on: 'click'
-      });
-      thisNode.popup('toggle');
+      })
+      thisNode.popup('toggle')
     },
     /**
      * 判断该数独输入框是否禁用
@@ -198,7 +207,7 @@ export default {
      * @returns {boolean} 禁用返回true，否则返回false
      */
     inputDisabled(i, j) {
-      return this.gameFinish || this.clickMode ? true : !this.holesData[i][j];
+      return this.gameFinish || this.clickMode ? true : !this.holesData[i][j]
     },
     /**
      * 获取该数独输入框的值
@@ -207,7 +216,7 @@ export default {
      * @returns {number} 数独数据的值
      */
     inputValue(i, j) {
-      return this.showRightAnswer ? this.sourceSudokuData[i][j] : this.sudokuData[i][j];
+      return this.showRightAnswer ? this.sourceSudokuData[i][j] : this.sudokuData[i][j]
     },
     /**
      * 获取输入框的ID
@@ -216,7 +225,7 @@ export default {
      * @returns {string} ID
      */
     inputId(i, j) {
-      return `numberInput${i}${j}`;
+      return `numberInput${i}${j}`
     }
   }
 }

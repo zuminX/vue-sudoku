@@ -5,9 +5,9 @@ export class FormValidation {
    * @returns {boolean} 合法返回true，否则返回false
    */
   static validateForm(selector) {
-  let $form = $(`#${selector}`);
-    $form.form('validate form');
-    return $form.form('is valid');
+    const $form = $(`#${selector}`)
+    $form.form('validate form')
+    return $form.form('is valid')
   }
 
   /**
@@ -25,7 +25,7 @@ export class FormValidation {
        */
       onSuccess() {
       }
-    });
+    })
   }
 
   /**
@@ -41,7 +41,7 @@ export class FormValidation {
         type: 'maxLength[16]',
         prompt: '用户名的长度不能大于16位'
       }
-    ];
+    ]
   }
 
   /**
@@ -57,7 +57,7 @@ export class FormValidation {
         type: 'maxLength[32]',
         prompt: '密码的长度不能大于32位'
       }
-    ];
+    ]
   }
 
   static get repeatPasswordRules() {
@@ -66,7 +66,7 @@ export class FormValidation {
         type: 'match[password]',
         prompt: '重复输入的密码与密码不一致'
       }
-    ];
+    ]
   }
 
   static get nicknameRules() {
@@ -79,7 +79,7 @@ export class FormValidation {
         type: 'maxLength[32]',
         prompt: '昵称的长度不能大于32位'
       }
-    ];
+    ]
   }
 
   /**
@@ -91,6 +91,6 @@ export class FormValidation {
         type: 'exactLength[5]',
         prompt: '验证码的长度必须为5位'
       }
-    ];
+    ]
   }
 }

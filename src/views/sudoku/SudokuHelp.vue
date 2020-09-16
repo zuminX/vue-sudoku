@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="ui top attached segment">
-      <h3 class="ui orange header"><i class="help icon"></i>帮助</h3>
+      <h3 class="ui orange header"><i class="help icon" />帮助</h3>
     </div>
     <div class="ui bottom attached segment m-padded-tb-large">
       <div class="center aligned">
@@ -16,17 +16,17 @@
       </div>
     </div>
 
-    <SudokuInformationModal/>
+    <SudokuInformationModal />
   </div>
 </template>
 
 <script>
-import {showModal} from "@/utils/publicUtils";
-import SudokuInformationModal from "../modal/SudokuInformationModal";
+import { showModal } from '@/utils/publicUtils'
+import SudokuInformationModal from '../modal/SudokuInformationModal'
 
 export default {
-  name: "SudokuHelp",
-  components: {SudokuInformationModal},
+  name: 'SudokuHelp',
+  components: { SudokuInformationModal },
   methods: {
     showModal
   }

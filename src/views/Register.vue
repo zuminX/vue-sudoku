@@ -9,35 +9,39 @@
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
-              <i class="user icon"></i>
+              <i class="user icon" />
               <input v-model="registerForm.username" name="username" placeholder="用户名" type="text">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
-              <i class="lock icon"></i>
+              <i class="lock icon" />
               <input v-model="registerForm.password" name="password" placeholder="密码" type="password">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
-              <i class="blue lock icon"></i>
+              <i class="blue lock icon" />
               <input v-model="registerForm.repeatPassword" name="repeatPassword" placeholder="重复输入密码" type="password">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
-              <i class="green user icon"></i>
+              <i class="green user icon" />
               <input v-model="registerForm.nickname" name="nickname" placeholder="昵称" type="text">
             </div>
           </div>
           <div class="field">
-            <CaptchaInput ref="registerCaptcha" v-model="registerForm.code" :code="registerForm.code"
-                          :uuid.sync="registerForm.uuid" />
+            <CaptchaInput
+              ref="registerCaptcha"
+              v-model="registerForm.code"
+              :code="registerForm.code"
+              :uuid.sync="registerForm.uuid"
+            />
           </div>
           <div class="ui fluid large teal button" @click="submitRegister">注册</div>
         </div>
-        <div class="ui error message"></div>
+        <div class="ui error message" />
       </form>
 
       <div class="ui message">
@@ -48,14 +52,14 @@
 </template>
 
 <script>
-import {register} from "@/api/userApi";
-import {showSuccessToast} from "@/utils/publicUtils";
-import {FormValidation} from "@/model/FormValidation";
-import CaptchaInput from "@/components/CaptchaInput";
+import { register } from '@/api/userApi'
+import { showSuccessToast } from '@/utils/publicUtils'
+import { FormValidation } from '@/model/FormValidation'
+import CaptchaInput from '@/components/CaptchaInput'
 
 export default {
-  name: "Register",
-  components: {CaptchaInput},
+  name: 'Register',
+  components: { CaptchaInput },
   data() {
     return {
       registerForm: {
@@ -65,36 +69,36 @@ export default {
         nickname: '',
         code: '',
         uuid: ''
-      },
+      }
     }
   },
   mounted() {
-    this.refreshCaptcha();
+    this.refreshCaptcha()
     this.$nextTick(() => {
-      this.initRegisterForm();
-    });
+      this.initRegisterForm()
+    })
   },
   methods: {
     /**
      * 跳转到登陆页面
      */
     jumpToLogin() {
-      this.$router.replace('/');
+      this.$router.replace('/')
     },
     /**
      * 提交表单，进行注册
      */
     async submitRegister() {
       if (FormValidation.validateForm('registerForm')) {
-        const {success, data} = await register(this.registerForm);
+        const { success, data } = await register(this.registerForm)
         if (success) {
           showSuccessToast({
             message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
-          });
-          //跳转到登陆页面，并携带用户名
-          await this.$router.replace(`/?username=${data.username}`);
+          })
+          // 跳转到登陆页面，并携带用户名
+          await this.$router.replace(`/?username=${data.username}`)
         } else {
-          this.refreshCaptcha();
+          this.refreshCaptcha()
         }
       }
     },
@@ -114,14 +118,17 @@ export default {
         },
         nickname: {
           rules: FormValidation.nicknameRules
+        },
+        code: {
+          rules: FormValidation.captchaRules
         }
-      });
+      })
     },
     /**
      * 刷新验证码
      */
     refreshCaptcha() {
-      this.$refs.registerCaptcha.getCaptchaImage();
+      this.$refs.registerCaptcha.getCaptchaImage()
     }
   }
 }

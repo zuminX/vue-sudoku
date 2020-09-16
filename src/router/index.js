@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from "../views/Login";
+import Login from '../views/Login'
 
 Vue.use(VueRouter)
 
@@ -28,8 +28,8 @@ const routes = [
     meta: {
       title: '注册'
     }
-  },
-];
+  }
+]
 
 const router = new VueRouter({
   mode: 'hash',

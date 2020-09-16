@@ -2,29 +2,34 @@
   <div class="ui popup transition hidden sudoku-number-area">
     <div v-for="(rowData, i) in sudokuNumber" :key="i" class="sudoku-row">
       <div v-for="(data, j) in rowData" :key="j" class="number" @click="selectNumber(data)">
-        <input :value="data" class="sudoku-number-input hover-sudoku-number m-opacity-big background-color-blue" disabled
-               type="text">
+        <input
+          :value="data"
+          class="sudoku-number-input hover-sudoku-number m-opacity-big background-color-blue"
+          disabled
+          type="text"
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {getSudokuArray} from "@/utils/sudokuUtils";
-import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
-import {mapState} from "vuex";
+import { getSudokuArray } from '@/utils/sudokuUtils'
+import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
+import { ClickPosition } from '@/model/ClickPosition'
 
 export default {
-  name: "SudokuInputArea",
+  name: 'SudokuInputArea',
+  props: {
+    clickPosition: {
+      type: ClickPosition,
+      required: true
+    }
+  },
   data() {
     return {
       sudokuNumber: getSudokuArray()
     }
-  },
-  computed: {
-    ...mapState({
-      clickPosition: state => state.sudoku.clickPosition
-    }),
   },
   methods: {
     /**
@@ -32,7 +37,7 @@ export default {
      * @param data 数字
      */
     selectNumber(data) {
-      this.$store.commit("updateSudokuInput", new SudokuMatrixGrid(this.clickPosition.row, this.clickPosition.column, data));
+      this.$store.commit('updateSudokuInput', new SudokuMatrixGrid(this.clickPosition.row, this.clickPosition.column, data))
     }
   }
 }

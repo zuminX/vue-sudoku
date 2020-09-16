@@ -1,12 +1,12 @@
 import {
   getRequest,
   postRequest
-} from "./basicApi";
+} from './basicApi'
 
 /**
  * 数独API的基地址
  */
-const base = "/game";
+const base = '/game'
 
 /**
  * 获取数独数据
@@ -14,7 +14,7 @@ const base = "/game";
  * @param isRecord 是否记录
  */
 export const generateSudokuTopic = (level = 0, isRecord = false) => {
-  return getRequest(`${base}/generateTopic`, {level, isRecord});
+  return getRequest(`${base}/generateTopic`, { level, isRecord })
 }
 
 /**
@@ -22,7 +22,7 @@ export const generateSudokuTopic = (level = 0, isRecord = false) => {
  * @param sudokuData 数独数据
  */
 export const submitSudokuData = (sudokuData) => {
-  return postRequest(`${base}/check`, sudokuData);
+  return postRequest(`${base}/check`, sudokuData)
 }
 
 /**
@@ -30,22 +30,20 @@ export const submitSudokuData = (sudokuData) => {
  * @param sudokuData 数独数据
  */
 export const getSudokuHelp = (sudokuData) => {
-  return postRequest(`${base}/help`, sudokuData);
+  return postRequest(`${base}/help`, sudokuData)
 }
 
 /**
  * 获取数独的所有难度等级
  */
 export const getSudokuLevels = () => {
-  return getRequest(`${base}/sudokuLevels`);
+  return getRequest(`${base}/sudokuLevels`)
 }
 
 /**
  * 获取排行榜数据
  */
 export const getLeaderboardData = () => {
-  return getRequest(`${base}/rank`);
+  return getRequest(`${base}/rank`)
 }
-
-
 

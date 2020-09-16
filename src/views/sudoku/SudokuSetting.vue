@@ -3,7 +3,7 @@
     <div class="ui top attached segment">
       <div class="ui middle aligned two column grid">
         <div class="column">
-          <h3 class="ui teal header"><i class="settings icon"></i>设置</h3>
+          <h3 class="ui teal header"><i class="settings icon" />设置</h3>
         </div>
       </div>
     </div>
@@ -14,14 +14,14 @@
           <div class="ui center aligned container">
             <div class="m-padded-tb">
               <label>
-                <select v-model:value="gameModel" class="ui dropdown">
-                  <option v-for="(level, index) in sudokuLevels" :key="index" :value="level.level">{{level.name}}</option>
+                <select v-model="gameModel" class="ui dropdown">
+                  <option v-for="(level, index) in sudokuLevels" :key="index" :value="level.level">{{ level.name }}</option>
                 </select>
               </label>
             </div>
             <div class="m-padded-tb-large">
               <button class="ui blue basic circular button" @click="$emit('clickNewGame')">
-                <i class="gamepad icon"></i>新游戏
+                <i class="gamepad icon" />新游戏
               </button>
             </div>
           </div>
@@ -44,16 +44,16 @@
           </div>
         </div>
       </div>
-      <div class="ui vertical divider"><i class="setting icon"></i></div>
+      <div class="ui vertical divider"><i class="setting icon" /></div>
     </div>
   </div>
 </template>
 
 <script>
-import {getSudokuLevels} from "@/api/gameApi";
+import { getSudokuLevels } from '@/api/gameApi'
 
 export default {
-  name: "SudokuSetting",
+  name: 'SudokuSetting',
   data() {
     return {
       sudokuLevels: []
@@ -62,48 +62,48 @@ export default {
   computed: {
     clickMode: {
       get() {
-        return this.$store.state.sudoku.clickMode;
+        return this.$store.state.sudoku.clickMode
       },
       set(value) {
-        this.$store.commit('updateClickMode', value);
+        this.$store.commit('updateClickMode', value)
       }
     },
     gameModel: {
       get() {
-        return this.$store.state.sudoku.gameModel;
+        return this.$store.state.sudoku.gameModel
       },
       set(value) {
-        this.$store.commit('updateGameModel', value);
+        this.$store.commit('updateGameModel', value)
       }
     },
     positionTips: {
       get() {
-        return this.$store.state.sudoku.positionTips;
+        return this.$store.state.sudoku.positionTips
       },
       set(value) {
-        this.$store.commit('updatePositionTips', value);
+        this.$store.commit('updatePositionTips', value)
       }
     },
     recordMode: {
       get() {
-        return this.$store.state.sudoku.recordMode;
+        return this.$store.state.sudoku.recordMode
       },
       set(value) {
-        this.$store.commit('updateRecordMode', value);
+        this.$store.commit('updateRecordMode', value)
       }
     }
   },
   mounted() {
-    this.initSudokuLevels();
+    this.initSudokuLevels()
   },
   methods: {
     /**
      * 初始化数独难度等级
      */
     async initSudokuLevels() {
-      const {success, data} = await getSudokuLevels();
+      const { success, data } = await getSudokuLevels()
       if (success) {
-        this.sudokuLevels = data;
+        this.sudokuLevels = data
       }
     }
   }

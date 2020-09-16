@@ -3,7 +3,7 @@
  * @returns {number[][]} 二维number型数组
  */
 export const getTwoDimeNumArray = (row = 9, column = 9) => {
-  return getTwoDimeArray(row, column, 0);
+  return getTwoDimeArray(row, column, 0)
 }
 
 /**
@@ -11,7 +11,7 @@ export const getTwoDimeNumArray = (row = 9, column = 9) => {
  * @returns {boolean[][]} 二维boolean型数组
  */
 export const getTwoDimeBoolArray = (row = 9, column = 9) => {
-  return getTwoDimeArray(row, column, false);
+  return getTwoDimeArray(row, column, false)
 }
 
 /**
@@ -22,13 +22,13 @@ export const getTwoDimeBoolArray = (row = 9, column = 9) => {
  * @returns {[]} 二维数组
  */
 const getTwoDimeArray = (row, column, initData) => {
-  let result = [];
+  const result = []
   for (let i = 0; i < row; i++) {
-    result.push([]);
+    result.push([])
     for (let j = 0; j < column; j++) {
-      result[i].push(initData);
+      result[i].push(initData)
     }
   }
-  return result;
+  return result
 }
 

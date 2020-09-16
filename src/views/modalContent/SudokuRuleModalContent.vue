@@ -1,6 +1,6 @@
 <template>
   <div class="scrolling content">
-    <h4 class="ui horizontal divider header"><i class="chess board icon"></i>概念</h4>
+    <h4 class="ui horizontal divider header"><i class="chess board icon" />概念</h4>
     <div class="ui container m-padded-tb-large">
       <img class="ui centered medium image" src="../../assets/images/sudoku-puzzle-blank.png">
       <div class="ui text container">
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <h4 class="ui horizontal divider header"><i class="eye icon"></i>起步</h4>
+    <h4 class="ui horizontal divider header"><i class="eye icon" />起步</h4>
     <div class="ui container m-padded-tb-large">
       <img class="ui centered medium image" src="../../assets/images/puzzle-dark.jpg">
       <div class="ui text container">
@@ -20,15 +20,15 @@
       </div>
     </div>
 
-    <h4 class="ui horizontal divider header"><i class="tag icon"></i>行规则</h4>
+    <h4 class="ui horizontal divider header"><i class="tag icon" />行规则</h4>
     <div class="ui container m-padded-tb-large">
       <img class="ui centered medium image" src="../../assets/images/sudoku-row-allowed.jpg">
       <div class="ui container center aligned m-padded-tb">
-        <i class="checkmark big green icon"></i>
+        <i class="checkmark big green icon" />
       </div>
       <img class="ui centered medium image" src="../../assets/images/sudoku-row-not-allowed.jpg">
       <div class="ui container center aligned m-padded-tb">
-        <i class="remove big red icon"></i>
+        <i class="remove big red icon" />
       </div>
 
       <div class="ui text container">
@@ -38,22 +38,28 @@
       </div>
     </div>
 
-    <h4 class="ui horizontal divider header"><i class="tag icon"></i>列规则</h4>
+    <h4 class="ui horizontal divider header"><i class="tag icon" />列规则</h4>
     <div class="ui container m-padded-tb-large">
       <div class="ui container" style="max-width: 200px !important">
         <div class="ui grid">
           <div class="left floated six wide column">
-            <img class="ui centered tiny image" src="../../assets/images/sudoku-column-allowed.jpg"
-                 style="height:300px;width:50px">
+            <img
+              class="ui centered tiny image"
+              src="../../assets/images/sudoku-column-allowed.jpg"
+              style="height:300px;width:50px"
+            >
             <div class="ui container center aligned m-padded-tb">
-              <i class="checkmark big green icon"></i>
+              <i class="checkmark big green icon" />
             </div>
           </div>
           <div class="right floated six wide column">
-            <img class="ui centered tiny image" src="../../assets/images/sudoku-column-not-allowed.jpg"
-                 style="height:300px;width:50px">
+            <img
+              class="ui centered tiny image"
+              src="../../assets/images/sudoku-column-not-allowed.jpg"
+              style="height:300px;width:50px"
+            >
             <div class="ui container center aligned m-padded-tb">
-              <i class="remove big red icon"></i>
+              <i class="remove big red icon" />
             </div>
           </div>
         </div>
@@ -65,20 +71,20 @@
       </div>
     </div>
 
-    <h4 class="ui horizontal divider header"><i class="tag icon"></i>宫规则</h4>
+    <h4 class="ui horizontal divider header"><i class="tag icon" />宫规则</h4>
     <div class="ui container m-padded-tb-large">
       <div class="ui container" style="max-width: 300px !important">
         <div class="ui grid">
           <div class="left floated six wide column">
             <img class="ui centered medium image" src="../../assets/images/sudoku-region-allowed.jpg">
             <div class="ui container center aligned m-padded-tb">
-              <i class="checkmark big green icon"></i>
+              <i class="checkmark big green icon" />
             </div>
           </div>
           <div class="right floated six wide column">
             <img class="ui centered medium image" src="../../assets/images/sudoku-region-not-allowed.jpg">
             <div class="ui container center aligned m-padded-tb">
-              <i class="remove big red icon"></i>
+              <i class="remove big red icon" />
             </div>
           </div>
         </div>
@@ -93,9 +99,9 @@
 </template>
 
 <script>
-  export default {
-    name: "SudokuRuleModalContent"
-  }
+export default {
+  name: 'SudokuRuleModalContent'
+}
 </script>
 
 <style scoped>
