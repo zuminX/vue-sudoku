@@ -14,6 +14,11 @@ module.exports = {
   'plugins': [
     'vue'
   ],
+  'globals': {
+    'require': true,
+    'process': true,
+    '$': true
+  },
   'rules': {
     'vue/max-attributes-per-line': [2, {
       'singleline': 10,
@@ -48,7 +53,7 @@ module.exports = {
     'curly': [2, 'multi-line'],
     'dot-location': [2, 'property'],
     'eol-last': 2,
-    'eqeqeq': ['error', 'always', { 'null': 'ignore' }],
+    'eqeqeq': ['error', 'always', {'null': 'ignore'}],
     'generator-star-spacing': [2, {
       'before': true,
       'after': true

@@ -3,10 +3,10 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const production = process.env.NODE_ENV === "production";
+const production = process.env.NODE_ENV === 'production'
 
-//反向代理
-let proxyObj = {};
+// 反向代理
+const proxyObj = {}
 proxyObj['/'] = {
   ws: false,
   target: 'http://localhost:8081',
@@ -17,17 +17,17 @@ proxyObj['/'] = {
 }
 
 module.exports = {
-  //打包时不生成map文件
+  // 打包时不生成map文件
   productionSourceMap: false,
   configureWebpack: (config) => {
     config.plugins = [...config.plugins,
-      //设置Jquery
+      // 设置Jquery
       new Webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "windows.jQuery": "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
+        'windows.jQuery': 'jquery'
       }),
-      //打包zip压缩
+      // 打包zip压缩
       new CompressionWebpackPlugin({
         filename: '[path].gz[query]',
         algorithm: 'gzip',
@@ -47,42 +47,27 @@ module.exports = {
         statsOptions: null,
         logLevel: 'info'
       })
-    ];
-    //打包优化，去除console.log
+    ]
+    // 打包优化，去除console.log
     config.optimization.minimizer.push(new UglifyJsPlugin({
       sourceMap: false,
-      //开启多线程提高打包速度
+      // 开启多线程提高打包速度
       parallel: true,
       uglifyOptions: {
         compress: {
           drop_console: true,
           drop_debugger: false,
-          //生产环境自动删除console
+          // 生产环境自动删除console
           pure_funcs: ['console.log']
         },
         warnings: false
       }
-    }));
+    }))
   },
-  chainWebpack: config => {
-    if (production) {
-      //压缩图片
-      config.module
-      .rule('images')
-      .use('image-webpack-loader')
-      .loader('image-webpack-loader')
-      .options({
-        mozjpeg: {progressive: true, quality: 65},
-        optipng: {enabled: false},
-        pngquant: {quality: [0.65, 0.9], speed: 4},
-        gifsicle: {interlaced: false}
-      })
-    }
-  },
-  //测试时的端口和反向代理到服务器
+  // 测试时的端口和反向代理到服务器
   devServer: {
     host: 'localhost',
     port: 8080,
     proxy: proxyObj
-  },
+  }
 }

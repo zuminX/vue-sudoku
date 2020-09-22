@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login'
+import Login from '../views/login/index'
 
 Vue.use(VueRouter)
 
@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: Login,
+    component: () => import('../views/login/index'),
     meta: {
       title: '登录'
     }
@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: () => import('../views/Home'),
+    component: () => import('../views/home/index'),
     meta: {
       title: '数独游戏'
     }
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/Register'),
+    component: () => import('../views/register/index'),
     meta: {
       title: '注册'
     }

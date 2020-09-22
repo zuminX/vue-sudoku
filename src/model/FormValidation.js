@@ -88,8 +88,8 @@ export class FormValidation {
   static get captchaRules() {
     return [
       {
-        type: 'exactLength[5]',
-        prompt: '验证码的长度必须为5位'
+        type: 'exactLength[4]',
+        prompt: '验证码的长度必须为4位'
       }
     ]
   }
