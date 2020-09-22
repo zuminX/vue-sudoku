@@ -6,9 +6,10 @@ import store from './store'
 import $ from 'jquery'
 // eslint-disable-next-line no-unused-vars
 import semantic from '../semantic/dist/semantic'
-import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import preventClick from './utils/controlClickState'
+
+import '@/assets/styles/index.scss' // global css
 
 Vue.config.productionTip = false
 Vue.use(preventClick)

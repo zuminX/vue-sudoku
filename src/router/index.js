@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/login/index'
+import Layout from '@/components/Layout'
 
 Vue.use(VueRouter)
 
@@ -11,7 +11,8 @@ const routes = [
     component: () => import('../views/login/index'),
     meta: {
       title: '登录'
-    }
+    },
+    hidden: true
   },
   {
     path: '/home',
@@ -19,7 +20,8 @@ const routes = [
     component: () => import('../views/home/index'),
     meta: {
       title: '数独游戏'
-    }
+    },
+    hidden: true
   },
   {
     path: '/register',
@@ -27,7 +29,19 @@ const routes = [
     component: () => import('../views/register/index'),
     meta: {
       title: '注册'
-    }
+    },
+    hidden: true
+  },
+  {
+    path: '/admin',
+    component: Layout,
+    redirect: '/admin/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/admin/dashboard/index'),
+      meta: { title: '概览', icon: 'dashboard' }
+    }]
   }
 ]
 
