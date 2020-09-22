@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import BasicModalHeader from '../../../../components/Modal/header/BasicModalHeader'
-import OKModalActions from '../../../../components/Modal/actions/OKModalActions'
-import Modal from '../../../../components/Modal/index'
-import UserGameInformationModalContent from './components/UserGameInformationModalContent'
 
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import UserGameInformationModalContent from '@/views/home/sidebar/userInformation/components/UserGameInformationModalContent'
+import OKModalActions from '@/components/Modal/actions/OKModalActions'
 export default {
   name: 'UserInformationModal',
-  components: { UserGameInformationModalContent, Modal, OKModalActions, BasicModalHeader }
+  components: { OKModalActions, UserGameInformationModalContent, BasicModalHeader, Modal }
 }
 </script>
 

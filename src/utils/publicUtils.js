@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import ar from 'element-ui/src/locale/lang/ar'
 
 /**
  * 显示弹出层

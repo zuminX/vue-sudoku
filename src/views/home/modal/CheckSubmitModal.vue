@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import BasicModalHeader from '../../../components/Modal/header/BasicModalHeader'
-import BasicModalContent from '../../../components/Modal/content/BasicModalContent'
-import OkOrCancelModalActions from '../../../components/Modal/actions/OkOrCancelModalActions'
-import Modal from '../../../components/Modal/index'
 
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import BasicModalContent from '@/components/Modal/content/BasicModalContent'
+import OkOrCancelModalActions from '@/components/Modal/actions/OkOrCancelModalActions'
 export default {
   name: 'CheckSubmitModal',
-  components: { Modal, OkOrCancelModalActions, BasicModalContent, BasicModalHeader }
+  components: { OkOrCancelModalActions, BasicModalContent, BasicModalHeader, Modal }
 }
 </script>

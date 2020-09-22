@@ -13,13 +13,14 @@
 </template>
 
 <script>
-import BasicModalHeader from '../../../../components/Modal/header/BasicModalHeader'
-import Modal from '../../../../components/Modal/index'
-import LeaderboardModalContent from './components/LeaderboardModalContent'
-import OKModalActions from '../../../../components/Modal/actions/OKModalActions'
+
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import LeaderboardModalContent from '@/views/home/sidebar/leaderboard/components/LeaderboardModalContent'
+import OKModalActions from '@/components/Modal/actions/OKModalActions'
 
 export default {
   name: 'LeaderboardModal',
-  components: { OKModalActions, LeaderboardModalContent, Modal, BasicModalHeader }
+  components: { OKModalActions, LeaderboardModalContent, BasicModalHeader, Modal }
 }
 </script>

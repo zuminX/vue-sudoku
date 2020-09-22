@@ -41,7 +41,6 @@ import {
 } from 'vuex'
 import { animateCSS } from '@/utils/publicUtils'
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
-import TimeRecord from '../../../../components/TimeRecord/index'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 import { ClickPosition } from '@/model/ClickPosition'
 import {
@@ -51,10 +50,11 @@ import {
   setSudokuRow
 } from '@/utils/sudokuUtils'
 import SudokuInputArea from '@/views/home/sudoku/gameArea/components/SudokuInputArea'
+import TimeRecord from '@/components/TimeRecord/index'
 
 export default {
   name: 'SudokuGameArea',
-  components: { SudokuInputArea, TimeRecord },
+  components: { TimeRecord, SudokuInputArea },
   data() {
     return {
       clickPosition: new ClickPosition(),

@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import Modal from '../../../../components/Modal/index'
-import OKModalActions from '../../../../components/Modal/actions/OKModalActions'
-import HistoryRecordModalContent from './components/HistoryRecordModalContent'
-import BasicModalHeader from '../../../../components/Modal/header/BasicModalHeader'
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import HistoryRecordModalContent from '@/views/home/sidebar/historyRecord/components/HistoryRecordModalContent'
+import OKModalActions from '@/components/Modal/actions/OKModalActions'
 
 export default {
   name: 'HistoryRecordModal',
-  components: { BasicModalHeader, HistoryRecordModalContent, OKModalActions, Modal }
+  components: { OKModalActions, HistoryRecordModalContent, BasicModalHeader, Modal }
 }
 </script>

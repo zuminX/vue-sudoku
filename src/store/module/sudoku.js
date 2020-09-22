@@ -1,6 +1,5 @@
 import { responseSetTwoDimensionalArray } from '@/utils/publicUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
-import { ClickPosition } from '@/model/ClickPosition'
 
 const state = {
   // 游戏设置

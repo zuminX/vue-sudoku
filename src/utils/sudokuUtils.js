@@ -2,7 +2,6 @@ import {
   getTwoDimeBoolArray,
   getTwoDimeNumArray
 } from './coreUtils'
-import row from 'element-ui/packages/row/src/row'
 
 /**
  * 判断指定位置是否为空缺格子

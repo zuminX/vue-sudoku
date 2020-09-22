@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import BasicModalHeader from '../../../components/Modal/header/BasicModalHeader'
-import BasicModalContent from '../../../components/Modal/content/BasicModalContent'
-import OKModalActions from '../../../components/Modal/actions/OKModalActions'
-import Modal from '../../../components/Modal/index'
 import { formatShowMS } from '@/utils/publicUtils'
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import BasicModalContent from '@/components/Modal/content/BasicModalContent'
+import OKModalActions from '@/components/Modal/actions/OKModalActions'
 
 export default {
   name: 'AnswerResultModal',
-  components: { Modal, OKModalActions, BasicModalContent, BasicModalHeader },
+  components: { OKModalActions, BasicModalContent, BasicModalHeader, Modal },
   props: {
     answerInformation: {
       type: Object,

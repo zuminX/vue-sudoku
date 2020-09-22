@@ -23,14 +23,14 @@
 </template>
 
 <script>
-import BasicModalHeader from '../../../../../components/Modal/header/BasicModalHeader'
-import SudokuAboutModalContent from './components/SudokuAboutModalContent'
-import KnowModalActions from '../../../../../components/Modal/actions/KnowModalActions'
-import SudokuRuleModalContent from './components/SudokuRuleModalContent'
-import Modal from '../../../../../components/Modal/index'
 
+import Modal from '@/components/Modal/index'
+import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
+import SudokuAboutModalContent from '@/views/home/sudoku/help/informationModal/components/SudokuAboutModalContent'
+import SudokuRuleModalContent from '@/views/home/sudoku/help/informationModal/components/SudokuRuleModalContent'
+import KnowModalActions from '@/components/Modal/actions/KnowModalActions'
 export default {
   name: 'SudokuInformationModal',
-  components: { Modal, SudokuRuleModalContent, KnowModalActions, SudokuAboutModalContent, BasicModalHeader }
+  components: { KnowModalActions, SudokuRuleModalContent, SudokuAboutModalContent, BasicModalHeader, Modal }
 }
 </script>

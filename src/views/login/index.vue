@@ -37,8 +37,8 @@
 <script>
 import { login } from '@/api/securityApi'
 import { setData } from '@/utils/sessionStorageUtils'
-import CaptchaInput from '../../components/CaptchaInput/index'
 import { FormValidation } from '@/model/FormValidation'
+import CaptchaInput from '@/components/CaptchaInput/index'
 
 export default {
   name: 'Login',
