@@ -13,11 +13,8 @@ const state = {
   holesData: [],
   // 游戏当前状态
   gameFinish: true,
-  showRightAnswer: false,
   // 选择的数独数
   sudokuInput: new SudokuMatrixGrid(0, 0, 0),
-  // 游戏结束执行的回调函数数组
-  gameFinishCallback: [],
   // 序列号
   serialNumber: 0
 }
@@ -52,14 +49,8 @@ const mutations = {
   updateGameFinish(state, gameFinish) {
     state.gameFinish = gameFinish
   },
-  updateShowRightAnswer(state, showRightAnswer) {
-    state.showRightAnswer = showRightAnswer
-  },
   updateSudokuInput(state, sudokuInput) {
     state.sudokuInput = sudokuInput
-  },
-  addGameFinishCallback(state, callback) {
-    state.gameFinishCallback.push(callback)
   },
   updateSerialNumber(state) {
     state.serialNumber++

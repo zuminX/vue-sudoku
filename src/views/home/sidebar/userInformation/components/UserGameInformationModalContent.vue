@@ -108,7 +108,6 @@ import {
   initMenuItem
 } from '@/utils/publicUtils'
 import {
-  mapMutations,
   mapState
 } from 'vuex'
 
@@ -131,20 +130,25 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.currentUser,
-      gameFinishCallback: state => state.sudoku.gameFinishCallback
+      gameFinish: state => state.sudoku.gameFinish,
+      recordMode: state => state.sudoku.recordMode
     })
+  },
+  watch: {
+    // 监听游戏的结束，用以更新用户游戏信息
+    gameFinish(newValue) {
+      if (newValue === true && this.recordMode === true) {
+        this.initGameInformation()
+      }
+    }
   },
   mounted() {
     this.initGameInformation()
-    this.addGameFinishCallback(() => this.initGameInformation())
   },
   updated() {
     initMenuItem('.menu .item')
   },
   methods: {
-    ...mapMutations([
-      'addGameFinishCallback'
-    ]),
     /**
      * 初始化用户游戏信息
      */
@@ -178,7 +182,8 @@ export default {
       return data
     },
     calculateAverageSpendTime(data) {
-      let times = 0; let correctNum = 0
+      let times = 0
+      let correctNum = 0
       for (let i = 0; i < data.length; i++) {
         if (data[i].averageSpendTime) {
           times += data[i].averageSpendTime

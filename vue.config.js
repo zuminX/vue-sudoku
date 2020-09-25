@@ -2,6 +2,12 @@ const Webpack = require('webpack')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const path = require('path')
+
+function resolve(dir) {
+  // eslint-disable-next-line no-undef
+  return path.join(__dirname, dir)
+}
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -19,6 +25,24 @@ proxyObj['/'] = {
 module.exports = {
   // 打包时不生成map文件
   productionSourceMap: false,
+  chainWebpack(config) {
+    // set svg-sprite-loader
+    config.module
+      .rule('svg')
+      .exclude.add(resolve('src/icons'))
+      .end()
+    config.module
+      .rule('icons')
+      .test(/\.svg$/)
+      .include.add(resolve('src/icons'))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+      .end()
+  },
   configureWebpack: (config) => {
     config.plugins = [...config.plugins,
       // 设置Jquery

@@ -55,6 +55,12 @@ import TimeRecord from '@/components/TimeRecord/index'
 export default {
   name: 'SudokuGameArea',
   components: { TimeRecord, SudokuInputArea },
+  props: {
+    showRightAnswer: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
     return {
       clickPosition: new ClickPosition(),
@@ -76,7 +82,6 @@ export default {
       sourceSudokuData: state => state.sudoku.sourceSudokuData,
       holesData: state => state.sudoku.holesData,
       gameFinish: state => state.sudoku.gameFinish,
-      showRightAnswer: state => state.sudoku.showRightAnswer,
       positionTips: state => state.sudoku.positionTips,
       clickMode: state => state.sudoku.clickMode,
       sudokuInput: state => state.sudoku.sudokuInput

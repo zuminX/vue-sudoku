@@ -2,14 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// eslint-disable-next-line no-unused-vars
 import $ from 'jquery'
-// eslint-disable-next-line no-unused-vars
 import semantic from '../semantic/dist/semantic'
 import './plugins/element.js'
 import preventClick from './utils/controlClickState'
+import '@/icons'
 
-import '@/assets/styles/index.scss' // global css
+import '@/assets/styles/index.scss'
 
 Vue.config.productionTip = false
 Vue.use(preventClick)

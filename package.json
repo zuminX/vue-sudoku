@@ -44,6 +44,7 @@
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-spritesmith": "^1.1.0",
     "sass": "1.26.11",
-    "sass-loader": "8.0.2"
+    "sass-loader": "8.0.2",
+    "svg-sprite-loader": "4.3.0"
   }
 }

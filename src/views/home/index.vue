@@ -25,7 +25,7 @@
           <div class="ui placeholder sudoku-placeholder" />
         </div>
         <!--数独区域-->
-        <SudokuGameArea v-else ref="sudokuGameArea" />
+        <SudokuGameArea v-else ref="sudokuGameArea" :show-right-answer="showRightAnswer" />
       </div>
 
       <!--按钮区域-->
@@ -122,7 +122,8 @@ export default {
         sudokuDataDown: true,
         sudokuDataUp: false
       },
-      answerInformation: new AnswerInformation()
+      answerInformation: new AnswerInformation(),
+      showRightAnswer: false
     }
   },
   computed: {
@@ -130,31 +131,8 @@ export default {
       gameModel: state => state.sudoku.gameModel,
       gameFinish: state => state.sudoku.gameFinish,
       sudokuData: state => state.sudoku.sudokuData,
-      recordMode: state => state.sudoku.recordMode,
-      gameFinishCallback: state => state.sudoku.gameFinishCallback
-    }),
-    showRightAnswer: {
-      get() {
-        return this.$store.state.sudoku.showRightAnswer
-      },
-      set(value) {
-        this.$store.commit('updateShowRightAnswer', value)
-      }
-    }
-  },
-  watch: {
-    /**
-     * 当游戏结束且记录模式开启时，更新用户信息
-     * @param newValue 新的游戏结束状态
-     */
-    gameFinish(newValue) {
-      if (newValue === true && this.recordMode === true) {
-        const callback = this.gameFinishCallback
-        for (let i = 0, size = callback.length; i < size; i++) {
-          callback[i]()
-        }
-      }
-    }
+      recordMode: state => state.sudoku.recordMode
+    })
   },
   updated() {
     this.initPopup()
@@ -171,7 +149,6 @@ export default {
       'updateSourceSudokuData',
       'updateHolesData',
       'updateGameFinish',
-      'updateShowRightAnswer',
       'responseSetSudokuData',
       'updateSerialNumber'
     ]),
@@ -189,9 +166,9 @@ export default {
 
         this.updateSudokuData(data.matrix)
         this.updateHolesData(data.holes)
-        this.updateShowRightAnswer(false)
         this.updateGameFinish(false)
         this.updateSerialNumber()
+        this.showRightAnswer = false
 
         await animateCSS('#sudokuArea', 'bounceIn')
       }
@@ -211,7 +188,7 @@ export default {
           return
         }
         const { row, column } = data
-        // 根据填写是否正确，显示不同的动画shakeX
+        // 根据填写是否正确，显示不同的动画
         this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? 'shakeX' : 'flash', row, column)
         this.responseSetSudokuData(new SudokuMatrixGrid(row, column, data.value))
       }

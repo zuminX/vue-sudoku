@@ -90,17 +90,22 @@ export default {
   },
   computed: {
     ...mapState({
-      gameFinishCallback: state => state.sudoku.gameFinishCallback
+      gameFinish: state => state.sudoku.gameFinish,
+      recordMode: state => state.sudoku.recordMode
     })
+  },
+  watch: {
+    // 监听游戏的结束，用以更新用户游戏记录
+    gameFinish(newValue) {
+      if (newValue === true && this.recordMode === true) {
+        this.updateCurrentPageData()
+      }
+    }
   },
   mounted() {
     this.updateCurrentPageData()
-    this.addGameFinishCallback(() => this.updateCurrentPageData())
   },
   methods: {
-    ...mapMutations([
-      'addGameFinishCallback'
-    ]),
     formatData,
     /**
      * 转换游戏记录中的数独矩阵和空缺字符串为二维数组
