@@ -25,7 +25,14 @@
           <div class="ui placeholder sudoku-placeholder" />
         </div>
         <!--数独区域-->
-        <SudokuGameArea v-else ref="sudokuGameArea" :show-right-answer="showRightAnswer" :sudoku-data="sudokuData" />
+        <SudokuGameArea
+          v-else
+          ref="sudokuGameArea"
+          :holes-data="holesData"
+          :show-right-answer="showRightAnswer"
+          :source-sudoku-data="sourceSudokuData"
+          :sudoku-data="sudokuData"
+        />
       </div>
 
       <!--按钮区域-->
@@ -37,6 +44,7 @@
           <SudokuGameButtons
             v-else-if="!gameFinish"
             ref="sudokuGameButtons"
+            :holes-data="holesData"
             :sudoku-data.sync="sudokuData"
             @clickSubmit="submitSudokuData"
             @clickTips="showTips"
@@ -126,7 +134,9 @@ export default {
       },
       answerInformation: new AnswerInformation(),
       showRightAnswer: false,
-      sudokuData: [[]]
+      sudokuData: [[]],
+      sourceSudokuData: [[]],
+      holesData: [[]]
     }
   },
   computed: {
@@ -147,8 +157,6 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'updateSourceSudokuData',
-      'updateHolesData',
       'updateGameFinish',
       'updateSerialNumber'
     ]),
@@ -164,11 +172,11 @@ export default {
       if (success) {
         hideSudokuZeroData(data.matrix, data.holes)
 
-        this.updateHolesData(data.holes)
         this.updateGameFinish(false)
         this.updateSerialNumber()
         this.showRightAnswer = false
         this.sudokuData = data.matrix
+        this.holesData = data.holes
 
         await animateCSS('#sudokuArea', 'bounceIn')
       }
@@ -205,7 +213,7 @@ export default {
         // 更新答题信息并显示答题结果的弹出层
         this.answerInformation = new AnswerInformation(data.situation, data.spendTime)
         this.showModal('answerResultModal')
-        this.updateSourceSudokuData(data.matrix)
+        this.sourceSudokuData = data.matrix
         this.updateGameFinish(true)
       }
     },

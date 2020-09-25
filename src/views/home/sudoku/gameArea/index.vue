@@ -66,6 +66,14 @@ export default {
     sudokuData: {
       type: Array,
       required: true
+    },
+    sourceSudokuData: {
+      type: Array,
+      required: true
+    },
+    holesData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -85,8 +93,6 @@ export default {
   },
   computed: {
     ...mapState({
-      sourceSudokuData: state => state.sudoku.sourceSudokuData,
-      holesData: state => state.sudoku.holesData,
       gameFinish: state => state.sudoku.gameFinish,
       positionTips: state => state.sudoku.positionTips,
       clickMode: state => state.sudoku.clickMode,
@@ -119,7 +125,6 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'responseSetSudokuData',
       'updateSudokuInput'
     ]),
     /**
@@ -147,7 +152,7 @@ export default {
      * @param value 值
      */
     inputSudokuNumber(i, j, value) {
-      this.responseSetSudokuData(new SudokuMatrixGrid(i, j, value))
+      responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(i, j, value))
     },
     /**
      * 从数独选择框中选择数字

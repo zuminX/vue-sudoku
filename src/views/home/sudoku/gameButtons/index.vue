@@ -52,6 +52,10 @@ export default {
     sudokuData: {
       type: Array,
       required: true
+    },
+    holesData: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -62,7 +66,6 @@ export default {
   },
   computed: {
     ...mapState({
-      holesData: state => state.sudoku.holesData,
       recordMode: state => state.sudoku.recordMode,
       serialNumber: state => state.sudoku.serialNumber,
       sudokuInput: state => state.sudoku.sudokuInput

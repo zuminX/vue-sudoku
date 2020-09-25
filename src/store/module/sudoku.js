@@ -1,4 +1,3 @@
-import { responseSetTwoDimensionalArray } from '@/utils/publicUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 
 const state = {
@@ -7,9 +6,6 @@ const state = {
   clickMode: true,
   gameModel: 0,
   recordMode: false,
-  // 游戏数据
-  sourceSudokuData: [],
-  holesData: [],
   // 游戏当前状态
   gameFinish: true,
   // 选择的数独数
@@ -32,12 +28,6 @@ const mutations = {
   },
   updateRecordMode(state, recordMode) {
     state.recordMode = recordMode
-  },
-  updateSourceSudokuData(state, sourceSudokuData) {
-    state.sourceSudokuData = sourceSudokuData
-  },
-  updateHolesData(state, holesData) {
-    state.holesData = holesData
   },
   updateGameFinish(state, gameFinish) {
     state.gameFinish = gameFinish
