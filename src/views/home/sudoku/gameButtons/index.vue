@@ -35,9 +35,11 @@
 </template>
 
 <script>
-import { animateCSS } from '@/utils/publicUtils'
 import {
-  mapMutations,
+  animateCSS,
+  responseSetTwoDimensionalArray
+} from '@/utils/publicUtils'
+import {
   mapState
 } from 'vuex'
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
@@ -46,6 +48,12 @@ import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 
 export default {
   name: 'SudokuGameButtons',
+  props: {
+    sudokuData: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       preSudokuData: null,
@@ -54,7 +62,6 @@ export default {
   },
   computed: {
     ...mapState({
-      sudokuData: state => state.sudoku.sudokuData,
       holesData: state => state.sudoku.holesData,
       recordMode: state => state.sudoku.recordMode,
       serialNumber: state => state.sudoku.serialNumber,
@@ -84,10 +91,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'updateSudokuData',
-      'responseSetSudokuData'
-    ]),
     /**
      * 重置玩家填写的数独数据
      */
@@ -98,13 +101,13 @@ export default {
           newSudokuData[i][j] = isNotHole(this.holesData, i, j) ? this.sudokuData[i][j] : null
         }
       }
-      this.updateSudokuData(newSudokuData)
+      this.$emit('update:sudokuData', newSudokuData)
     },
     /**
      * 回滚玩家填写的数独数据
      */
     rollbackSudokuData() {
-      this.responseSetSudokuData(this.changeSudokuData.pop())
+      responseSetTwoDimensionalArray(this.sudokuData, this.changeSudokuData.pop())
     },
     /**
      * 触发提示按钮的动画

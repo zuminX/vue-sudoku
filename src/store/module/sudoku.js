@@ -8,7 +8,6 @@ const state = {
   gameModel: 0,
   recordMode: false,
   // 游戏数据
-  sudokuData: [],
   sourceSudokuData: [],
   holesData: [],
   // 游戏当前状态
@@ -33,12 +32,6 @@ const mutations = {
   },
   updateRecordMode(state, recordMode) {
     state.recordMode = recordMode
-  },
-  updateSudokuData(state, sudokuData) {
-    state.sudokuData = sudokuData
-  },
-  responseSetSudokuData(state, sudokuMatrixGrid) {
-    responseSetTwoDimensionalArray(state.sudokuData, sudokuMatrixGrid)
   },
   updateSourceSudokuData(state, sourceSudokuData) {
     state.sourceSudokuData = sourceSudokuData

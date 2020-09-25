@@ -25,7 +25,7 @@
           <div class="ui placeholder sudoku-placeholder" />
         </div>
         <!--数独区域-->
-        <SudokuGameArea v-else ref="sudokuGameArea" :show-right-answer="showRightAnswer" />
+        <SudokuGameArea v-else ref="sudokuGameArea" :show-right-answer="showRightAnswer" :sudoku-data="sudokuData" />
       </div>
 
       <!--按钮区域-->
@@ -37,6 +37,7 @@
           <SudokuGameButtons
             v-else-if="!gameFinish"
             ref="sudokuGameButtons"
+            :sudoku-data.sync="sudokuData"
             @clickSubmit="submitSudokuData"
             @clickTips="showTips"
           />
@@ -78,6 +79,7 @@
 <script>
 import {
   animateCSS,
+  responseSetTwoDimensionalArray,
   showModal,
   showSidebar,
   showWarnToast
@@ -123,14 +125,14 @@ export default {
         sudokuDataUp: false
       },
       answerInformation: new AnswerInformation(),
-      showRightAnswer: false
+      showRightAnswer: false,
+      sudokuData: [[]]
     }
   },
   computed: {
     ...mapState({
       gameModel: state => state.sudoku.gameModel,
       gameFinish: state => state.sudoku.gameFinish,
-      sudokuData: state => state.sudoku.sudokuData,
       recordMode: state => state.sudoku.recordMode
     })
   },
@@ -145,11 +147,9 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'updateSudokuData',
       'updateSourceSudokuData',
       'updateHolesData',
       'updateGameFinish',
-      'responseSetSudokuData',
       'updateSerialNumber'
     ]),
     showModal,
@@ -164,11 +164,11 @@ export default {
       if (success) {
         hideSudokuZeroData(data.matrix, data.holes)
 
-        this.updateSudokuData(data.matrix)
         this.updateHolesData(data.holes)
         this.updateGameFinish(false)
         this.updateSerialNumber()
         this.showRightAnswer = false
+        this.sudokuData = data.matrix
 
         await animateCSS('#sudokuArea', 'bounceIn')
       }
@@ -190,7 +190,8 @@ export default {
         const { row, column } = data
         // 根据填写是否正确，显示不同的动画
         this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? 'shakeX' : 'flash', row, column)
-        this.responseSetSudokuData(new SudokuMatrixGrid(row, column, data.value))
+        // 将提示的数字填入数独数据中
+        responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(row, column, data.value))
       }
     },
     /**

@@ -39,7 +39,10 @@ import {
   mapMutations,
   mapState
 } from 'vuex'
-import { animateCSS } from '@/utils/publicUtils'
+import {
+  animateCSS,
+  responseSetTwoDimensionalArray
+} from '@/utils/publicUtils'
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 import { ClickPosition } from '@/model/ClickPosition'
@@ -58,6 +61,10 @@ export default {
   props: {
     showRightAnswer: {
       type: Boolean,
+      required: true
+    },
+    sudokuData: {
+      type: Array,
       required: true
     }
   },
@@ -78,7 +85,6 @@ export default {
   },
   computed: {
     ...mapState({
-      sudokuData: state => state.sudoku.sudokuData,
       sourceSudokuData: state => state.sudoku.sourceSudokuData,
       holesData: state => state.sudoku.holesData,
       gameFinish: state => state.sudoku.gameFinish,
@@ -150,7 +156,7 @@ export default {
     selectSudokuNumber(number) {
       const { row, column } = this.clickPosition
       // 将选择的数字填入数独数据中
-      this.responseSetSudokuData(new SudokuMatrixGrid(row, column, number))
+      responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(row, column, number))
       this.hideSudokuNumber()
     },
     /**
