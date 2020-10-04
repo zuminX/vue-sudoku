@@ -5,7 +5,7 @@ import Vue from 'vue'
  * @param selector ID选择器
  */
 export const showModal = (selector) => {
-  $(`#${selector}`).modal('show')
+  $(`#${selector}`).modal('setting', 'closable', false).modal('show')
 }
 
 /**
@@ -141,4 +141,13 @@ export const showErrorToast = ({ message, displayTime = 5, position = 'top cente
       displayTime: displayTime * 1000,
       message
     })
+}
+
+/**
+ * 深拷贝数据
+ * @param data 数据
+ * @returns {string} 拷贝数据
+ */
+export const deepClone = (data) => {
+  return JSON.parse(JSON.stringify(data))
 }

@@ -15,6 +15,24 @@ export const getTwoDimeBoolArray = (row = 9, column = 9) => {
 }
 
 /**
+ * 判断角色名列表中是否包含管理员
+ * @param roleNameList 角色名列表
+ * @returns {boolean} 包含则返回true，否则返回false
+ */
+export const roleNameListHasAdmin = (roleNameList) => {
+  return roleNameList.find(roleName => roleNameHasAdmin(roleName))
+}
+
+/**
+ * 判断角色名是否为管理员
+ * @param roleName 角色名
+ * @returns {boolean} 是则返回true，否则返回false
+ */
+export const roleNameHasAdmin = (roleName) => {
+  return roleName === 'ROLE_ADMIN'
+}
+
+/**
  * 获取二维数组
  * @param row 行
  * @param column 列
@@ -31,4 +49,3 @@ const getTwoDimeArray = (row, column, initData) => {
   }
   return result
 }
-

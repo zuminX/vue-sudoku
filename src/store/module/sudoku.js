@@ -14,8 +14,6 @@ const state = {
   serialNumber: 0
 }
 
-const getters = {}
-
 const mutations = {
   updatePositionTips(state, positionTips) {
     state.positionTips = positionTips
@@ -43,7 +41,6 @@ const mutations = {
 const action = {}
 
 export default {
-  getters,
   state,
   mutations,
   action,

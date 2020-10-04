@@ -1,28 +1,32 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+    <el-col
+      v-for="(cardData, key) in cardDataList"
+      :key="key"
+      :lg="6"
+      :sm="12"
+      :xs="12"
+      class="card-panel-col"
+    >
+      <div
+        :class="{'select-border-color' : cardData.dataName===selectDataName}"
+        class="card-panel"
+        @click="handleSetLineChartData(cardData.dataName)"
+      >
+        <div :class="'icon-'+cardData.dataName" class="card-panel-icon-wrapper">
+          <svg-icon :icon-class="cardData.iconClass" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            用户总数
+            {{ cardData.description }}
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="chart" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            数独生成总数
-          </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to
+            v-if="totals[cardData.dataName] !== -1"
+            :duration="2600"
+            :end-val="totals[cardData.dataName]"
+            :start-val="0"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
@@ -31,13 +35,50 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import {
+  getGameTotal,
+  getUserTotal
+} from '@/api/statisticsApi'
 
 export default {
   components: {
     CountTo
   },
+  data() {
+    return {
+      cardDataList: [{
+        dataName: 'newUserTotal',
+        iconClass: 'peoples',
+        description: '用户总数'
+      }, {
+        dataName: 'sudokuGameTotal',
+        iconClass: 'chart',
+        description: '数据游戏总数'
+      }, {
+        dataName: 'activeUserTotal',
+        iconClass: 'peoples',
+        description: '活跃用户数'
+      }],
+      selectDataName: 'newUserTotal',
+      totals: {
+        newUserTotal: 0,
+        sudokuGameTotal: 0,
+        activeUserTotal: -1
+      }
+    }
+  },
+  async mounted() {
+    const [requestUserTotal, requestGameTotal] = await Promise.all([getUserTotal(), getGameTotal()])
+    if (requestUserTotal.success) {
+      this.totals.newUserTotal = requestUserTotal.data
+    }
+    if (requestGameTotal.success) {
+      this.totals.sudokuGameTotal = requestGameTotal.data
+    }
+  },
   methods: {
     handleSetLineChartData(type) {
+      this.selectDataName = type
       this.$emit('handleSetLineChartData', type)
     }
   }
@@ -45,6 +86,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.select-border-color {
+  border-color: #62c1fc !important;
+}
+
 .panel-group {
   margin-top: 18px;
 
@@ -61,44 +106,36 @@ export default {
     color: #666;
     background: #fff;
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    border: 1px solid rgba(0, 0, 0, .05);
 
     &:hover {
       .card-panel-icon-wrapper {
         color: #fff;
       }
 
-      .icon-people {
+      .icon-newUserTotal {
         background: #40c9c6;
       }
 
-      .icon-message {
+      .icon-sudokuGameTotal {
         background: #36a3f7;
       }
 
-      .icon-money {
+      .icon-activeUserTotal {
         background: #f4516c;
-      }
-
-      .icon-shopping {
-        background: #34bfa3
       }
     }
 
-    .icon-people {
+    .icon-newUserTotal {
       color: #40c9c6;
     }
 
-    .icon-message {
+    .icon-sudokuGameTotal {
       color: #36a3f7;
     }
 
-    .icon-money {
+    .icon-activeUserTotal {
       color: #f4516c;
-    }
-
-    .icon-shopping {
-      color: #34bfa3
     }
 
     .card-panel-icon-wrapper {
@@ -117,8 +154,7 @@ export default {
     .card-panel-description {
       float: right;
       font-weight: bold;
-      margin: 26px;
-      margin-left: 0px;
+      margin: 26px 26px 26px 0;
 
       .card-panel-text {
         line-height: 18px;
@@ -134,7 +170,7 @@ export default {
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }

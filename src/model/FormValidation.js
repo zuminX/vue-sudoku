@@ -29,68 +29,73 @@ export class FormValidation {
   }
 
   /**
+   * 非空规则
+   * @param fieldName 字段名
+   */
+  static notEmptyRule(fieldName) {
+    return this._getTypeAndPrompt('empty', `${fieldName}不能为空`)
+  }
+
+  /**
    * 用户校验规则
    */
   static get usernameRules() {
-    return [
-      {
-        type: 'minLength[4]',
-        prompt: '用户名的长度不能小于4位'
-      },
-      {
-        type: 'maxLength[16]',
-        prompt: '用户名的长度不能大于16位'
-      }
-    ]
+    return this._getRules([
+      this._getTypeAndPrompt('minLength[4]', '用户名的长度不能小于4位'),
+      this._getTypeAndPrompt('maxLength[16]', '用户名的长度不能大于16位')
+    ])
   }
 
   /**
    * 密码校验规则
    */
   static get passwordRules() {
-    return [
-      {
-        type: 'minLength[6]',
-        prompt: '密码的长度不能小于6位'
-      },
-      {
-        type: 'maxLength[32]',
-        prompt: '密码的长度不能大于32位'
-      }
-    ]
+    return this._getRules([
+      this._getTypeAndPrompt('minLength[6]', '密码的长度不能小于6位'),
+      this._getTypeAndPrompt('maxLength[32]', '密码的长度不能大于32位')
+    ])
   }
 
   static get repeatPasswordRules() {
-    return [
-      {
-        type: 'match[password]',
-        prompt: '重复输入的密码与密码不一致'
-      }
-    ]
+    return this._getRules([
+      this._getTypeAndPrompt('match[password]', '重复输入的密码与密码不一致')
+    ])
   }
 
   static get nicknameRules() {
-    return [
-      {
-        type: 'minLength[4]',
-        prompt: '昵称的长度不能小于4位'
-      },
-      {
-        type: 'maxLength[32]',
-        prompt: '昵称的长度不能大于32位'
-      }
-    ]
+    return this._getRules([
+      this._getTypeAndPrompt('minLength[4]', '昵称的长度不能小于4位'),
+      this._getTypeAndPrompt('maxLength[32]', '昵称的长度不能大于32位')
+    ])
   }
 
   /**
    * 验证码校验规则
    */
   static get captchaRules() {
-    return [
-      {
-        type: 'exactLength[4]',
-        prompt: '验证码的长度必须为4位'
-      }
-    ]
+    return this._getRules([
+      this._getTypeAndPrompt('exactLength[4]', '验证码的长度必须为4位')
+    ])
+  }
+
+  /**
+   * 获取rules对象
+   * @param rules 校验规则
+   * @returns {{rules: *[]}} rules对象
+   * @private
+   */
+  static _getRules(rules = []) {
+    return { rules }
+  }
+
+  /**
+   * 获取校验类型和校验失败时的提示
+   * @param type 校验类型
+   * @param prompt 校验失败时的提示
+   * @returns {{type: String, prompt: String}} 包含type和prompt属性的对象
+   * @private
+   */
+  static _getTypeAndPrompt(type, prompt) {
+    return { type, prompt }
   }
 }

@@ -1,9 +1,6 @@
 <template>
   <div class="scrolling content">
-    <div id="historyTable" class="ui segment">
-      <div class="ui inverted dimmer">
-        <div class="ui text loader">加载中</div>
-      </div>
+    <Loader id="historyTable" :show="loaderShow" class="ui segment" loader-id="historyTable">
       <table class="ui celled padded table">
         <thead ref="tableHead">
           <tr class="center aligned">
@@ -46,30 +43,18 @@
         <tfoot>
           <tr>
             <th class="center aligned" colspan="5">
-              <div class="ui pagination menu">
-                <el-pagination
-                  :current-page.sync="currentPage"
-                  :page-count="totalPage"
-                  :page-size="pageSize"
-                  :page-sizes="[1, 5, 10, 20]"
-                  background
-                  layout="total, sizes, prev, pager, next, jumper"
-                  @current-change="updateCurrentPageData"
-                  @size-change="handleSizeChange"
-                />
-              </div>
+              <PaginationMenu :page-information="pageInformation" @currentChange="updateCurrentPageData" />
             </th>
           </tr>
         </tfoot>
       </table>
-    </div>
+    </Loader>
   </div>
 </template>
 
 <script>
 import { getHistoryGameRecord } from '@/api/userApi'
 import {
-  mapMutations,
   mapState
 } from 'vuex'
 import {
@@ -77,15 +62,18 @@ import {
   convertToSudokuMatrix
 } from '@/utils/sudokuUtils'
 import { formatData } from '@/utils/publicUtils'
+import PaginationMenu from '@/components/PaginationMenu/index'
+import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
+import Loader from '@/components/Loader/index'
 
 export default {
   name: 'HistoryRecordModalContent',
+  components: { Loader, PaginationMenu },
   data() {
     return {
-      currentPage: 1,
-      pageSize: 5,
-      totalPage: 0,
-      recordData: []
+      pageInformation: getDefaultPageInformation(),
+      recordData: [],
+      loaderShow: false
     }
   },
   computed: {
@@ -122,35 +110,17 @@ export default {
     /**
      * 更新当前页的数据
      * @param page 页数
+     * @param pageSize 每条条数
      */
-    async updateCurrentPageData(page = 1) {
-      this.changeTableDimmer(true)
-      const { success, data } = await getHistoryGameRecord(page, this.pageSize)
-      this.changeTableDimmer(false)
+    async updateCurrentPageData(page = 1, pageSize = 5) {
+      this.loaderShow = true
+      const { success, data } = await getHistoryGameRecord(page, pageSize)
+      this.loaderShow = false
       if (success) {
         this.recordData = this.convertGameRecordToMatrix(data.list)
-        const pageInformation = data.pageInformation
-        this.currentPage = pageInformation.currentPage
-        this.totalPage = pageInformation.totalPage
-        this.pageSize = pageInformation.pageSize
-
+        this.pageInformation = data.pageInformation
         this.scrollToHeader()
       }
-    },
-    /**
-     * 处理每页条数的改变
-     * @param pageSize 每页条数
-     */
-    handleSizeChange(pageSize) {
-      this.pageSize = pageSize
-      this.updateCurrentPageData()
-    },
-    /**
-     * 控制历史记录表的调光器的显示状态
-     * @param show 显示
-     */
-    changeTableDimmer(show) {
-      $('#historyTable').dimmer(show ? 'show' : 'hide')
     },
     /**
      * 滚动到头部

@@ -83,7 +83,7 @@ export default {
      * 跳转到登陆页面
      */
     jumpToLogin() {
-      this.$router.replace('/')
+      this.$router.replace('/login')
     },
     /**
      * 提交表单，进行注册
@@ -107,21 +107,11 @@ export default {
      */
     initRegisterForm() {
       FormValidation.init('registerForm', {
-        username: {
-          rules: FormValidation.usernameRules
-        },
-        password: {
-          rules: FormValidation.passwordRules
-        },
-        repeatPassword: {
-          rules: FormValidation.repeatPasswordRules
-        },
-        nickname: {
-          rules: FormValidation.nicknameRules
-        },
-        code: {
-          rules: FormValidation.captchaRules
-        }
+        username: FormValidation.usernameRules,
+        password: FormValidation.passwordRules,
+        repeatPassword: FormValidation.repeatPasswordRules,
+        nickname: FormValidation.nicknameRules,
+        code: FormValidation.captchaRules
       })
     },
     /**

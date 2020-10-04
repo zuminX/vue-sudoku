@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="ui segment">
-      <p>用户名：{{ currentUser.username }}</p>
-      <p>昵称：{{ currentUser.nickname }}</p>
+      <p>用户名：{{ user.username }}</p>
+      <p>昵称：{{ user.nickname }}</p>
     </div>
     <div class="ui top attached tabular menu">
       <a class="item active" data-tab="-1">总览</a>
@@ -108,6 +108,7 @@ import {
   initMenuItem
 } from '@/utils/publicUtils'
 import {
+  mapGetters,
   mapState
 } from 'vuex'
 
@@ -129,10 +130,10 @@ export default {
   },
   computed: {
     ...mapState({
-      currentUser: state => state.currentUser,
       gameFinish: state => state.sudoku.gameFinish,
       recordMode: state => state.sudoku.recordMode
-    })
+    }),
+    ...mapGetters(['user'])
   },
   watch: {
     // 监听游戏的结束，用以更新用户游戏信息

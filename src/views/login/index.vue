@@ -32,11 +32,11 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import { login } from '@/api/securityApi'
-import { setData } from '@/utils/sessionStorageUtils'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 
@@ -76,11 +76,9 @@ export default {
       if (FormValidation.validateForm('loginForm')) {
         const { success, data } = await login(this.loginForm)
         if (success) {
-          const user = data.user
-          this.$store.commit('INIT_CURRENT_USER', user)
-          setData('user', JSON.stringify(user))
-          setData('token', data.token)
-          await this.$router.replace('/home')
+          this.$store.commit('SET_USER', data.user)
+          this.$store.commit('SET_TOKEN', data.token)
+          await this.$router.push({ path: '/' })
         } else {
           this.refreshCaptcha()
         }
@@ -100,15 +98,9 @@ export default {
      */
     initLoginForm() {
       FormValidation.init('loginForm', {
-        username: {
-          rules: FormValidation.usernameRules
-        },
-        password: {
-          rules: FormValidation.passwordRules
-        },
-        code: {
-          rules: FormValidation.captchaRules
-        }
+        username: FormValidation.usernameRules,
+        password: FormValidation.passwordRules,
+        code: FormValidation.captchaRules
       })
     },
     /**

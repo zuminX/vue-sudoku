@@ -1,7 +1,7 @@
 <template>
   <div class="image content">
     <div class="ui big image">
-      <img src="../../../../../../assets/images/sudoku-cover.jpg">
+      <img src="../../../../../../assets/images/sudoku/sudoku-cover.jpg">
     </div>
     <div class="description">
       <p>

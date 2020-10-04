@@ -45,6 +45,7 @@ import {
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { isNotHole } from '@/utils/sudokuUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
+import { deepClone } from '@/utils'
 
 export default {
   name: 'SudokuGameButtons',
@@ -78,7 +79,7 @@ export default {
     // 监听游戏的序列数，以在新的一局开始时清空数据
     serialNumber: {
       handler() {
-        this.preSudokuData = JSON.parse(JSON.stringify(this.sudokuData))
+        this.preSudokuData = deepClone(this.sudokuData)
         this.changeSudokuData = []
       },
       immediate: true

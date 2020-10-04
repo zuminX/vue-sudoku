@@ -1,4 +1,7 @@
-import { getRequest, postRequest } from './basicApi'
+import {
+  getRequest,
+  postRequest
+} from './basicApi'
 
 /**
  * 用户API的基地址
@@ -22,7 +25,36 @@ export const getUserGameInformation = () => {
 
 /**
  * 获取历史游戏记录
+ *
+ * @param page 当前查询页
+ * @param pageSize 每页显示的条数
  */
 export const getHistoryGameRecord = (page, pageSize) => {
   return getRequest(`${base}/historyGameRecord`, { page, pageSize })
+}
+
+/**
+ * 获取系统的用户
+ *
+ * @param page 当前查询页
+ * @param pageSize 每页显示的条数
+ */
+export const getUserList = (page, pageSize) => {
+  return getRequest(`${base}/userList`, { page, pageSize })
+}
+
+/**
+ * 修改用户
+ * @param modifyUserForm 修改用户表单
+ */
+export const modifyUser = (modifyUserForm) => {
+  return postRequest(`${base}/modifyUser`, modifyUserForm)
+}
+
+/**
+ * 新增用户
+ * @param addUserForm 新增用户表单
+ */
+export const addUser = (addUserForm) => {
+  return postRequest(`${base}/addUser`, addUserForm)
 }

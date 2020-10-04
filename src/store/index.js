@@ -3,27 +3,19 @@ import Vuex from 'vuex'
 import sudoku from './module/sudoku'
 import app from './module/app'
 import settings from './module/settings'
-import { getData } from '@/utils/sessionStorageUtils'
+import user from '@/store/module/user'
+import getters from './getters'
+import permission from '@/store/module/permission'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    currentUser: JSON.parse(getData('user'))
-  },
-  mutations: {
-    INIT_CURRENT_USER(state, user) {
-      state.currentUser = user
-    }
-  },
-  getters: {
-    sidebar: state => state.app.sidebar,
-    device: state => state.app.device
-  },
-  actions: {},
   modules: {
     sudoku,
     app,
-    settings
-  }
+    settings,
+    user,
+    permission
+  },
+  getters
 })

@@ -1,5 +1,5 @@
 <template>
-  <div id="root" class="fullHeight">
+  <div id="root" class="pushable">
 
     <Sidebar />
 
@@ -152,7 +152,6 @@ export default {
   },
   mounted() {
     this.initSudokuData()
-    this.initSidebar()
     this.changeMenuNameVisible()
   },
   methods: {
@@ -248,14 +247,6 @@ export default {
       $('.tip-popup').popup()
     },
     /**
-     * 初始化侧边栏
-     */
-    initSidebar() {
-      $('.ui.sidebar').sidebar({
-        context: $('#root')
-      }).sidebar('setting', 'transition', 'overlay')
-    },
-    /**
      * 初始化下拉选
      */
     initDropdown() {
@@ -275,5 +266,13 @@ export default {
 .sudoku-placeholder {
   height: 450px;
   width: 450px;
+}
+
+/*
+  临时修复显示不出滚动条且无法滚动的问题
+  与Semantic的侧边栏有关
+*/
+#root {
+  height: 1100px !important;
 }
 </style>

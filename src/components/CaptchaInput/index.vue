@@ -36,15 +36,23 @@ export default {
   },
   methods: {
     async getCaptchaImage() {
-      this.$emit('update:uuid', '')
-      this.input = ''
-      this.$refs.captchaInput.focus()
+      this.focusIfRefreshOldCaptcha()
+      this.clearInput()
 
       const { success, data } = await captchaImage()
       if (success) {
         this.captchaBaseUrl = `data:image/gif;base64,${data.captchaBase64}`
         this.$emit('update:uuid', data.uuid)
       }
+    },
+    focusIfRefreshOldCaptcha() {
+      if (this.uuid !== '') {
+        this.$refs.captchaInput.focus()
+      }
+    },
+    clearInput() {
+      this.$emit('update:uuid', '')
+      this.input = ''
     }
   }
 }

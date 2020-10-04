@@ -62,7 +62,7 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ dayData, monthData } = {}) {
+    setOptions({ daily, eachMonth } = {}) {
       this.chart.setOption({
         xAxis: {
           data: ['Seventh', 'Sixth', 'Fifth', 'Fourth', 'Third', 'Second', 'First'],
@@ -109,7 +109,7 @@ export default {
               }
             }
           },
-          data: dayData,
+          data: daily,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         }, {
@@ -125,7 +125,7 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: monthData,
+          data: eachMonth,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         }]
