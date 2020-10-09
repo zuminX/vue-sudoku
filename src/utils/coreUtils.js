@@ -15,12 +15,12 @@ export const getTwoDimeBoolArray = (row = 9, column = 9) => {
 }
 
 /**
- * 判断角色名列表中是否包含管理员
- * @param roleNameList 角色名列表
+ * 判断角色列表中是否包含管理员
+ * @param roleList 角色列表
  * @returns {boolean} 包含则返回true，否则返回false
  */
-export const roleNameListHasAdmin = (roleNameList) => {
-  return roleNameList.find(roleName => roleNameHasAdmin(roleName))
+export const roleListHasAdmin = (roleList) => {
+  return (roleList.map(role => role.name)).includes('ROLE_ADMIN')
 }
 
 /**

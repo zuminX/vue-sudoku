@@ -7,12 +7,28 @@
 </template>
 
 <script>
+import { FormValidation } from '@/model/FormValidation'
+
 export default {
   name: 'Modal',
   props: {
     modalId: {
       type: String,
       required: true
+    },
+    formId: {
+      type: String,
+      default: ''
+    }
+  },
+  mounted() {
+    if (this.formId !== '') {
+      $(`#${this.modalId}`).modal({
+        closable: false,
+        onApprove: () => {
+          return FormValidation.validateForm(this.formId)
+        }
+      })
     }
   }
 }

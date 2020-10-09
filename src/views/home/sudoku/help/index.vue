@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { showModal } from '@/utils/publicUtils'
 import SudokuInformationModal from './informationModal/index'
+import { showModal } from '@/components/Modal/Modal'
 
 export default {
   name: 'SudokuHelp',

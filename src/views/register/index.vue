@@ -5,44 +5,41 @@
         注册你的账户
       </h2>
 
-      <form id="registerForm" class="ui large form">
-        <div class="ui stacked segment">
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon" />
-              <input v-model="registerForm.username" name="username" placeholder="用户名" type="text">
-            </div>
+      <Form form-id="registerForm" :validate-rule="validateRule()" class="large">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon" />
+            <input v-model="registerForm.username" name="username" placeholder="用户名" type="text">
           </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon" />
-              <input v-model="registerForm.password" name="password" placeholder="密码" type="password">
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="blue lock icon" />
-              <input v-model="registerForm.repeatPassword" name="repeatPassword" placeholder="重复输入密码" type="password">
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="green user icon" />
-              <input v-model="registerForm.nickname" name="nickname" placeholder="昵称" type="text">
-            </div>
-          </div>
-          <div class="field">
-            <CaptchaInput
-              ref="registerCaptcha"
-              v-model="registerForm.code"
-              :code="registerForm.code"
-              :uuid.sync="registerForm.uuid"
-            />
-          </div>
-          <div class="ui fluid large teal button" @click="submitRegister">注册</div>
         </div>
-        <div class="ui error message" />
-      </form>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon" />
+            <input v-model="registerForm.password" name="password" placeholder="密码" type="password">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="blue lock icon" />
+            <input v-model="registerForm.repeatPassword" name="repeatPassword" placeholder="重复输入密码" type="password">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="green user icon" />
+            <input v-model="registerForm.nickname" name="nickname" placeholder="昵称" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <CaptchaInput
+            ref="registerCaptcha"
+            v-model="registerForm.code"
+            :code="registerForm.code"
+            :uuid.sync="registerForm.uuid"
+          />
+        </div>
+        <div class="ui fluid large teal button" @click="submitRegister">注册</div>
+      </Form>
 
       <div class="ui message">
         已有账户? <a href="javascript:void(0)" @click="jumpToLogin">登录</a>
@@ -56,10 +53,11 @@ import { register } from '@/api/userApi'
 import { showSuccessToast } from '@/utils/publicUtils'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
+import Form from '@/components/Form/index'
 
 export default {
   name: 'Register',
-  components: { CaptchaInput },
+  components: { Form, CaptchaInput },
   data() {
     return {
       registerForm: {
@@ -74,9 +72,6 @@ export default {
   },
   mounted() {
     this.refreshCaptcha()
-    this.$nextTick(() => {
-      this.initRegisterForm()
-    })
   },
   methods: {
     /**
@@ -103,22 +98,22 @@ export default {
       }
     },
     /**
-     * 加载注册表单验证规则
+     * 刷新验证码
      */
-    initRegisterForm() {
-      FormValidation.init('registerForm', {
+    refreshCaptcha() {
+      this.$refs.registerCaptcha.getCaptchaImage()
+    },
+    /**
+     * 设置注册表单验证规则
+     */
+    validateRule() {
+      return {
         username: FormValidation.usernameRules,
         password: FormValidation.passwordRules,
         repeatPassword: FormValidation.repeatPasswordRules,
         nickname: FormValidation.nicknameRules,
         code: FormValidation.captchaRules
-      })
-    },
-    /**
-     * 刷新验证码
-     */
-    refreshCaptcha() {
-      this.$refs.registerCaptcha.getCaptchaImage()
+      }
     }
   }
 }

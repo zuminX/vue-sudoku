@@ -1,5 +1,4 @@
 // 禁止按钮短时间内重复点击
-
 export default {
   install(Vue) {
     Vue.directive('preventClick', {

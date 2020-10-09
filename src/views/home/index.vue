@@ -88,7 +88,6 @@
 import {
   animateCSS,
   responseSetTwoDimensionalArray,
-  showModal,
   showSidebar,
   showWarnToast
 } from '@/utils/publicUtils'
@@ -114,6 +113,7 @@ import {
   hasInput,
   hideSudokuZeroData
 } from '@/utils/sudokuUtils'
+import { showModal } from '@/components/Modal/Modal'
 
 export default {
   name: 'Home',

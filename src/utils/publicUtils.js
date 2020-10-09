@@ -1,14 +1,6 @@
 import Vue from 'vue'
 
 /**
- * 显示弹出层
- * @param selector ID选择器
- */
-export const showModal = (selector) => {
-  $(`#${selector}`).modal('setting', 'closable', false).modal('show')
-}
-
-/**
  * 显示侧边栏
  * @param selector ID选择器
  */
@@ -73,7 +65,7 @@ export const formatShowMS = (milliseconds) => {
  * @param data 数据
  * @returns {string} 格式化后的数据
  */
-export const formatData = (data) => {
+export const formatEmptyData = (data) => {
   return data || '----'
 }
 

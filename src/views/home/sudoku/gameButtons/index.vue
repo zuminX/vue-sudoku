@@ -45,7 +45,7 @@ import {
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { isNotHole } from '@/utils/sudokuUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
-import { deepClone } from '@/utils'
+import { deepClone } from '@/utils/tool'
 
 export default {
   name: 'SudokuGameButtons',

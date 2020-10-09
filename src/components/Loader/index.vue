@@ -8,16 +8,19 @@
 </template>
 
 <script>
+import { createUniqueString } from '@/utils/tool'
+
 export default {
   name: 'Loader',
   props: {
-    loaderId: {
-      type: String,
-      required: true
-    },
     show: {
       type: Boolean,
       required: true
+    }
+  },
+  data() {
+    return {
+      loaderId: this.createUniqueString()
     }
   },
   watch: {
@@ -26,6 +29,7 @@ export default {
     }
   },
   methods: {
+    createUniqueString,
     /**
        * 改变列表项的调光器的显示状态
        */

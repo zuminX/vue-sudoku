@@ -1,94 +1,95 @@
 <template>
-  <Modal modal-id="saveUserModal">
+  <Modal modal-id="saveUserModal" form-id="userForm">
     <template v-slot:header>
       <BasicModalHeader class="blue">
         修改用户
       </BasicModalHeader>
     </template>
     <BasicModalContent>
-      <form id="userForm" class="ui form">
-        <div class="ui stacked segment">
-          <div class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                用户名
-              </div>
-              <input id="username" v-model="userForm.username" name="name" type="text">
+      <Form form-id="userForm" :validate-rule="validateRule()">
+        <div class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              用户名
             </div>
+            <input id="username" v-model="form.username" name="name" type="text">
           </div>
-          <div v-if="isNew" class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                密码
-              </div>
-              <input id="password" v-model="userForm.password" name="password" type="text">
+        </div>
+        <div v-if="isNew" class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              密码
             </div>
+            <input id="password" v-model="form.password" name="password" type="text">
           </div>
-          <div class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                昵称
-              </div>
-              <input id="nickname" v-model="userForm.nickname" name="price" type="text">
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              昵称
             </div>
+            <input id="nickname" v-model="form.nickname" name="price" type="text">
           </div>
-          <div class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                创建时间
-              </div>
-              <input id="createTime" v-model="userForm.createTime" name="createTime" type="text">
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              创建时间
             </div>
+            <el-date-picker
+              v-model="form.createTime"
+              placeholder="选择创建的日期时间"
+              type="datetime"
+            />
           </div>
-          <div class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                最近登录时间
-              </div>
-              <input
-                id="recentLoginTime"
-                v-model="userForm.recentLoginTime"
-                name="recentLoginTime"
-                placeholder="用户最近登录系统的时间"
-                type="text"
-              >
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              最近登录时间
             </div>
+            <el-date-picker
+              v-model="form.recentLoginTime"
+              placeholder="选择用户最近登录系统的时间"
+              type="datetime"
+            />
           </div>
-          <div class="field">
-            <div class="ui left labeled input">
-              <div class="ui label">
-                角色
-              </div>
-              <div class="ui clearable multiple selection dropdown">
-                <input id="roleNameList" v-model="userForm.roleNameList" type="hidden" name="roleNameList">
-                <i class="dropdown icon" />
-                <div class="default text">选择角色</div>
-                <div class="menu">
-                  <div
-                    v-for="(role, i) in roleList"
-                    :key="i"
-                    class="item"
-                    :class="[roleNameHasAdmin(role.name) ? 'disabled' : '']"
-                  >
-                    {{ role.nameZh }}
-                  </div>
+        </div>
+        <div class="field">
+          <div class="ui left labeled input">
+            <div class="ui label">
+              角色
+            </div>
+            <div id="roleDropdown" class="ui clearable multiple selection dropdown">
+              <input id="roleNameList" name="roleNameList" type="hidden" @change="changeRoleNameList($event.target.value)">
+              <i class="dropdown icon" />
+              <div class="default text">选择角色</div>
+              <div class="menu">
+                <div
+                  v-for="(role, i) in roleList"
+                  :key="i"
+                  :class="[roleNameHasAdmin(role.name) ? 'disabled' : '']"
+                  :data-text="role.nameZh"
+                  :data-value="role.name"
+                  class="item"
+                >
+                  {{ role.nameZh }}
                 </div>
               </div>
             </div>
           </div>
-          <div class="field">
-            <div class="ui toggle checkbox m-padded-tb tip-popup">
-              <input id="enabled" v-model="userForm.enabled" data-content="是否让该用户可以登录系统" type="checkbox">
-              <label for="enabled">是否启用</label>
-            </div>
+        </div>
+        <div class="field">
+          <div class="ui toggle checkbox m-padded-tb tip-popup">
+            <input id="enabled" v-model="form.enabled" data-content="是否让该用户可以登录系统" type="checkbox">
+            <label for="enabled">是否启用</label>
           </div>
         </div>
-        <div class="ui error message" />
         <input id="id" type="hidden">
-      </form>
+      </Form>
     </BasicModalContent>
     <template v-slot:actions>
-      <OkOrCancelModalActions @clickCheck="saveUser()" />
+      <OkOrCancelModalActions @clickCheck="saveUser" />
     </template>
   </Modal>
 </template>
@@ -98,7 +99,7 @@ import Modal from '@/components/Modal/index'
 import BasicModalHeader from '@/components/Modal/header/BasicModalHeader'
 import BasicModalContent from '@/components/Modal/content/BasicModalContent'
 import OkOrCancelModalActions from '@/components/Modal/actions/OkOrCancelModalActions'
-import { deepClone } from '@/utils'
+import { deepClone } from '@/utils/tool'
 import { FormValidation } from '@/model/FormValidation'
 import {
   addUser,
@@ -109,10 +110,11 @@ import {
   constStore
 } from '@/store/constStore'
 import { roleNameHasAdmin } from '@/utils/coreUtils'
+import Form from '@/components/Form/index'
 
 export default {
   name: 'SaveUserModal',
-  components: { OkOrCancelModalActions, BasicModalContent, BasicModalHeader, Modal },
+  components: { Form, OkOrCancelModalActions, BasicModalContent, BasicModalHeader, Modal },
   props: {
     user: {
       type: Object,
@@ -121,52 +123,50 @@ export default {
   },
   data() {
     return {
-      userForm: this.getDefaultForm(),
+      form: this.getDefaultForm(),
       roleList: []
     }
   },
   computed: {
     isEdit() {
-      return this.userForm.id !== null
+      return this.form.id !== null
     },
     isNew() {
-      return this.userForm.id === null
+      return this.form.id === null
     }
   },
   watch: {
     user() {
-      this.userForm = this.user ? deepClone(this.user) : this.getDefaultForm()
+      if (this.user) {
+        this.form = deepClone(this.user)
+        this.form.createTime = new Date(this.form.createTime)
+        this.form.recentLoginTime = new Date(this.form.recentLoginTime)
+        const roleNameList = this.form.roleList.map(role => role.name)
+        this.initRoleDropdown(roleNameList)
+        delete this.form.roleList
+      } else {
+        this.form = this.getDefaultForm()
+      }
     }
   },
   async mounted() {
-    this.$nextTick(() => {
-      this.initUserForm()
-    })
     this.roleList = await constStore.getRoleNameList()
   },
   methods: {
     roleNameHasAdmin,
     async saveUser() {
       if (FormValidation.validateForm('userForm')) {
-        const userForm = deepClone(this.userForm)
-        if (this.isEdit) {
-          delete userForm.password
-          const { success } = await modifyUser(userForm)
-          if (success) {
-            showSuccessToast({
-              message: '修改用户成功'
-            })
-          }
-        } else {
-          delete userForm.id
-          const { success } = await addUser(userForm)
-          if (success) {
-            showSuccessToast({
-              message: '添加用户成功'
-            })
-          }
+        const userForm = deepClone(this.form)
+        const { success } = await (this.isEdit ? modifyUser(userForm) : addUser(userForm))
+        if (success) {
+          showSuccessToast({
+            message: this.isEdit ? '修改用户成功' : '添加用户成功'
+          })
         }
       }
+    },
+    changeRoleNameList(value) {
+      this.form.roleNameList = value.split(',')
     },
     getDefaultForm() {
       return {
@@ -174,23 +174,26 @@ export default {
         username: '',
         password: '',
         nickname: '',
-        createTime: null,
-        recentLoginTime: null,
-        roleNameList: [],
+        createTime: new Date(),
+        recentLoginTime: new Date(),
+        roleNameList: '',
         enabled: false
       }
     },
+    initRoleDropdown(roleNameList) {
+      $('#roleDropdown').dropdown('set selected', roleNameList)
+    },
     /**
-     * 加载用户表单验证规则
+     * 设置用户表单验证规则
      */
-    initUserForm() {
-      FormValidation.init('userForm', {
+    validateRule() {
+      return {
         username: FormValidation.usernameRules,
         nickname: FormValidation.nicknameRules,
         roleNameList: {
-          rules: [FormValidation.notEmptyRule('角色名')]
+          rules: [FormValidation.notEmptyRule('角色')]
         }
-      })
+      }
     }
   }
 }

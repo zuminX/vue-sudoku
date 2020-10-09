@@ -139,8 +139,13 @@ input::-webkit-inner-spin-button {
   padding-left: 5em !important;
 }
 
+/*左外边距*/
 .m-margin-l {
   margin-left: 0.5em !important;
+}
+
+.m-margin-l-big {
+  margin-left: 3em !important;
 }
 
 /*容器大小*/

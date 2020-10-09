@@ -48,6 +48,7 @@ export const getUserList = (page, pageSize) => {
  * @param modifyUserForm 修改用户表单
  */
 export const modifyUser = (modifyUserForm) => {
+  console.log(modifyUserForm)
   return postRequest(`${base}/modifyUser`, modifyUserForm)
 }
 
@@ -57,4 +58,28 @@ export const modifyUser = (modifyUserForm) => {
  */
 export const addUser = (addUserForm) => {
   return postRequest(`${base}/addUser`, addUserForm)
+}
+
+/**
+ * 根据条件搜索用户
+ *
+ * @param searchUser 搜索用户的条件
+ * @param page 当前查询页
+ * @param pageSize 每页显示的条数
+ */
+export const searchUser = (searchUser, page, pageSize) => {
+  searchUser.page = page
+  searchUser.pageSize = pageSize
+  return postRequest(`${base}/searchUser`, searchUser)
+}
+
+/**
+ * 根据名称搜索用户
+ *
+ * @param name 名称
+ * @param page 当前查询页
+ * @param pageSize 每页显示的条数
+ */
+export const searchUserByName = (name, page, pageSize) => {
+  return getRequest(`${base}/searchUserByName`, { name, page, pageSize })
 }

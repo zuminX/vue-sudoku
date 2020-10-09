@@ -42,7 +42,7 @@
 <script>
 import { getLeaderboardData } from '@/api/gameApi'
 import {
-  formatData,
+  formatEmptyData,
   initMenuItem
 } from '@/utils/publicUtils'
 
@@ -62,7 +62,7 @@ export default {
     initMenuItem('#context .menu .item', '#context')
   },
   methods: {
-    formatData,
+    formatData: formatEmptyData,
     /**
        * 交换显示的排行
        */

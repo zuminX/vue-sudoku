@@ -1,6 +1,6 @@
 <template>
   <div class="scrolling content">
-    <Loader id="historyTable" :show="loaderShow" class="ui segment" loader-id="historyTable">
+    <Loader id="historyTable" :show="loaderShow" class="ui segment">
       <table class="ui celled padded table">
         <thead ref="tableHead">
           <tr class="center aligned">
@@ -61,7 +61,7 @@ import {
   convertToSudokuHoles,
   convertToSudokuMatrix
 } from '@/utils/sudokuUtils'
-import { formatData } from '@/utils/publicUtils'
+import { formatEmptyData } from '@/utils/publicUtils'
 import PaginationMenu from '@/components/PaginationMenu/index'
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import Loader from '@/components/Loader/index'
@@ -94,7 +94,7 @@ export default {
     this.updateCurrentPageData()
   },
   methods: {
-    formatData,
+    formatData: formatEmptyData,
     /**
      * 转换游戏记录中的数独矩阵和空缺字符串为二维数组
      * @param recordData 游戏记录数据

@@ -5,27 +5,24 @@
         登录你的账户
       </h2>
 
-      <form id="loginForm" class="ui large form">
-        <div class="ui stacked segment">
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon" />
-              <input v-model="loginForm.username" name="username" placeholder="用户名" type="text">
-            </div>
+      <Form form-id="loginForm" class="large" :validate-rule="validateRule()">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon" />
+            <input v-model="loginForm.username" name="username" placeholder="用户名" type="text">
           </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon" />
-              <input v-model="loginForm.password" name="password" placeholder="密码" type="password">
-            </div>
-          </div>
-          <div class="field">
-            <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :uuid.sync="loginForm.uuid" />
-          </div>
-          <div class="ui fluid large teal button" @click="submitLogin">登录</div>
         </div>
-        <div class="ui error message" />
-      </form>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon" />
+            <input v-model="loginForm.password" name="password" placeholder="密码" type="password">
+          </div>
+        </div>
+        <div class="field">
+          <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :uuid.sync="loginForm.uuid" />
+        </div>
+        <div class="ui fluid large teal button" @click="submitLogin">登录</div>
+      </Form>
 
       <div class="ui message">
         还没有账户? <a href="javascript:void(0)" @click="jumpToRegister">注册</a>
@@ -39,10 +36,11 @@
 import { login } from '@/api/securityApi'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
+import Form from '@/components/Form/index'
 
 export default {
   name: 'Login',
-  components: { CaptchaInput },
+  components: { Form, CaptchaInput },
   data() {
     return {
       // 登陆表单
@@ -58,9 +56,6 @@ export default {
   mounted() {
     this.setUsername()
     this.refreshCaptcha()
-    this.$nextTick(() => {
-      this.initLoginForm()
-    })
   },
   methods: {
     /**
@@ -94,20 +89,20 @@ export default {
       }
     },
     /**
-     * 加载登录表单验证规则
-     */
-    initLoginForm() {
-      FormValidation.init('loginForm', {
-        username: FormValidation.usernameRules,
-        password: FormValidation.passwordRules,
-        code: FormValidation.captchaRules
-      })
-    },
-    /**
      * 刷新验证码
      */
     refreshCaptcha() {
       this.$refs.loginCaptcha.getCaptchaImage()
+    },
+    /**
+     * 设置登录表单验证规则
+     */
+    validateRule() {
+      return {
+        username: FormValidation.usernameRules,
+        password: FormValidation.passwordRules,
+        code: FormValidation.captchaRules
+      }
     }
   }
 }

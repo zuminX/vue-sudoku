@@ -3,6 +3,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Col,
+  DatePicker,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -27,6 +28,7 @@ Vue.use(Col)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Scrollbar)
+Vue.use(DatePicker)
 
 Vue.component(Message.name, Message)
 

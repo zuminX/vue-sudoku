@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import { showModal } from '@/utils/publicUtils'
 import UserInformationModal from './userInformation/index'
 import HistoryRecordModal from './historyRecord/index'
 import LeaderboardModal from './leaderboard/index'
+import { showModal } from '@/components/Modal/Modal'
 
 export default {
   name: 'Sidebar',

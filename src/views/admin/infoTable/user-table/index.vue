@@ -1,80 +1,50 @@
 <template>
   <div>
-    <table class="ui striped table">
-      <thead>
-        <tr class="center aligned">
-          <th>用户名</th>
-          <th>昵称</th>
-          <th>拥有的角色</th>
-          <th>是否启用</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody v-for="(user,i) in userList" :key="i">
-        <tr class="center aligned">
-          <td>{{ user.username }}</td>
-          <td>{{ user.nickname }}</td>
-          <td>
-            <div class="ui basic labels">
-              <a v-for="(roleName, j) in user.roleNameList" :key="j" class="ui label">{{ roleName }}</a>
-            </div>
-          </td>
-          <td>
-            <a v-if="user.enabled" class="ui green basic label">启用</a>
-            <a v-else class="ui red basic label">禁用</a>
-          </td>
-          <td :disabled="roleNameListHasAdmin(user.roleNameList)">
-            <div class="ui blue basic button" @click="emitUser(user)">
-              修改
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th class="center aligned" colspan="5">
-            <PaginationMenu :page-information="pageInformation" @currentChange="updateCurrentPageData" />
-          </th>
-        </tr>
-      </tfoot>
-    </table>
+    <div class="m-padded-tb m-padded-lr-large">
+      <div class="ui action input">
+        <input v-model="searchName" type="text" placeholder="输入用户的名称">
+        <button class="ui button" @click="searchByName">搜索</button>
+      </div>
+      <button class="ui teal labeled icon button m-margin-l" @click="searchByCondition">
+        <i class="search icon" />
+        高级搜索
+      </button>
+      <button class="ui blue right floated button" @click="insertUser">插入用户</button>
+    </div>
+    <UserInfoTable :mode="mode" :search-name="searchName" @clickEdit="editUser" />
     <SaveUserModal :user="selectUser" />
   </div>
 </template>
 
 <script>
-import PaginationMenu from '@/components/PaginationMenu/index'
-import { getUserList } from '@/api/userApi'
-import { showModal } from '@/utils/publicUtils'
 import SaveUserModal from '@/views/admin/infoTable/user-table/components/SaveUseModal'
-import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
-import { roleNameListHasAdmin } from '@/utils/coreUtils'
+import UserInfoTable from '@/views/admin/infoTable/user-table/components/UserInfoTable'
+import { showModal } from '@/components/Modal/Modal'
 
 export default {
   name: 'UserList',
-  components: { SaveUserModal, PaginationMenu },
+  components: { UserInfoTable, SaveUserModal },
   data() {
     return {
-      pageInformation: getDefaultPageInformation(),
-      userList: [],
-      selectUser: null
+      selectUser: null,
+      searchName: '',
+      mode: ''
     }
   },
-  mounted() {
-    this.updateCurrentPageData()
-  },
   methods: {
-    roleNameListHasAdmin,
-    async updateCurrentPageData(page = 1, pageSize = 5) {
-      const { success, data } = await getUserList(page, pageSize)
-      if (success) {
-        this.pageInformation = data.pageInformation
-        this.userList = data.list
-      }
-    },
-    emitUser(user) {
+    editUser(user) {
       this.selectUser = user
       showModal('saveUserModal')
+    },
+    insertUser() {
+      this.selectUser = null
+      showModal('saveUserModal')
+    },
+    searchByName() {
+      this.mode = 'name'
+    },
+    searchByCondition() {
+      // this.mode = 'condition'
     }
   }
 }
