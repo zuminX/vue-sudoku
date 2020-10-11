@@ -19,6 +19,7 @@
         :item="child"
         :base-path="resolvePath(child.path)"
         class="nest-menu"
+        style="height: 50px;"
       />
     </el-submenu>
   </div>

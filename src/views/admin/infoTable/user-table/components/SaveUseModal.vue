@@ -28,7 +28,7 @@
             <div class="ui label">
               昵称
             </div>
-            <input id="nickname" v-model="form.nickname" name="price" type="text">
+            <input id="nickname" v-model="form.nickname" name="nickname" type="text">
           </div>
         </div>
         <div class="field">
@@ -176,7 +176,7 @@ export default {
         nickname: '',
         createTime: new Date(),
         recentLoginTime: new Date(),
-        roleNameList: '',
+        roleNameList: [],
         enabled: false
       }
     },

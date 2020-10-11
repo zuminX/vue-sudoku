@@ -48,7 +48,6 @@ export const getUserList = (page, pageSize) => {
  * @param modifyUserForm 修改用户表单
  */
 export const modifyUser = (modifyUserForm) => {
-  console.log(modifyUserForm)
   return postRequest(`${base}/modifyUser`, modifyUserForm)
 }
 

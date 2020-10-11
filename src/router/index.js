@@ -57,18 +57,24 @@ export const asyncRouterMap = [
   {
     path: '/info',
     component: Layout,
-    redirect: '/admin/infoTable/user-table',
     meta: {
       title: '信息列表',
-      icon: 'table'
+      icon: 'table',
+      role: ['ADMIN']
     },
     children: [
       {
         path: 'user-table',
         component: () => import('@/views/admin/infoTable/user-table/index'),
         meta: {
-          title: '用户列表',
-          role: ['ADMIN']
+          title: '用户列表'
+        }
+      },
+      {
+        path: 'game-record-table',
+        component: () => import('@/views/admin/infoTable/game-record-table/index'),
+        meta: {
+          title: '游戏记录列表'
         }
       }
     ]

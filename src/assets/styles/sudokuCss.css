@@ -99,6 +99,11 @@ input::-webkit-inner-spin-button {
   background: #ffffff;
 }
 
+/*上内边距*/
+.m-padded-t {
+  padding-top: 0.5em !important;
+}
+
 /*上下内边距*/
 .m-padded-tb {
   padding-top: 0.5em !important;

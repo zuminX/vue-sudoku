@@ -1,47 +1,49 @@
 <template>
   <div>
-    <table class="ui striped table">
-      <thead>
-        <tr class="center aligned">
-          <th>用户名</th>
-          <th>昵称</th>
-          <th>拥有的角色</th>
-          <th>创建时间</th>
-          <th>最近登录时间</th>
-          <th>是否启用</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody v-for="(user,i) in userList" :key="i">
-        <tr class="center aligned">
-          <td>{{ user.username }}</td>
-          <td>{{ user.nickname }}</td>
-          <td>
-            <div class="ui basic labels">
-              <a v-for="(role, j) in user.roleList" :key="j" class="ui label">{{ role.nameZh }}</a>
-            </div>
-          </td>
-          <td>{{ parseStringTime(user.createTime) }}</td>
-          <td>{{ parseStringTime(user.recentLoginTime) }}</td>
-          <td>
-            <a v-if="user.enabled" class="ui green basic label">启用</a>
-            <a v-else class="ui red basic label">禁用</a>
-          </td>
-          <td>
-            <button :disabled="roleListHasAdmin(user.roleList)" class="ui blue basic button" @click="$emit('clickEdit', user)">
-              修改
-            </button>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th class="center aligned" colspan="7">
-            <PaginationMenu :page-information="pageInformation" @currentChange="updateCurrentPageData" />
-          </th>
-        </tr>
-      </tfoot>
-    </table>
+    <Loader :show="loaderShow">
+      <table class="ui striped table">
+        <thead>
+          <tr class="center aligned">
+            <th>用户名</th>
+            <th>昵称</th>
+            <th>拥有的角色</th>
+            <th>创建时间</th>
+            <th>最近登录时间</th>
+            <th>是否启用</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody v-for="(user,i) in userList" :key="i">
+          <tr class="center aligned">
+            <td>{{ user.username }}</td>
+            <td>{{ user.nickname }}</td>
+            <td>
+              <div class="ui basic labels">
+                <a v-for="(role, j) in user.roleList" :key="j" class="ui label">{{ role.nameZh }}</a>
+              </div>
+            </td>
+            <td>{{ parseStringTime(user.createTime) }}</td>
+            <td>{{ parseStringTime(user.recentLoginTime) }}</td>
+            <td>
+              <a v-if="user.enabled" class="ui green basic label">启用</a>
+              <a v-else class="ui red basic label">禁用</a>
+            </td>
+            <td>
+              <button :disabled="roleListHasAdmin(user.roleList)" class="ui blue basic button" @click="$emit('clickEdit', user)">
+                修改
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="center aligned" colspan="7">
+              <PaginationMenu :page-information="pageInformation" @currentChange="updateCurrentPageData" />
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </Loader>
   </div>
 </template>
 
@@ -55,10 +57,11 @@ import {
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import { parseStringTime } from '@/utils/tool'
 import PaginationMenu from '@/components/PaginationMenu/index'
+import Loader from '@/components/Loader/index'
 
 export default {
   name: 'UserInfoTable',
-  components: { PaginationMenu },
+  components: { Loader, PaginationMenu },
   props: {
     mode: {
       type: String,
@@ -76,7 +79,8 @@ export default {
   data() {
     return {
       pageInformation: getDefaultPageInformation(),
-      userList: []
+      userList: [],
+      loaderShow: false
     }
   },
   watch: {
@@ -91,7 +95,9 @@ export default {
     parseStringTime,
     roleListHasAdmin,
     async updateCurrentPageData(page = 1, pageSize = 5) {
+      this.loaderShow = true
       const { success, data } = await this.requestUserListByMode(page, pageSize)
+      this.loaderShow = false
       if (success) {
         this.pageInformation = data.pageInformation
         this.userList = data.list
@@ -114,7 +120,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

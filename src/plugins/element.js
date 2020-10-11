@@ -9,7 +9,6 @@ import {
   DropdownMenu,
   Menu,
   MenuItem,
-  Message,
   Pagination,
   Row,
   Scrollbar,
@@ -29,6 +28,4 @@ Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Scrollbar)
 Vue.use(DatePicker)
-
-Vue.component(Message.name, Message)
 

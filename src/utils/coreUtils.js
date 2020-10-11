@@ -20,7 +20,7 @@ export const getTwoDimeBoolArray = (row = 9, column = 9) => {
  * @returns {boolean} 包含则返回true，否则返回false
  */
 export const roleListHasAdmin = (roleList) => {
-  return (roleList.map(role => role.name)).includes('ROLE_ADMIN')
+  return roleList ? (roleList.map(role => role.name)).includes('ROLE_ADMIN') : false
 }
 
 /**
