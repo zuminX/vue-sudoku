@@ -1,7 +1,7 @@
 <template>
-  <div class="ui icon header">
+  <h2 class="ui center aligned header">
     <slot />
-  </div>
+  </h2>
 </template>
 
 <script>

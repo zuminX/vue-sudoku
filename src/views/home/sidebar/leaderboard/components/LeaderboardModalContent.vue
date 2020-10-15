@@ -27,10 +27,10 @@
             class="ui statistic"
           >
             <div class="value absolute-center">
-              {{ formatData(item.data) }}
+              {{ formatEmptyData(item.data) }}
             </div>
             <div class="label absolute-center">
-              {{ formatData(item.nickname) }}
+              {{ formatEmptyData(item.nickname) }}
             </div>
           </div>
         </div>
@@ -62,10 +62,11 @@ export default {
     initMenuItem('#context .menu .item', '#context')
   },
   methods: {
-    formatData: formatEmptyData,
+    formatEmptyData,
     /**
-       * 交换显示的排行
-       */
+     * 交换显示的排行
+     * @param data 交换后显示的排行
+     */
     swapDataToShowThreeUser(data) {
       for (let i = 0, size = data.length; i < size; i++) {
         const rankItemMap = data[i].rankItemMap
@@ -79,8 +80,8 @@ export default {
       return data
     },
     /**
-       * 初始化排行榜数据
-       */
+     * 初始化排行榜数据
+     */
     async initLeaderboardData() {
       const { success, data } = await getLeaderboardData()
       if (success) {

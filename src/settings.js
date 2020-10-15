@@ -1,13 +1,10 @@
 module.exports = {
-
-  title: 'Vue Sudoku Admin',
-
+  title: 'Vue Sudoku',
   /**
    * @type {boolean} true | false
    * @description Whether fix the header
    */
   fixedHeader: false,
-
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar

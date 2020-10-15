@@ -11,7 +11,9 @@ const state = {
   // 选择的数独数
   sudokuInput: new SudokuMatrixGrid(0, 0, 0),
   // 序列号
-  serialNumber: 0
+  serialNumber: 0,
+  // 记录模式游戏的序列号
+  recordGameNumber: 0
 }
 
 const mutations = {
@@ -29,12 +31,18 @@ const mutations = {
   },
   updateGameFinish(state, gameFinish) {
     state.gameFinish = gameFinish
+    if (gameFinish === true && state.recordMode === true) {
+      this.updateRecordGameNumber(state)
+    }
   },
   updateSudokuInput(state, sudokuInput) {
     state.sudokuInput = sudokuInput
   },
   updateSerialNumber(state) {
     state.serialNumber++
+  },
+  updateRecordGameNumber(state) {
+    state.recordGameNumber++
   }
 }
 

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Layout from '@/components/Layout'
 
 Vue.use(VueRouter)
 
@@ -40,49 +39,6 @@ export const constantRouterMap = [
 // 异步挂载的路由
 export const asyncRouterMap = [
   {
-    path: '/admin',
-    component: Layout,
-    redirect: '/admin/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/admin/dashboard/index'),
-      meta: {
-        title: '概览',
-        icon: 'dashboard',
-        role: ['ADMIN']
-      }
-    }]
-  },
-  {
-    path: '/info',
-    component: Layout,
-    meta: {
-      title: '信息列表',
-      icon: 'table',
-      role: ['ADMIN']
-    },
-    children: [
-      {
-        path: 'user-table',
-        component: () => import('@/views/admin/infoTable/user-table/index'),
-        meta: {
-          title: '用户列表'
-        }
-      },
-      {
-        path: 'game-record-table',
-        component: () => import('@/views/admin/infoTable/game-record-table/index'),
-        meta: {
-          title: '游戏记录列表'
-        }
-      }
-    ]
-  },
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true
   }
 ]
 

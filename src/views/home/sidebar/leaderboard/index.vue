@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <Modal class="big" modal-id="leaderboardModal">
-      <template v-slot:header>
-        <BasicModalHeader class="orange">排行榜</BasicModalHeader>
-      </template>
-      <LeaderboardModalContent />
-      <template v-slot:actions>
-        <OKModalActions />
-      </template>
-    </Modal>
-  </div>
+  <Modal class="big" modal-id="leaderboardModal">
+    <template v-slot:header>
+      <BasicModalHeader class="orange">排行榜</BasicModalHeader>
+    </template>
+    <LeaderboardModalContent />
+    <template v-slot:actions>
+      <OKModalActions />
+    </template>
+  </Modal>
 </template>
 
 <script>

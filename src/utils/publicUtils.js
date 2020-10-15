@@ -54,7 +54,7 @@ export const animateCSS = (element, animation, prefix = 'animate__') => {
  * @returns {string} 对应的秒
  */
 export const formatShowMS = (milliseconds) => {
-  if (milliseconds === undefined || milliseconds === null || typeof milliseconds !== 'number') {
+  if (!milliseconds || typeof milliseconds !== 'number' || milliseconds === -Infinity || milliseconds === Infinity) {
     return '--'
   }
   return Math.ceil(milliseconds / 1000) + ''

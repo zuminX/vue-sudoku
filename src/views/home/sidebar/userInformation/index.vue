@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <Modal class="large" modal-id="userInformationModal">
-      <template v-slot:header>
-        <BasicModalHeader class="blue">用户信息</BasicModalHeader>
-      </template>
-      <UserGameInformationModalContent />
-      <template v-slot:actions>
-        <OKModalActions />
-      </template>
-    </Modal>
-  </div>
+  <Modal class="large" modal-id="userInformationModal">
+    <template v-slot:header>
+      <BasicModalHeader class="blue">用户信息</BasicModalHeader>
+    </template>
+    <UserGameInformationModalContent />
+    <template v-slot:actions>
+      <OKModalActions />
+    </template>
+  </Modal>
 </template>
 
 <script>
