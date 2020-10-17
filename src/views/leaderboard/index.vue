@@ -40,16 +40,16 @@
 </template>
 
 <script>
-import { getLeaderboardData } from '@/api/gameApi'
 import {
   formatEmptyData,
   initMenuItem
 } from '@/utils/publicUtils'
+import { getLeaderboardData } from '@/api/gameApi'
 
 import('jquery-address')
 
 export default {
-  name: 'LeaderboardModalContent',
+  name: 'LeaderboardModal',
   data() {
     return {
       leaderboardData: []
@@ -63,6 +63,15 @@ export default {
   },
   methods: {
     formatEmptyData,
+    /**
+     * 初始化排行榜数据
+     */
+    async initLeaderboardData() {
+      const { success, data } = await getLeaderboardData()
+      if (success) {
+        this.leaderboardData = this.swapDataToShowThreeUser(data)
+      }
+    },
     /**
      * 交换显示的排行
      * @param data 交换后显示的排行
@@ -78,20 +87,7 @@ export default {
         }
       }
       return data
-    },
-    /**
-     * 初始化排行榜数据
-     */
-    async initLeaderboardData() {
-      const { success, data } = await getLeaderboardData()
-      if (success) {
-        this.leaderboardData = this.swapDataToShowThreeUser(data)
-      }
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

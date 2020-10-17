@@ -1,23 +1,7 @@
 <template>
   <div id="root" class="pushable">
 
-    <Sidebar />
-
     <div class="pusher">
-      <div class="ui segment m-shadow-small">
-        <h1 class="ui teal header center aligned">数独游戏</h1>
-      </div>
-
-      <!--菜单图标，点击打开侧边栏-->
-      <div
-        class="ui black big launch right attached fixed button"
-        @click="showSidebar('toc')"
-        @mouseenter="changeMenuNameVisible"
-        @mouseleave="changeMenuNameVisible"
-      >
-        <i class="content icon" />
-        <span id="menuName" class="text">菜单</span>
-      </div>
 
       <div id="sudokuArea" class="ui container m-padded-tb-large">
         <!--加载数独区域时的占位符-->
@@ -104,7 +88,6 @@ import {
 } from '@/api/gameApi'
 import SudokuGameArea from './sudoku/gameArea/index'
 import SudokuGameButtons from './sudoku/gameButtons/index'
-import Sidebar from './sidebar/index'
 import AnswerResultModal from './modal/AnswerResultModal'
 import CheckSubmitModal from './modal/CheckSubmitModal'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
@@ -123,8 +106,7 @@ export default {
     SudokuGameButtons,
     SudokuGameArea,
     SudokuHelp,
-    SudokuSetting,
-    Sidebar
+    SudokuSetting
   },
   data() {
     return {
@@ -251,12 +233,6 @@ export default {
      */
     initDropdown() {
       $(`.ui.dropdown`).dropdown()
-    },
-    /**
-     * 改变菜单名字的可见性
-     */
-    changeMenuNameVisible() {
-      $('#menuName').transition('horizontal flip')
     }
   }
 }

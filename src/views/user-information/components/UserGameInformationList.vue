@@ -102,10 +102,7 @@ import {
   formatShowMS,
   initMenuItem
 } from '@/utils/publicUtils'
-import {
-  getUserGameInformation,
-  getUserGameInformationById
-} from '@/api/userApi'
+import { getUserGameInformation } from '@/api/userApi'
 
 import('jquery-address')
 
@@ -126,12 +123,15 @@ export default {
   updated() {
     initMenuItem('.menu .item')
   },
+  mounted() {
+    this.initGameInformation()
+  },
   methods: {
     /**
      * 初始化用户游戏信息
      */
     async initGameInformation() {
-      const { success, data } = await this.getUserGameInformation()
+      const { success, data } = await getUserGameInformation()
       if (success) {
         this.overviewGameInformation = this.calculateOverviewGameInformation(data)
         this.gameInformationList = this.formatSpendTime(data)

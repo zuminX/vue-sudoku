@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in addRouters" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in routers" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -29,7 +29,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'addRouters'
+      'routers'
     ]),
     activeMenu() {
       const route = this.$route

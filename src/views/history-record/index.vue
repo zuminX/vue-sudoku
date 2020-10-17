@@ -51,24 +51,28 @@
 </template>
 
 <script>
-import Loader from '@/components/Loader/index'
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import { formatEmptyData } from '@/utils/publicUtils'
+import { getHistoryGameRecord } from '@/api/userApi'
 import {
   convertToSudokuHoles,
   convertToSudokuMatrix
 } from '@/utils/sudokuUtils'
 import PaginationMenu from '@/components/PaginationMenu/index'
+import Loader from '@/components/Loader/index'
 
 export default {
-  name: 'UserGameRecordTable',
-  components: { PaginationMenu, Loader },
+  name: 'HistoryRecordModal',
+  components: { Loader, PaginationMenu },
   data() {
     return {
       pageInformation: getDefaultPageInformation(),
       recordData: [],
       loaderShow: false
     }
+  },
+  mounted() {
+    this.updateCurrentPageData()
   },
   methods: {
     formatEmptyData,
@@ -79,7 +83,7 @@ export default {
      */
     async updateCurrentPageData(page = 1, pageSize = 5) {
       this.loaderShow = true
-      const { success, data } = await this.getHistoryGameRecordById(page, pageSize)
+      const { success, data } = await getHistoryGameRecord(page, pageSize)
       this.loaderShow = false
       if (success) {
         this.recordData = this.convertGameRecordToMatrix(data.list)
