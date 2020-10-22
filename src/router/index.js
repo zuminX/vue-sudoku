@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/components/Layout'
+import { constStore } from '@/store/constStore'
 
 Vue.use(VueRouter)
+
+// 修改路由replace方法,阻止重复点击报错
+const originalReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => err)
+}
 
 // 所有权限通用路由表
 export const constantRouterMap = [
@@ -33,7 +40,7 @@ export const constantRouterMap = [
     path: '/userInformation',
     component: Layout,
     children: [{
-      path: 'userInformation',
+      path: '',
       name: 'UserInformation',
       component: () => import('@/views/user-information/index'),
       meta: {
@@ -46,25 +53,12 @@ export const constantRouterMap = [
     path: '/historyRecord',
     component: Layout,
     children: [{
-      path: 'historyRecord',
+      path: '',
       name: 'HistoryRecord',
       component: () => import('@/views/history-record/index'),
       meta: {
         title: '历史游戏',
         icon: 'history'
-      }
-    }]
-  },
-  {
-    path: '/leaderboard',
-    component: Layout,
-    children: [{
-      path: 'leaderboard',
-      name: 'Leaderboard',
-      component: () => import('@/views/leaderboard/index'),
-      meta: {
-        title: '排行榜',
-        icon: 'chart'
       }
     }]
   },
@@ -88,24 +82,35 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
 ]
 
+export async function getLeaderboardRouter() {
+  const children = []
+  const rankingNameList = await constStore.getRankingNameList()
+  let i = 0
+  for (const rankingName of rankingNameList) {
+    children.push({
+      path: `${i++}`,
+      name: rankingName,
+      component: () => import('@/views/leaderboard/index'),
+      meta: {
+        rankingName,
+        title: rankingName
+      }
+    })
+  }
+  return {
+    path: '/leaderboard',
+    component: Layout,
+    redirect: '/leaderboard/0',
+    meta: {
+      title: '排行榜',
+      icon: 'chart'
+    },
+    children
+  }
+}
+
 export default new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: constantRouterMap
 })
-
-const originalPush = VueRouter.prototype.push
-
-/**
- * 解决重定向时报错
- * @param location
- * @param onResolve
- * @param onReject
- * @returns {Promise<Route | *>|Promise<Route>|void}
- */
-VueRouter.prototype.push = function push(location, onResolve, onReject) {
-  if (onResolve || onReject) {
-    return originalPush.call(this, location, onResolve, onReject)
-  }
-  return originalPush.call(this, location).catch(err => err)
-}

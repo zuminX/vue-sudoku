@@ -39,11 +39,3 @@ export const getSudokuHelp = (sudokuData) => {
 export const getSudokuLevels = () => {
   return getRequest(`${base}/sudokuLevels`)
 }
-
-/**
- * 获取排行榜数据
- */
-export const getLeaderboardData = () => {
-  return getRequest(`${base}/rank`)
-}
-

@@ -21,6 +21,7 @@ router.beforeEach((to, from, next) => {
         const roles = store.getters.roleNameList
         // 生成可访问的路由表
         store.dispatch('GenerateRoutes', { roles }).then(r => {
+          store.commit('SET_ROUTERS', r)
           // 动态添加可访问路由表
           router.addRoutes(store.getters.addRouters)
           // 确保addRoutes已完成

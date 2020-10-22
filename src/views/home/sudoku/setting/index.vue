@@ -15,7 +15,7 @@
             <div class="m-padded-tb">
               <label>
                 <select v-model="gameModel" class="ui dropdown">
-                  <option v-for="(level, index) in sudokuLevels" :key="index" :value="level.level">{{ level.name }}</option>
+                  <option v-for="(level, index) in sudokuLevelList" :key="index" :value="level.level">{{ level.name }}</option>
                 </select>
               </label>
             </div>
@@ -50,13 +50,13 @@
 </template>
 
 <script>
-import { getSudokuLevels } from '@/api/gameApi'
+import { constStore } from '@/store/constStore'
 
 export default {
   name: 'SudokuSetting',
   data() {
     return {
-      sudokuLevels: []
+      sudokuLevelList: []
     }
   },
   computed: {
@@ -101,10 +101,7 @@ export default {
      * 初始化数独难度等级
      */
     async initSudokuLevels() {
-      const { success, data } = await getSudokuLevels()
-      if (success) {
-        this.sudokuLevels = data
-      }
+      this.sudokuLevelList = await constStore.getSudokuLevelList()
     }
   }
 }

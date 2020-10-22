@@ -1,10 +1,17 @@
 import {
   asyncRouterMap,
-  constantRouterMap
+  constantRouterMap,
+  getLeaderboardRouter
 } from '@/router'
 
 function hasPermission(roles, route) {
   return route.meta && route.meta.role ? roles.some(role => route.meta.role.indexOf(role) >= 0) : true
+}
+
+async function getAdditionRouters() {
+  let routers = []
+  routers = routers.concat(await getLeaderboardRouter())
+  return routers
 }
 
 const permission = {
@@ -19,23 +26,20 @@ const permission = {
     }
   },
   actions: {
-    GenerateRoutes({ commit }, data) {
-      return new Promise(resolve => {
-        const { roles } = data
-        const accessedRouters = asyncRouterMap.filter(v => {
-          if (hasPermission(roles, v)) {
-            if (v.children && v.children.length > 0) {
-              v.children = v.children.filter(child => {
-                return hasPermission(roles, child)
-              })
-            }
-            return true
+    async GenerateRoutes({ commit }, data) {
+      const { roles } = data
+      const accessedRouters = asyncRouterMap.filter(v => {
+        if (hasPermission(roles, v)) {
+          if (v.children && v.children.length > 0) {
+            v.children = v.children.filter(child => {
+              return hasPermission(roles, child)
+            })
           }
-          return false
-        })
-        commit('SET_ROUTERS', accessedRouters)
-        resolve()
+          return true
+        }
+        return false
       })
+      return accessedRouters.concat(await getAdditionRouters())
     }
   }
 }

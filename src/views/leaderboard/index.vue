@@ -1,92 +1,97 @@
 <template>
-  <div id="context">
-    <div class="ui menu">
-      <a v-for="(rankData,index) in leaderboardData" :key="index" :data-tab="index" class="item">
-        {{ rankData.rankName }}
-      </a>
-    </div>
-    <div v-for="(rankData,i) in leaderboardData" :key="i" :class="[i===0?'active':'']" :data-tab="i" class="ui tab segment">
-      <div class="ui top attached tabular menu">
-        <a v-for="(value,key) in rankData.rankItemMap" :key="`${i}-${key}`" :data-tab="`${i}-${key}`" class="active item">
-          {{ key }}
-        </a>
-      </div>
+  <div>
+    <div class="ui top attached buttons">
       <div
-        v-for="(value,key,index) in rankData.rankItemMap"
-        :key="`${i}-${key}`"
-        :class="[index===0?'active':'']"
-        :data-tab="`${i}-${key}`"
-        class="ui bottom tab segment"
+        v-for="(level, index) in sudokuLevelList"
+        :key="index"
+        class="ui button"
+        :class="{'active' : selectSudokuLevelName===level.name}"
+        @click="updateSelectSudokuLevel(level.name)"
       >
-        <div class="ui three statistics">
-          <div
-            v-for="(item, j) in
-              value"
-            :key="`${i}-${key}-${j}`"
-            :class="[j!==0?(j!==1?'brown tiny':'yellow large'):'grey']"
-            class="ui statistic"
-          >
-            <div class="value absolute-center">
-              {{ formatEmptyData(item.data) }}
-            </div>
-            <div class="label absolute-center">
-              {{ formatEmptyData(item.nickname) }}
-            </div>
-          </div>
-        </div>
+        {{ level.name }}
       </div>
+    </div>
+    <div class="ui attached segment">
+      <Loader :show="loaderShow">
+        <table class="ui celled padded table">
+          <thead>
+            <tr class="center aligned">
+              <th>用户名</th>
+              <th>{{ rankingName }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(rankItem, index) in rankItemList" :key="index" class="center aligned">
+              <td> {{ rankItem.username }} </td>
+              <td> {{ rankItem.data }} </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th class="center aligned" colspan="2">
+                <PaginationMenu :page-information="pageInformation" @currentChange="updateCurrentPageData" />
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </Loader>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  formatEmptyData,
-  initMenuItem
-} from '@/utils/publicUtils'
-import { getLeaderboardData } from '@/api/gameApi'
-
-import('jquery-address')
+import PaginationMenu from '@/components/PaginationMenu/index'
+import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
+import Loader from '@/components/Loader/index'
+import { constStore } from '@/store/constStore'
+import { getLeaderboard } from '@/api/gameRankApi'
 
 export default {
   name: 'LeaderboardModal',
+  components: { Loader, PaginationMenu },
   data() {
     return {
-      leaderboardData: []
+      pageInformation: getDefaultPageInformation(),
+      loaderShow: false,
+      sudokuLevelList: [],
+      selectSudokuLevelName: '',
+      rankItemList: [],
+      rankingName: this.$route.meta.rankingName
     }
   },
-  mounted() {
-    this.initLeaderboardData()
-  },
-  updated() {
-    initMenuItem('#context .menu .item', '#context')
+  async mounted() {
+    await this.initSudokuLevels()
+    this.updateCurrentPageData()
   },
   methods: {
-    formatEmptyData,
     /**
-     * 初始化排行榜数据
+     * 更新当前页的数据
+     * @param page 页数
+     * @param pageSize 每条条数
      */
-    async initLeaderboardData() {
-      const { success, data } = await getLeaderboardData()
+    async updateCurrentPageData(page = 1, pageSize = 5) {
+      this.loaderShow = true
+      const { success, data } = await getLeaderboard(this.rankingName, this.selectSudokuLevelName, page, pageSize)
+      this.loaderShow = false
       if (success) {
-        this.leaderboardData = this.swapDataToShowThreeUser(data)
+        this.rankItemList = data.list
+        this.pageInformation = data.pageInformation
       }
     },
     /**
-     * 交换显示的排行
-     * @param data 交换后显示的排行
+     * 初始化数独难度等级
      */
-    swapDataToShowThreeUser(data) {
-      for (let i = 0, size = data.length; i < size; i++) {
-        const rankItemMap = data[i].rankItemMap
-        for (const i in rankItemMap) {
-          const itemList = rankItemMap[i]
-          const temp = itemList[0]
-          itemList[0] = itemList[1]
-          itemList[1] = temp
-        }
-      }
-      return data
+    async initSudokuLevels() {
+      this.sudokuLevelList = await constStore.getSudokuLevelList()
+      this.selectSudokuLevelName = this.sudokuLevelList[0].name
+    },
+    /**
+     * 更新选择的数独等级
+     * @param sudokuLevelName 数独等级名称
+     */
+    updateSelectSudokuLevel(sudokuLevelName) {
+      this.selectSudokuLevelName = sudokuLevelName
+      this.updateCurrentPageData()
     }
   }
 }

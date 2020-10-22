@@ -1,66 +1,57 @@
 <template>
-  <div id="root" class="pushable">
-
-    <div class="pusher">
-
-      <div id="sudokuArea" class="ui container m-padded-tb-large">
-        <!--加载数独区域时的占位符-->
-        <div v-if="loading.sudokuDataDown" class="absolute-center">
-          <div class="ui placeholder sudoku-placeholder" />
-        </div>
-        <!--数独区域-->
-        <SudokuGameArea
-          v-else
-          ref="sudokuGameArea"
-          :holes-data="holesData"
-          :show-right-answer="showRightAnswer"
-          :source-sudoku-data="sourceSudokuData"
-          :sudoku-data="sudokuData"
-        />
+  <div id="root">
+    <div id="sudokuArea" class="ui container m-padded-tb-large">
+      <!--加载数独区域时的占位符-->
+      <div v-if="loading.sudokuDataDown" class="absolute-center">
+        <div class="ui placeholder sudoku-placeholder" />
       </div>
+      <!--数独区域-->
+      <SudokuGameArea
+        v-else
+        ref="sudokuGameArea"
+        :holes-data="holesData"
+        :show-right-answer="showRightAnswer"
+        :source-sudoku-data="sourceSudokuData"
+        :sudoku-data="sudokuData"
+      />
+    </div>
 
-      <!--按钮区域-->
-      <div class="m-container-tiny">
-        <div class="ui container">
-          <!--向服务器上传数独数据时，显示的提示信息-->
-          <div v-if="loading.sudokuDataUp" class="ui active centered inline text loader">正在向服务器上传您的数独数据，请勿进行其他操作！</div>
-          <!--数独游戏的按钮-->
-          <SudokuGameButtons
-            v-else-if="!gameFinish"
-            ref="sudokuGameButtons"
-            :holes-data="holesData"
-            :sudoku-data.sync="sudokuData"
-            @clickSubmit="submitSudokuData"
-            @clickTips="showTips"
-          />
-          <!--游戏结束时显示-->
-          <div v-else class="ui one column centered grid">
-            <div class="ui center aligned column">
-              <div class="ui toggle checkbox m-padded-tb tip-popup">
-                <input id="showRightAnswerCheckbox" v-model="showRightAnswer" type="checkbox">
-                <label for="showRightAnswerCheckbox">显示正确答案</label>
-              </div>
-            </div>
+    <!--按钮区域-->
+    <div class="ui container m-container-tiny">
+      <!--向服务器上传数独数据时，显示的提示信息-->
+      <div v-if="loading.sudokuDataUp" class="ui active centered inline text loader">正在向服务器上传您的数独数据，请勿进行其他操作！</div>
+      <!--数独游戏的按钮-->
+      <SudokuGameButtons
+        v-else-if="!gameFinish"
+        ref="sudokuGameButtons"
+        :holes-data="holesData"
+        :sudoku-data.sync="sudokuData"
+        @clickSubmit="submitSudokuData"
+        @clickTips="showTips"
+      />
+      <!--游戏结束时显示-->
+      <div v-else class="ui one column centered grid">
+        <div class="ui center aligned column">
+          <div class="ui toggle checkbox m-padded-tb tip-popup">
+            <input id="showRightAnswerCheckbox" v-model="showRightAnswer" type="checkbox">
+            <label for="showRightAnswerCheckbox">显示正确答案</label>
           </div>
         </div>
       </div>
+    </div>
 
-      <!--设置区域-->
-      <div class="m-container-small m-padded-tb-big">
-        <div class="ui container">
-          <div class="ui two column centered grid">
-            <div class="eleven wide column">
-              <SudokuSetting @clickNewGame="initSudokuData" />
-            </div>
+    <!--设置区域-->
+    <div class="ui container m-container-small m-padded-tb-big">
+      <div class="ui two column centered grid">
+        <div class="eleven wide column">
+          <SudokuSetting @clickNewGame="initSudokuData" />
+        </div>
 
-            <!--帮助按钮区域-->
-            <div class="five wide column">
-              <SudokuHelp />
-            </div>
-          </div>
+        <!--帮助按钮区域-->
+        <div class="five wide column">
+          <SudokuHelp />
         </div>
       </div>
-
     </div>
 
     <CheckSubmitModal @clickCheck="submitSudokuData" />
@@ -134,7 +125,6 @@ export default {
   },
   mounted() {
     this.initSudokuData()
-    this.changeMenuNameVisible()
   },
   methods: {
     ...mapMutations([
