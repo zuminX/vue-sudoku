@@ -5,7 +5,7 @@
         注册你的账户
       </h2>
 
-      <Form form-id="registerForm" :validate-rule="validateRule()" class="large">
+      <Form ref="registerForm" form-id="registerForm" :validate-rule="validateRule()" class="large" :success-callback="submitRegister">
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon" />
@@ -38,7 +38,7 @@
             :uuid.sync="registerForm.uuid"
           />
         </div>
-        <div class="ui fluid large teal button" @click="submitRegister">注册</div>
+        <div class="ui fluid large teal button" @click="validaRegisterForm">注册</div>
       </Form>
 
       <div class="ui message">
@@ -84,17 +84,15 @@ export default {
      * 提交表单，进行注册
      */
     async submitRegister() {
-      if (FormValidation.validateForm('registerForm')) {
-        const { success, data } = await register(this.registerForm)
-        if (success) {
-          showSuccessToast({
-            message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
-          })
-          // 跳转到登陆页面，并携带用户名
-          await this.$router.replace(`/?username=${data.username}`)
-        } else {
-          this.refreshCaptcha()
-        }
+      const { success, data } = await register(this.registerForm)
+      if (success) {
+        showSuccessToast({
+          message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
+        })
+        // 跳转到登陆页面，并携带用户名
+        await this.$router.replace(`/login?username=${data.username}`)
+      } else {
+        this.refreshCaptcha()
       }
     },
     /**
@@ -114,6 +112,12 @@ export default {
         nickname: FormValidation.nicknameRules,
         code: FormValidation.captchaRules
       }
+    },
+    /**
+     * 校验注册表单
+     */
+    validaRegisterForm() {
+      this.$refs.registerForm.validaForm()
     }
   }
 }

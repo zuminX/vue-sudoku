@@ -1,14 +1,6 @@
 import Vue from 'vue'
 
 /**
- * 显示侧边栏
- * @param selector ID选择器
- */
-export const showSidebar = (selector) => {
-  $(`#${selector}`).sidebar('toggle')
-}
-
-/**
  * 初始化菜单项
  * @param selector 选择器
  * @param contentSelector 内容项的选择器

@@ -22,6 +22,7 @@ proxyObj['/'] = {
   }
 }
 
+// eslint-disable-next-line no-undef
 module.exports = {
   // 打包时不生成map文件
   productionSourceMap: false,
@@ -88,6 +89,7 @@ module.exports = {
       }
     }))
   },
+  publicPath: production ? '/home/' : '/',
   // 测试时的端口和反向代理到服务器
   devServer: {
     host: 'localhost',

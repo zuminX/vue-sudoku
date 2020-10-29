@@ -1,7 +1,10 @@
 import {
   getData,
+  removeData,
   setData
 } from '@/utils/sessionStorageUtils'
+import { logout } from '@/api/securityApi'
+import { resetRouter } from '@/router'
 
 const state = {
   user: getData('user'),
@@ -16,14 +19,26 @@ const mutations = {
   SET_TOKEN(state, token) {
     setData('token', token)
     state.token = token
+  },
+  RESET_STATE(state) {
+    state.user = ''
+    state.token = ''
   }
 }
 
-const action = {}
+const actions = {
+  async logout({ commit, state }) {
+    await logout()
+    removeData('token')
+    removeData('user')
+    resetRouter()
+    commit('RESET_STATE')
+  }
+}
 
 export default {
   state,
   mutations,
-  action,
+  actions,
   modules: {}
 }

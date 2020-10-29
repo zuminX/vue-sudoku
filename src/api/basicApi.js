@@ -21,7 +21,6 @@ axios.interceptors.request.use(config => {
   showErrorToast({
     message: '请求失败'
   })
-  console.log(error)
 })
 
 /**
@@ -43,7 +42,6 @@ axios.interceptors.response.use(success => {
   }
 }, error => {
   let message
-  console.log(error)
   // 根据请求响应的状态，显示不同的错误信息
   switch (error.response.status) {
     case 500:

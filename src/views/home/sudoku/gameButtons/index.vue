@@ -7,10 +7,10 @@
     </div>
     <div class="four wide column basic segment">
       <button
-        :disabled="notChange"
+        :disabled="canNotRollback"
         class="ui grey basic circular button tip-popup"
         data-content="回滚最近的一次填写"
-        @click="rollbackSudokuData"
+        @click="sudokuInputCommand.rollback()"
       >
         <i class="undo icon" />回滚
       </button>
@@ -36,16 +36,14 @@
 
 <script>
 import {
-  animateCSS,
-  responseSetTwoDimensionalArray
+  animateCSS
 } from '@/utils/publicUtils'
 import {
   mapState
 } from 'vuex'
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { isNotHole } from '@/utils/sudokuUtils'
-import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
-import { deepClone } from '@/utils/tool'
+import { SudokuInputCommand } from '@/model/SudokuInputCommand'
 
 export default {
   name: 'SudokuGameButtons',
@@ -61,8 +59,7 @@ export default {
   },
   data() {
     return {
-      preSudokuData: null,
-      changeSudokuData: []
+      sudokuInputCommand: null
     }
   },
   computed: {
@@ -71,16 +68,15 @@ export default {
       serialNumber: state => state.sudoku.serialNumber,
       sudokuInput: state => state.sudoku.sudokuInput
     }),
-    notChange() {
-      return this.changeSudokuData.length === 0
+    canNotRollback() {
+      return !this.sudokuInputCommand.canRollback()
     }
   },
   watch: {
     // 监听游戏的序列数，以在新的一局开始时清空数据
     serialNumber: {
       handler() {
-        this.preSudokuData = deepClone(this.sudokuData)
-        this.changeSudokuData = []
+        this.sudokuInputCommand = new SudokuInputCommand(this.sudokuData)
       },
       immediate: true
     },
@@ -89,9 +85,7 @@ export default {
      * @param newValue 输入的数独格子信息
      */
     sudokuInput(newValue) {
-      const { row, column, value } = newValue
-      this.changeSudokuData.push(new SudokuMatrixGrid(row, column, this.preSudokuData[row][column]))
-      this.preSudokuData[row][column] = value
+      this.sudokuInputCommand.add(newValue)
     }
   },
   methods: {
@@ -106,12 +100,6 @@ export default {
         }
       }
       this.$emit('update:sudokuData', newSudokuData)
-    },
-    /**
-     * 回滚玩家填写的数独数据
-     */
-    rollbackSudokuData() {
-      responseSetTwoDimensionalArray(this.sudokuData, this.changeSudokuData.pop())
     },
     /**
      * 触发提示按钮的动画

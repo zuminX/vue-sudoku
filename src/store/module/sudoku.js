@@ -46,11 +46,11 @@ const mutations = {
   }
 }
 
-const action = {}
+const actions = {}
 
 export default {
   state,
   mutations,
-  action,
+  actions,
   modules: {}
 }

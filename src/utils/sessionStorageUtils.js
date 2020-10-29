@@ -15,3 +15,11 @@ export const getData = (key) => {
   const data = window.sessionStorage.getItem(key)
   return data ? JSON.parse(data) : data
 }
+
+/**
+ * 从storage中移除数据
+ * @param key
+ */
+export const removeData = (key) => {
+  window.sessionStorage.removeItem(key)
+}

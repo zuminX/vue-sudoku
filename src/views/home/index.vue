@@ -63,7 +63,6 @@
 import {
   animateCSS,
   responseSetTwoDimensionalArray,
-  showSidebar,
   showWarnToast
 } from '@/utils/publicUtils'
 import SudokuSetting from './sudoku/setting/index'
@@ -132,14 +131,13 @@ export default {
       'updateSerialNumber'
     ]),
     showModal,
-    showSidebar,
     /**
      * 初始化数独数据
      */
     async initSudokuData() {
-      this.startSudokuDataDown()
+      this.loading.sudokuDataDown = true
       const { success, data } = await generateSudokuTopic(+this.gameModel, this.recordMode)
-      this.stopSudokuDataDown()
+      this.loading.sudokuDataDown = false
       if (success) {
         hideSudokuZeroData(data.matrix, data.holes)
 
@@ -177,9 +175,9 @@ export default {
      * 向服务器提交数独数据
      */
     async submitSudokuData() {
-      this.startSudokuDataUp()
+      this.loading.sudokuDataUp = true
       const { success, data } = await submitSudokuData(this.sudokuData)
-      this.stopSudokuDataUp()
+      this.loading.sudokuDataUp = false
       if (success) {
         // 更新答题信息并显示答题结果的弹出层
         this.answerInformation = new AnswerInformation(data.situation, data.spendTime)
@@ -187,30 +185,6 @@ export default {
         this.sourceSudokuData = data.matrix
         this.updateGameFinish(true)
       }
-    },
-    /**
-     * 开始上传数独数据
-     */
-    startSudokuDataUp() {
-      this.loading.sudokuDataUp = true
-    },
-    /**
-     * 结束上传数独数据
-     */
-    stopSudokuDataUp() {
-      this.loading.sudokuDataUp = false
-    },
-    /**
-     * 开始接收数独数据
-     */
-    startSudokuDataDown() {
-      this.loading.sudokuDataDown = true
-    },
-    /**
-     * 结束接收数独数据
-     */
-    stopSudokuDataDown() {
-      this.loading.sudokuDataDown = false
     },
     /**
      * 初始化弹出提示
@@ -239,6 +213,6 @@ export default {
   与Semantic的侧边栏有关
 */
 #root {
-  height: 1100px !important;
+  height: 1000px !important;
 }
 </style>

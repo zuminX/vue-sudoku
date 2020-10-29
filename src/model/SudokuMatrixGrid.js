@@ -2,6 +2,10 @@
  * 数独矩阵的格子
  */
 export class SudokuMatrixGrid {
+  _row;
+  _column;
+  _value;
+
   constructor(row, column, value) {
     if (row < 0 || column < 0) {
       throw new Error('下标越界')

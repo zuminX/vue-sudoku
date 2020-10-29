@@ -14,16 +14,21 @@ export class FormValidation {
    * 初始化表单校验
    * @param selector ID选择器
    * @param fields 字段校验规则
-   * @param transition 过渡动画
+   * @param successCallback 验证成功的回调方法
    */
-  static init(selector, fields, transition = 'slide down') {
+  static init(selector, fields, successCallback) {
     $(`#${selector}`).form({
-      transition,
+      transition: 'slide down',
       fields,
       /**
-       * 防止表单验证成功后自动发送GET请求
+       * 验证成功后的回调方法
        */
       onSuccess() {
+        if (successCallback) {
+          successCallback()
+        }
+        // 防止表单验证成功后自动发送GET请求
+        return false
       }
     })
   }

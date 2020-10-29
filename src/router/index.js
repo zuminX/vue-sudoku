@@ -109,8 +109,18 @@ export async function getLeaderboardRouter() {
   }
 }
 
-export default new VueRouter({
+const createRouter = () => new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: constantRouterMap
 })
+
+const router = createRouter()
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher
+}
+
+export default router
+

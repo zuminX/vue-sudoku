@@ -22,3 +22,10 @@ export const login = (loginForm) => {
 export const captchaImage = () => {
   return getRequest(`${base}/captchaImage`)
 }
+
+/**
+ * 退出登录
+ */
+export const logout = () => {
+  postRequest(`${base}/logout`)
+}

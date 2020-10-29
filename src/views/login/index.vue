@@ -5,7 +5,7 @@
         登录你的账户
       </h2>
 
-      <Form form-id="loginForm" class="large" :validate-rule="validateRule()">
+      <Form ref="loginForm" form-id="loginForm" class="large" :validate-rule="validateRule()" :success-callback="submitLogin">
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon" />
@@ -21,7 +21,7 @@
         <div class="field">
           <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :uuid.sync="loginForm.uuid" />
         </div>
-        <div class="ui fluid large teal button" @click="submitLogin">登录</div>
+        <div class="ui fluid large teal button" @click="validaLoginForm">登录</div>
       </Form>
 
       <div class="ui message">
@@ -67,15 +67,13 @@ export default {
      * 提交表单，进行登录
      */
     async submitLogin() {
-      if (FormValidation.validateForm('loginForm')) {
-        const { success, data } = await login(this.loginForm)
-        if (success) {
-          this.$store.commit('SET_USER', data.user)
-          this.$store.commit('SET_TOKEN', data.token)
-          await this.$router.push({ path: '/' })
-        } else {
-          this.refreshCaptcha()
-        }
+      const { success, data } = await login(this.loginForm)
+      if (success) {
+        this.$store.commit('SET_USER', data.user)
+        this.$store.commit('SET_TOKEN', data.token)
+        await this.$router.replace('/home')
+      } else {
+        this.refreshCaptcha()
       }
     },
     /**
@@ -102,6 +100,12 @@ export default {
         password: FormValidation.passwordRules,
         code: FormValidation.captchaRules
       }
+    },
+    /**
+     * 校验登录表单
+     */
+    validaLoginForm() {
+      this.$refs.loginForm.validaForm()
     }
   }
 }
