@@ -7,7 +7,7 @@ export class SudokuMatrixGrid {
   _value;
 
   constructor(row, column, value) {
-    if (row < 0 || column < 0) {
+    if (row < 0 || row > 9 || column < 0 || column > 9) {
       throw new Error('下标越界')
     }
     this._row = row

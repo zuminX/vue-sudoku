@@ -62,7 +62,6 @@
 <script>
 import {
   animateCSS,
-  responseSetTwoDimensionalArray,
   showWarnToast
 } from '@/utils/publicUtils'
 import SudokuSetting from './sudoku/setting/index'
@@ -80,7 +79,6 @@ import SudokuGameArea from './sudoku/gameArea/index'
 import SudokuGameButtons from './sudoku/gameButtons/index'
 import AnswerResultModal from './modal/AnswerResultModal'
 import CheckSubmitModal from './modal/CheckSubmitModal'
-import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 import { AnswerInformation } from '@/model/AnswerInformation'
 import {
   hasInput,
@@ -167,8 +165,7 @@ export default {
         const { row, column } = data
         // 根据填写是否正确，显示不同的动画
         this.$refs.sudokuGameArea.setInputAnimate(hasInput(this.sudokuData, row, column) ? 'shakeX' : 'flash', row, column)
-        // 将提示的数字填入数独数据中
-        responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(row, column, data.value))
+        this.$refs.sudokuGameArea.addSudokuInput(row, column, data.value)
       }
     },
     /**

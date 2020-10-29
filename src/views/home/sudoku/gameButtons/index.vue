@@ -10,7 +10,7 @@
         :disabled="canNotRollback"
         class="ui grey basic circular button tip-popup"
         data-content="回滚最近的一次填写"
-        @click="sudokuInputCommand.rollback()"
+        @click="rollbackOperating"
       >
         <i class="undo icon" />回滚
       </button>
@@ -43,7 +43,8 @@ import {
 } from 'vuex'
 import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { isNotHole } from '@/utils/sudokuUtils'
-import { SudokuInputCommand } from '@/model/SudokuInputCommand'
+import { SudokuInputMemento } from '@/model/SudokuInputMemento'
+import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 
 export default {
   name: 'SudokuGameButtons',
@@ -59,7 +60,7 @@ export default {
   },
   data() {
     return {
-      sudokuInputCommand: null
+      sudokuInputMemento: null
     }
   },
   computed: {
@@ -69,14 +70,14 @@ export default {
       sudokuInput: state => state.sudoku.sudokuInput
     }),
     canNotRollback() {
-      return !this.sudokuInputCommand.canRollback()
+      return !this.sudokuInputMemento.canRollback()
     }
   },
   watch: {
     // 监听游戏的序列数，以在新的一局开始时清空数据
     serialNumber: {
       handler() {
-        this.sudokuInputCommand = new SudokuInputCommand(this.sudokuData)
+        this.sudokuInputMemento = new SudokuInputMemento(this.sudokuData)
       },
       immediate: true
     },
@@ -85,7 +86,7 @@ export default {
      * @param newValue 输入的数独格子信息
      */
     sudokuInput(newValue) {
-      this.sudokuInputCommand.add(newValue)
+      this.sudokuInputMemento.add(newValue)
     }
   },
   methods: {
@@ -93,19 +94,46 @@ export default {
      * 重置玩家填写的数独数据
      */
     resetSudokuData() {
-      const newSudokuData = getTwoDimeNumArray()
+      this.sudokuInputMemento.addList(this.getChangeSudokuGridList())
+      this.$emit('update:sudokuData', this.getInitSudokuData())
+    },
+    /**
+     * 获取更改的数独格子列表
+     */
+    getChangeSudokuGridList() {
+      const changeSudokuGridList = []
       for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-          newSudokuData[i][j] = isNotHole(this.holesData, i, j) ? this.sudokuData[i][j] : null
+          if (this.sudokuData[i][j]) {
+            changeSudokuGridList.push(new SudokuMatrixGrid(i, j, null))
+          }
         }
       }
-      this.$emit('update:sudokuData', newSudokuData)
+      return changeSudokuGridList
+    },
+    /**
+     * 获取初始数独数据
+     */
+    getInitSudokuData() {
+      const initSudokuData = getTwoDimeNumArray()
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          initSudokuData[i][j] = isNotHole(this.holesData, i, j) ? this.sudokuData[i][j] : null
+        }
+      }
+      return initSudokuData
     },
     /**
      * 触发提示按钮的动画
      */
     triggerTipsButtonAnimate() {
       animateCSS('#tipsButton', 'shakeX')
+    },
+    /**
+     * 回滚操作
+     */
+    rollbackOperating() {
+      this.sudokuInputMemento.rollback(this.sudokuData)
     }
   }
 }

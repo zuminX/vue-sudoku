@@ -24,13 +24,13 @@
           :value="inputValue(i, j)"
           class="sudoku-number-input"
           type="number"
-          @input="inputSudokuNumber(i,j,$event.target.value)"
+          @input="addSudokuInput(i,j,$event.target.value)"
         >
       </div>
     </div>
 
     <!--数独选择框-->
-    <SudokuInputArea id="sudokuInputArea" :click-position="clickPosition" />
+    <SudokuInputArea id="sudokuInputArea" @selectNumber="selectSudokuNumber" />
   </div>
 </template>
 
@@ -110,12 +110,11 @@ export default {
       }
     },
     /**
-     * 在选择模式下选择数字
+     * 监听输入的数独格子信息
      */
-    sudokuInput(newValue) {
-      const number = newValue.value
-      if (number !== -1) {
-        this.selectSudokuNumber(number)
+    sudokuInput(inputValue) {
+      if (inputValue && inputValue.value !== 0) {
+        responseSetTwoDimensionalArray(this.sudokuData, inputValue)
       }
     }
   },
@@ -146,13 +145,10 @@ export default {
       }
     },
     /**
-     * 处理输入数独数字
-     * @param i 行
-     * @param j 列
-     * @param value 值
+     * 增加输入的数独格子信息
      */
-    inputSudokuNumber(i, j, value) {
-      responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(i, j, value))
+    addSudokuInput(row, column, value) {
+      this.updateSudokuInput(new SudokuMatrixGrid(row, column, value))
     },
     /**
      * 从数独选择框中选择数字
@@ -160,8 +156,7 @@ export default {
      */
     selectSudokuNumber(number) {
       const { row, column } = this.clickPosition
-      // 将选择的数字填入数独数据中
-      responseSetTwoDimensionalArray(this.sudokuData, new SudokuMatrixGrid(row, column, number))
+      this.addSudokuInput(row, column, number)
       this.hideSudokuNumber()
     },
     /**
