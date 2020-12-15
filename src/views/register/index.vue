@@ -6,38 +6,13 @@
       </h2>
 
       <Form ref="registerForm" form-id="registerForm" :validate-rule="validateRule()" class="large" :success-callback="submitRegister">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon" />
-            <input v-model="registerForm.username" name="username" placeholder="用户名" type="text">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon" />
-            <input v-model="registerForm.password" name="password" placeholder="密码" type="password">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="blue lock icon" />
-            <input v-model="registerForm.repeatPassword" name="repeatPassword" placeholder="重复输入密码" type="password">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="green user icon" />
-            <input v-model="registerForm.nickname" name="nickname" placeholder="昵称" type="text">
-          </div>
-        </div>
-        <div class="field">
-          <CaptchaInput
-            ref="registerCaptcha"
-            v-model="registerForm.code"
-            :code="registerForm.code"
-            :uuid.sync="registerForm.uuid"
-          />
-        </div>
+        <LeftIconInputField icon="user" :data.sync="registerForm.username" placeholder="用户名" name="username" />
+        <LeftIconInputField icon="lock" :data.sync="registerForm.password" placeholder="密码" name="password" type="password" />
+        <LeftIconInputField icon="blue lock" :data.sync="registerForm.repeatPassword" placeholder="重复输入密码" name="repeatPassword" type="password" />
+        <LeftIconInputField icon="green user" :data.sync="registerForm.nickname" placeholder="昵称" name="nickname" />
+        <BasicField>
+          <CaptchaInput ref="loginCaptcha" v-model="registerForm.code" :uuid.sync="registerForm.uuid" />
+        </BasicField>
         <div class="ui fluid large teal button" @click="validaRegisterForm">注册</div>
       </Form>
 
@@ -54,10 +29,12 @@ import { showSuccessToast } from '@/utils/publicUtils'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 import Form from '@/components/Form/index'
+import LeftIconInputField from '@/components/Form/field/LeftIconInputField'
+import BasicField from '@/components/Form/field/BasicField'
 
 export default {
   name: 'Register',
-  components: { Form, CaptchaInput },
+  components: { BasicField, LeftIconInputField, Form, CaptchaInput },
   data() {
     return {
       registerForm: {

@@ -1,7 +1,7 @@
 import {
   getTwoDimeBoolArray,
   getTwoDimeNumArray
-} from './coreUtils'
+} from '@/utils/publicUtils'
 
 /**
  * 判断指定位置是否为空缺格子
@@ -70,6 +70,7 @@ export const convertToSudokuMatrix = (matrix) => {
   }
   return result
 }
+
 /**
  * 将字符串转化为题目空缺数组
  * @param holes 题目空缺数组的字符串形式

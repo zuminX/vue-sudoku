@@ -48,6 +48,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('logout')
+      await this.$store.dispatch('clearRoute')
       await this.$router.replace('/login')
     }
   }

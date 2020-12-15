@@ -17,32 +17,50 @@ const state = {
 }
 
 const mutations = {
+  /**
+   * 更新位置提示标志
+   */
   updatePositionTips(state, positionTips) {
     state.positionTips = positionTips
   },
+  /**
+   * 更新点击模式标志
+   */
   updateClickMode(state, clickMode) {
     state.clickMode = clickMode
   },
+  /**
+   * 更新游戏模式
+   */
   updateGameModel(state, gameModel) {
     state.gameModel = gameModel
   },
+  /**
+   * 更新记录模式标志
+   */
   updateRecordMode(state, recordMode) {
     state.recordMode = recordMode
   },
+  /**
+   * 更新游戏结束标志
+   */
   updateGameFinish(state, gameFinish) {
     state.gameFinish = gameFinish
     if (gameFinish === true && state.recordMode === true) {
-      this.updateRecordGameNumber(state)
+      state.recordGameNumber++
     }
   },
+  /**
+   * 更新数独输入数据
+   */
   updateSudokuInput(state, sudokuInput) {
     state.sudokuInput = sudokuInput
   },
-  updateSerialNumber(state) {
+  /**
+   * 增加游戏局数序列号
+   */
+  addSerialNumber(state) {
     state.serialNumber++
-  },
-  updateRecordGameNumber(state) {
-    state.recordGameNumber++
   }
 }
 

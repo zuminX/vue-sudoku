@@ -60,6 +60,7 @@ export default {
     }
   },
   computed: {
+    // 使用带有 setter 的双向绑定计算属性
     clickMode: {
       get() {
         return this.$store.state.sudoku.clickMode

@@ -5,6 +5,11 @@ const getters = {
   routers: state => state.permission.routers,
   user: state => state.user.user,
   token: state => state.user.token,
+  /**
+   * 获取角色名列表
+   * @param state 状态对象
+   * @returns {*} 角色名列表
+   */
   roleNameList(state) {
     const roleList = state.user.user.roleList
     // 去除角色名的前缀ROLE_

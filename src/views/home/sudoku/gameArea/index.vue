@@ -18,7 +18,7 @@
           :class="[tipsStyle[i][j]!==0?style.tipColor:'',
                    tipsStyle[i][j]===1?style.secondaryOpacity:'',
                    gameFinish&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBorderColor:style.errorBorderColor):'',
-                   !holesData[i][j]&&tipsStyle[i][j]===0?style.disabledBackgroundColor:'',
+                   !holesData[i][j]&&tipsStyle[i][j]===0?style.topicBackgroundColor:'',
                    showRightAnswer&&holesData[i][j]?(data===sourceSudokuData[i][j]?style.rightBackgroundColor:style.errorBackgroundColor):'']"
           :disabled="inputDisabled(i, j)"
           :value="inputValue(i, j)"
@@ -41,9 +41,8 @@ import {
 } from 'vuex'
 import {
   animateCSS,
-  responseSetTwoDimensionalArray
+  getTwoDimeNumArray
 } from '@/utils/publicUtils'
-import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
 import { ClickPosition } from '@/model/ClickPosition'
 import {
@@ -54,6 +53,7 @@ import {
 } from '@/utils/sudokuUtils'
 import SudokuInputArea from '@/views/home/sudoku/gameArea/components/SudokuInputArea'
 import TimeRecord from '@/components/TimeRecord/index'
+import { responseSetTwoDimensionalArray } from '@/utils/coreUtils'
 
 export default {
   name: 'SudokuGameArea',
@@ -83,7 +83,7 @@ export default {
       style: {
         rightBackgroundColor: 'background-color-green',
         errorBackgroundColor: 'background-color-blue',
-        disabledBackgroundColor: 'background-color-gray',
+        topicBackgroundColor: 'background-color-gray',
         secondaryOpacity: 'm-opacity-big',
         tipColor: 'tip-color',
         rightBorderColor: 'border-color-green',
@@ -110,7 +110,7 @@ export default {
       }
     },
     /**
-     * 监听输入的数独格子信息
+     * 监听输入的数独格子信息，并将输入响应式的修改到数独数据中
      */
     sudokuInput(inputValue) {
       if (inputValue && inputValue.value !== 0) {

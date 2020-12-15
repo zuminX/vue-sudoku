@@ -32,7 +32,8 @@ export const constantRouterMap = [
       component: () => import('@/views/home/index'),
       meta: {
         title: '数独游戏',
-        icon: 'home'
+        icon: 'home',
+        keepAlive: true
       }
     }]
   },
@@ -79,10 +80,13 @@ export const constantRouterMap = [
 ]
 
 // 异步挂载的路由
-export const asyncRouterMap = [
-]
+export const asyncRouterMap = []
 
-export async function getLeaderboardRouter() {
+/**
+ * 获取排行榜路由表
+ * @returns {*} 排行榜路由表
+ */
+export const getLeaderboardRouter = async() => {
   const children = []
   const rankingNameList = await constStore.getRankingNameList()
   let i = 0
@@ -109,6 +113,10 @@ export async function getLeaderboardRouter() {
   }
 }
 
+/**
+ * 创建路由
+ * @returns {VueRouter} 路由对象
+ */
 const createRouter = () => new VueRouter({
   mode: 'hash',
   base: process.env.BASE_URL,
@@ -117,10 +125,13 @@ const createRouter = () => new VueRouter({
 
 const router = createRouter()
 
-export function resetRouter() {
+export default router
+
+/**
+ * 重置路由表
+ */
+export const resetRouter = () => {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher
 }
-
-export default router
 

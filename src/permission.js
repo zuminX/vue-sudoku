@@ -3,8 +3,6 @@ import store from './store'
 
 const whiteList = ['/login', '/register']
 
-let noInitRouterTable = true
-
 router.beforeEach((to, from, next) => {
   // 路由发生变化修改页面title
   if (to.meta.title) {
@@ -16,12 +14,11 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
     } else {
       // 若没有初始化路由表，则先进行初始化
-      if (noInitRouterTable) {
-        noInitRouterTable = false
+      if (store.getters.addRouters.length === 0) {
         const roles = store.getters.roleNameList
         // 生成可访问的路由表
         store.dispatch('GenerateRoutes', { roles }).then(r => {
-          store.commit('SET_ROUTERS', r)
+          store.commit('updateRouters', r)
           // 动态添加可访问路由表
           router.addRoutes(store.getters.addRouters)
           // 确保addRoutes已完成

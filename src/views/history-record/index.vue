@@ -104,7 +104,7 @@ export default {
       return recordData
     },
     /**
-     * 滚动到头部
+     * 滚动页面到头部
      */
     scrollToHeader() {
       this.$refs.tableHead.scrollIntoView()

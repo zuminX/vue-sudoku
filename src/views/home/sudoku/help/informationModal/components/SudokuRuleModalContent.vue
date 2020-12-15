@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style scoped>
-  .ui.header:first-child {
-    margin-top: 2em !important;
-  }
+.ui.header:first-child {
+  margin-top: 2em !important;
+}
 </style>

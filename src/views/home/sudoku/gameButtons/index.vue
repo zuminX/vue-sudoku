@@ -36,12 +36,12 @@
 
 <script>
 import {
-  animateCSS
+  animateCSS,
+  getTwoDimeNumArray
 } from '@/utils/publicUtils'
 import {
   mapState
 } from 'vuex'
-import { getTwoDimeNumArray } from '@/utils/coreUtils'
 import { isNotHole } from '@/utils/sudokuUtils'
 import { SudokuInputMemento } from '@/model/SudokuInputMemento'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
@@ -69,6 +69,9 @@ export default {
       serialNumber: state => state.sudoku.serialNumber,
       sudokuInput: state => state.sudoku.sudokuInput
     }),
+    /**
+     * 判断当前是否不能撤回输入
+     */
     canNotRollback() {
       return !this.sudokuInputMemento.canRollback()
     }

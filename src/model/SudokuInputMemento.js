@@ -1,7 +1,10 @@
 import {SudokuMatrixGrid} from "@/model/SudokuMatrixGrid";
 import {deepClone} from "@/utils/tool";
-import {responseSetTwoDimensionalArray} from "@/utils/publicUtils";
+import {responseSetTwoDimensionalArray} from "@/utils/coreUtils";
 
+/**
+ * 数独输入记忆类
+ */
 export class SudokuInputMemento {
   _inputList;
   _preSudokuData;
@@ -50,5 +53,4 @@ export class SudokuInputMemento {
   canRollback() {
     return this._inputList.length > 0
   }
-
 }

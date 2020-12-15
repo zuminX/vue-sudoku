@@ -1,5 +1,5 @@
 /**
- * 数独矩阵的格子
+ * 数独矩阵格子类
  */
 export class SudokuMatrixGrid {
   _row;

@@ -1,3 +1,6 @@
+/**
+ * 表单校验类
+ */
 export class FormValidation {
   /**
    * 校验表单
@@ -61,16 +64,22 @@ export class FormValidation {
     ])
   }
 
+  /**
+   * 重复密码校验规则
+   */
   static get repeatPasswordRules() {
     return this._getRules([
       this._getTypeAndPrompt('match[password]', '重复输入的密码与密码不一致')
     ])
   }
 
+  /**
+   * 昵称校验规则
+   */
   static get nicknameRules() {
     return this._getRules([
       this._getTypeAndPrompt('minLength[4]', '昵称的长度不能小于4位'),
-      this._getTypeAndPrompt('maxLength[32]', '昵称的长度不能大于32位')
+      this._getTypeAndPrompt('maxLength[16]', '昵称的长度不能大于16位')
     ])
   }
 

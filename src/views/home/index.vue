@@ -116,6 +116,9 @@ export default {
       recordMode: state => state.sudoku.recordMode
     })
   },
+  /**
+   * 在数据更改后，初始化弹出提示和下拉选
+   */
   updated() {
     this.initPopup()
     this.initDropdown()
@@ -126,7 +129,7 @@ export default {
   methods: {
     ...mapMutations([
       'updateGameFinish',
-      'updateSerialNumber'
+      'addSerialNumber'
     ]),
     showModal,
     /**
@@ -140,7 +143,7 @@ export default {
         hideSudokuZeroData(data.matrix, data.holes)
 
         this.updateGameFinish(false)
-        this.updateSerialNumber()
+        this.addSerialNumber()
         this.showRightAnswer = false
         this.sudokuData = data.matrix
         this.holesData = data.holes

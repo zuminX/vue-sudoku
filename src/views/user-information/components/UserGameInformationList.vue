@@ -120,6 +120,9 @@ export default {
       }
     }
   },
+  /**
+   * 在数据更改后，初始化菜单项
+   */
   updated() {
     initMenuItem('.menu .item')
   },
@@ -139,6 +142,8 @@ export default {
     },
     /**
      * 根据各模式的游戏信息，计算出总的游戏信息
+     * @param data 游戏信息
+     * @return {*} 总体游戏信息
      */
     calculateOverviewGameInformation(data) {
       const total = this.calculateTotal(data)
@@ -150,6 +155,8 @@ export default {
     },
     /**
      * 格式化花费的时间
+     * @param data 游戏信息
+     * @return 总体游戏信息
      */
     formatSpendTime(data) {
       for (const item of data) {
@@ -159,6 +166,11 @@ export default {
       }
       return data
     },
+    /**
+     * 计算平均花费时间
+     * @param data 游戏信息
+     * @returns {null|number} 若回答正确数为零，则返回null；否则返回平均花费时间
+     */
     calculateAverageSpendTime(data) {
       const averageSpendTimeData = data.map(item => item.averageSpendTime).filter(averageSpendTime => averageSpendTime !== null)
       const correctNum = averageSpendTimeData.length
@@ -168,17 +180,37 @@ export default {
       const times = averageSpendTimeData.reduce((sum, current) => sum + current, 0)
       return times / correctNum
     },
+    /**
+     * 计算最少花费时间
+     * @param data 游戏信息
+     * @returns {number} 最少花费时间
+     */
     calculateMinSpendTime(data) {
       const minSpendTimeData = data.map(item => item.minSpendTime).filter(minSpendTime => minSpendTime !== null)
       return Math.min.apply(null, minSpendTimeData)
     },
+    /**
+     * 计算最多花费时间
+     * @param data 游戏信息
+     * @returns {number} 最多花费时间
+     */
     calculateMaxSpendTime(data) {
       const maxSpendTimeData = data.map(item => item.maxSpendTime).filter(maxSpendTime => maxSpendTime !== null)
       return Math.max.apply(null, maxSpendTimeData)
     },
+    /**
+     * 计算游戏总数
+     * @param data 游戏信息
+     * @returns {number} 游戏总数
+     */
     calculateTotal(data) {
       return data.map(item => item.total).reduce((sum, current) => sum + current, 0)
     },
+    /**
+     * 计算回答正确数
+     * @param data 游戏信息
+     * @returns {number} 回答正确数
+     */
     calculateCorrectNumber(data) {
       return data.map(item => item.correctNumber).reduce((sum, current) => sum + current, 0)
     }

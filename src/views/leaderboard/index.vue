@@ -61,7 +61,7 @@ export default {
   },
   async mounted() {
     await this.initSudokuLevels()
-    this.updateCurrentPageData()
+    await this.updateCurrentPageData()
   },
   methods: {
     /**

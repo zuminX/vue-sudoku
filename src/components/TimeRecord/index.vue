@@ -20,10 +20,7 @@ export default {
     formatMinute() {
       const minute = this.minute
       // 当分为一位时，将其补齐为两位
-      if (minute <= 9) {
-        return `0${minute}`
-      }
-      return minute
+      return minute <= 9 ? `0${minute}` : minute
     },
     /**
      * 格式化秒
@@ -32,10 +29,7 @@ export default {
     formatSecond() {
       const second = this.second
       // 当秒为一位时，将其补齐为两位
-      if (second <= 9) {
-        return `0${second}`
-      }
-      return second
+      return second <= 9 ? `0${second}` : second
     }
   },
   methods: {

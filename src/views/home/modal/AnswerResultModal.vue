@@ -32,9 +32,17 @@ export default {
     }
   },
   computed: {
+    /**
+     * 计算当前回答是否正确
+     * @returns {boolean} 回答正确返回true，回答错误返回false
+     */
     answerRight() {
       return this.answerInformation.situation !== 2
     },
+    /**
+     * 格式化显示花费的时间
+     * @returns {string} 花费的秒数
+     */
     spendTime() {
       return `${formatShowMS(this.answerInformation.spendTime)}秒`
     }

@@ -190,12 +190,18 @@ export function debounce(func, wait, immediate) {
   }
 }
 
+/**
+ * 深拷贝数据
+ * @param source 源数据
+ * @returns {any} 深拷贝的数据
+ */
 export function deepClone(source) {
   return JSON.parse(JSON.stringify(source))
 }
 
 /**
- * @returns {string}
+ * 创建唯一的字符串
+ * @returns {string} 字符串
  */
 export function createUniqueString() {
   const timestamp = +new Date() + ''

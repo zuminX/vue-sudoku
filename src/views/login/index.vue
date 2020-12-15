@@ -6,21 +6,11 @@
       </h2>
 
       <Form ref="loginForm" form-id="loginForm" class="large" :validate-rule="validateRule()" :success-callback="submitLogin">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon" />
-            <input v-model="loginForm.username" name="username" placeholder="用户名" type="text">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon" />
-            <input v-model="loginForm.password" name="password" placeholder="密码" type="password">
-          </div>
-        </div>
-        <div class="field">
+        <LeftIconInputField icon="user" :data.sync="loginForm.username" placeholder="用户名" name="username" />
+        <LeftIconInputField icon="lock" :data.sync="loginForm.password" placeholder="密码" name="password" type="password" />
+        <BasicField>
           <CaptchaInput ref="loginCaptcha" v-model="loginForm.code" :uuid.sync="loginForm.uuid" />
-        </div>
+        </BasicField>
         <div class="ui fluid large teal button" @click="validaLoginForm">登录</div>
       </Form>
 
@@ -36,10 +26,12 @@ import { login } from '@/api/securityApi'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 import Form from '@/components/Form/index'
+import LeftIconInputField from '@/components/Form/field/LeftIconInputField'
+import BasicField from '@/components/Form/field/BasicField'
 
 export default {
   name: 'Login',
-  components: { Form, CaptchaInput },
+  components: { BasicField, LeftIconInputField, Form, CaptchaInput },
   data() {
     return {
       // 登陆表单

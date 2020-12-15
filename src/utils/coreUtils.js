@@ -1,33 +1,13 @@
-/**
- * 获取二维number型数组
- * @returns {number[][]} 二维number型数组
- */
-export const getTwoDimeNumArray = (row = 9, column = 9) => {
-  return getTwoDimeArray(row, column, 0)
-}
+import Vue from 'vue'
 
 /**
- * 获取二维boolean型数组
- * @returns {boolean[][]} 二维boolean型数组
+ * 响应式的设置数独矩阵中的一个格子
+ * @param array 数独矩阵
+ * @param sudokuMatrixGrid 数独矩阵中的一个格子
  */
-export const getTwoDimeBoolArray = (row = 9, column = 9) => {
-  return getTwoDimeArray(row, column, false)
-}
-
-/**
- * 获取二维数组
- * @param row 行
- * @param column 列
- * @param initData 初始数据啊
- * @returns {[]} 二维数组
- */
-const getTwoDimeArray = (row, column, initData) => {
-  const result = []
-  for (let i = 0; i < row; i++) {
-    result.push([])
-    for (let j = 0; j < column; j++) {
-      result[i].push(initData)
-    }
-  }
-  return result
+export const responseSetTwoDimensionalArray = (array, sudokuMatrixGrid) => {
+  const { row, column, value } = sudokuMatrixGrid
+  const rowArrayData = array[row]
+  rowArrayData[column] = value
+  Vue.set(array, row, rowArrayData)
 }

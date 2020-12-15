@@ -1,5 +1,5 @@
 /**
- * 提交数独后的信息
+ * 提交数独后的信息类
  */
 export class AnswerInformation {
   _situation;
