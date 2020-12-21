@@ -46,7 +46,6 @@ export default {
   },
   mounted() {
     this.setUsername()
-    this.refreshCaptcha()
   },
   methods: {
     /**

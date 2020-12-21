@@ -47,9 +47,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.refreshCaptcha()
-  },
   methods: {
     /**
      * 跳转到登陆页面
