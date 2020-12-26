@@ -1,7 +1,12 @@
 <template>
   <div class="ui centered grid">
     <div class="four wide column basic segment">
-      <button class="ui orange basic circular button tip-popup" data-content="清空填写的数独空格" @click="resetSudokuData">
+      <button
+        :disabled="canNotReset"
+        class="ui orange basic circular button tip-popup"
+        data-content="清空填写的数独空格"
+        @click="resetSudokuData"
+      >
         <i class="undo icon" />重置
       </button>
     </div>
@@ -12,7 +17,7 @@
         data-content="回滚最近的一次填写"
         @click="rollbackOperating"
       >
-        <i class="undo icon" />回滚
+        <i class="undo alternate icon" />回滚
       </button>
     </div>
     <div class="four wide column basic segment">
@@ -45,6 +50,7 @@ import {
 import { isNotHole } from '@/utils/sudokuUtils'
 import { SudokuInputMemento } from '@/model/SudokuInputMemento'
 import { SudokuMatrixGrid } from '@/model/SudokuMatrixGrid'
+import { isHole } from '../../../../utils/sudokuUtils'
 
 export default {
   name: 'SudokuGameButtons',
@@ -74,6 +80,12 @@ export default {
      */
     canNotRollback() {
       return !this.sudokuInputMemento.canRollback()
+    },
+    /**
+     * 判断当前是否不能重置
+     */
+    canNotReset() {
+      return this.sudokuInputMemento.size() === 0
     }
   },
   watch: {
@@ -97,8 +109,9 @@ export default {
      * 重置玩家填写的数独数据
      */
     resetSudokuData() {
-      this.sudokuInputMemento.addList(this.getChangeSudokuGridList())
-      this.$emit('update:sudokuData', this.getInitSudokuData())
+      const initSudokuData = this.getInitSudokuData()
+      this.sudokuInputMemento = new SudokuInputMemento(initSudokuData)
+      this.$emit('update:sudokuData', initSudokuData)
     },
     /**
      * 获取更改的数独格子列表
@@ -107,7 +120,7 @@ export default {
       const changeSudokuGridList = []
       for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-          if (this.sudokuData[i][j]) {
+          if (isHole(this.holesData, i, j) && this.sudokuData[i][j]) {
             changeSudokuGridList.push(new SudokuMatrixGrid(i, j, null))
           }
         }

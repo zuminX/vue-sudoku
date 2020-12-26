@@ -53,4 +53,12 @@ export class SudokuInputMemento {
   canRollback() {
     return this._inputList.length > 0
   }
+
+  /**
+   * 获取输入列表的个数
+   * @returns {*} 操作个数
+   */
+  size() {
+    return this._inputList.length
+  }
 }
