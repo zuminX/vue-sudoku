@@ -42,7 +42,6 @@ const permission = {
      */
     async clearRoute({ commit }) {
       commit('updateRouters', [])
-      commit('updateAddRouters', [])
     }
   }
 }
