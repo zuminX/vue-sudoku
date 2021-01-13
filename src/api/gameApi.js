@@ -39,10 +39,3 @@ export const getSudokuHelp = (sudokuData) => {
 export const getSudokuLevels = () => {
   return getRequest(`${base}/sudokuLevels`)
 }
-
-/**
- * 清理数独游戏记录
- */
-export const cleanGameRecord = () => {
-  return getRequest(`${base}/clean`)
-}

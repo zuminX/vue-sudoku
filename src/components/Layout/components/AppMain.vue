@@ -2,11 +2,11 @@
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :key="$route.meta.keepAlive" />
+        <router-view v-if="$route.meta.keepAlive" :key="key" />
       </keep-alive>
     </transition>
     <transition name="fade-transform" mode="out-in">
-      <router-view v-if="!$route.meta.keepAlive" :key="!$route.meta.keepAlive" />
+      <router-view v-if="!$route.meta.keepAlive" :key="key" />
     </transition>
   </section>
 </template>

@@ -82,18 +82,18 @@ export const constantRouterMap = [
 // 异步挂载的路由
 export const asyncRouterMap = [
   {
-    path: 'external-link',
+    path: '/external-link',
     component: Layout,
-    children: [
-      {
-        path: 'http://47.116.68.80:8082/admin',
-        meta: {
-          title: '后台管理',
-          icon: 'link',
-          role: ['ADMIN']
-        }
+    meta: {
+      role: ['ADMIN']
+    },
+    children: [{
+      path: 'http://47.116.68.80:8082/admin',
+      meta: {
+        title: '后台管理',
+        icon: 'link'
       }
-    ]
+    }]
   }
 ]
 

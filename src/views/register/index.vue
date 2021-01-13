@@ -11,7 +11,7 @@
         <LeftIconInputField icon="blue lock" :data.sync="registerForm.repeatPassword" placeholder="重复输入密码" name="repeatPassword" type="password" />
         <LeftIconInputField icon="green user" :data.sync="registerForm.nickname" placeholder="昵称" name="nickname" />
         <BasicField>
-          <CaptchaInput ref="loginCaptcha" v-model="registerForm.code" :uuid.sync="registerForm.uuid" />
+          <CaptchaInput ref="registerCaptcha" v-model="registerForm.code" :uuid.sync="registerForm.uuid" />
         </BasicField>
         <div class="ui fluid large teal button" @click="validaRegisterForm">注册</div>
       </Form>
