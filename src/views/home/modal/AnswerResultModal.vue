@@ -33,11 +33,11 @@ export default {
   },
   computed: {
     /**
-     * 计算当前回答是否正确
+     * 判断当前回答是否正确
      * @returns {boolean} 回答正确返回true，回答错误返回false
      */
     answerRight() {
-      return this.answerInformation.situation !== 2
+      return this.answerInformation.situation === 0
     },
     /**
      * 格式化显示花费的时间
