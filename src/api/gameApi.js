@@ -32,10 +32,3 @@ export const submitSudokuData = (sudokuData) => {
 export const getSudokuHelp = (sudokuData) => {
   return postRequest(`${base}/help`, sudokuData)
 }
-
-/**
- * 获取数独的所有难度等级
- */
-export const getSudokuLevels = () => {
-  return getRequest(`${base}/sudokuLevels`)
-}

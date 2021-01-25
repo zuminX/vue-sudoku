@@ -103,6 +103,7 @@ import {
   initMenuItem
 } from '@/utils/publicUtils'
 import { getUserGameInformation } from '@/api/userApi'
+import { constStore } from '@/store/constStore'
 
 import('jquery-address')
 
@@ -138,7 +139,7 @@ export default {
       const { success, data } = await getUserGameInformation()
       if (success) {
         this.overviewGameInformation = this.calculateOverviewGameInformation(data)
-        this.gameInformationList = data
+        this.gameInformationList = this.addLackSudokuLevel(data)
       }
     },
     /**
@@ -154,6 +155,27 @@ export default {
       const minSpendTime = this.calculateMinSpendTime(data)
       const maxSpendTime = this.calculateMaxSpendTime(data)
       return { total, correctNumber, averageSpendTime, minSpendTime, maxSpendTime }
+    },
+    /**
+     * 增加缺少的数独等级的游戏信息
+     */
+    async addLackSudokuLevel(gameInformationList) {
+      const sudokuLevelList = await constStore.getSudokuLevelList()
+      const hasSudokuLevelList = gameInformationList.map(gameInformation => gameInformation.sudokuLevelName)
+      for (const sudokuLevel of sudokuLevelList) {
+        const sudokuLevelName = sudokuLevel.name
+        if (hasSudokuLevelList.find(sudokuLevelName) === undefined) {
+          gameInformationList.push({
+            total: 0,
+            correctNumber: 0,
+            averageSpendTime: null,
+            minSpendTime: null,
+            maxSpendTime: null,
+            sudokuLevelName
+          })
+        }
+      }
+      return gameInformationList
     },
     /**
      * 计算平均花费时间

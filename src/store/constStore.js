@@ -1,5 +1,5 @@
-import { getSudokuLevels } from '@/api/gameApi'
 import { getRankingName } from '@/api/gameRankApi'
+import { getSudokuLevels } from '@/api/sudokuApi'
 
 export const constStore = {
   data: {
