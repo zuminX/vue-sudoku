@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { register } from '@/api/userApi'
+import { register } from '@/api/userAPI'
 import { showSuccessToast } from '@/utils/publicUtils'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'

@@ -3,7 +3,7 @@ import {
   removeData,
   setData
 } from '@/utils/sessionStorageUtils'
-import { logout } from '@/api/securityApi'
+import { logout } from '@/api/securityAPI'
 import { resetRouter } from '@/router'
 
 const state = {

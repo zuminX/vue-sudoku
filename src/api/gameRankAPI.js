@@ -1,9 +1,16 @@
+import { APIInfo } from '@/api/APIInfo'
+import { request } from '@/api/index'
+
 /**
  * 数独游戏排行API的基地址
  */
-import { getRequest } from '@/api/basicApi'
+const baseUrl = 'gameRank'
 
-const base = '/gameRank'
+const gameRankAPI = {
+  getLeaderboard: new APIInfo('leaderboard', 'get', baseUrl),
+  getRankingName: new APIInfo('rankingName', 'get', baseUrl),
+  getRank: new APIInfo('rank', 'get', baseUrl)
+}
 
 /**
  * 获取数独游戏排行榜
@@ -14,14 +21,14 @@ const base = '/gameRank'
  * @param pageSize 每页显示的条数
  */
 export const getLeaderboard = (rankingName, sudokuLevelName, page, pageSize) => {
-  return getRequest(`${base}/leaderboard`, { rankingName, sudokuLevelName, page, pageSize })
+  return request(gameRankAPI.getLeaderboard, { rankingName, sudokuLevelName, page, pageSize })
 }
 
 /**
  * 获取排行类型名
  */
 export const getRankingName = () => {
-  return getRequest(`${base}/rankingName`)
+  return request(gameRankAPI.getRankingName)
 }
 
 /**
@@ -31,6 +38,6 @@ export const getRankingName = () => {
  * @param sudokuLevelName 数独等级名称
  */
 export const getRank = (rankingName, sudokuLevelName) => {
-  return getRequest(`${base}/rank`, { rankingName, sudokuLevelName })
+  return request(gameRankAPI.getRank, { rankingName, sudokuLevelName })
 }
 

@@ -53,7 +53,7 @@
 <script>
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import { formatEmptyData } from '@/utils/publicUtils'
-import { getHistoryGameRecord } from '@/api/userApi'
+import { getHistoryGameRecord } from '@/api/userAPI'
 import PaginationMenu from '@/components/PaginationMenu/index'
 import Loader from '@/components/Loader/index'
 

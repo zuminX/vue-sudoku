@@ -102,7 +102,7 @@ import {
   formatEmptyData,
   initMenuItem
 } from '@/utils/publicUtils'
-import { getUserGameInformation } from '@/api/userApi'
+import { getUserGameInformation } from '@/api/userAPI'
 import { constStore } from '@/store/constStore'
 
 import('jquery-address')
@@ -139,7 +139,7 @@ export default {
       const { success, data } = await getUserGameInformation()
       if (success) {
         this.overviewGameInformation = this.calculateOverviewGameInformation(data)
-        this.gameInformationList = this.addLackSudokuLevel(data)
+        this.gameInformationList = await this.addLackSudokuLevel(data)
       }
     },
     /**
@@ -164,7 +164,7 @@ export default {
       const hasSudokuLevelList = gameInformationList.map(gameInformation => gameInformation.sudokuLevelName)
       for (const sudokuLevel of sudokuLevelList) {
         const sudokuLevelName = sudokuLevel.name
-        if (hasSudokuLevelList.find(sudokuLevelName) === undefined) {
+        if (!hasSudokuLevelList.includes(sudokuLevelName)) {
           gameInformationList.push({
             total: 0,
             correctNumber: 0,

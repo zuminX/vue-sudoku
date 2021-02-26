@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { login } from '@/api/securityApi'
+import { login } from '@/api/securityAPI'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 import Form from '@/components/Form/index'

@@ -1,7 +1,6 @@
 const Webpack = require('webpack')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
 
 function resolve(dir) {
@@ -10,6 +9,8 @@ function resolve(dir) {
 }
 
 const production = process.env.NODE_ENV === 'production'
+
+const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 
 // 反向代理
 const proxyObj = {}
@@ -79,9 +80,17 @@ module.exports = {
   },
   publicPath: production ? '/home/' : '/',
   // 测试时的端口和反向代理到服务器
+  // devServer: {
+  //   host: 'localhost',
+  //   port: 8080,
+  //   proxy: proxyObj
+  // },
   devServer: {
-    host: 'localhost',
-    port: 8080,
-    proxy: proxyObj
+    port: port,
+    open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    }
   }
 }

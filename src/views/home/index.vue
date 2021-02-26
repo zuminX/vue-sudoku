@@ -74,7 +74,7 @@ import {
   generateSudokuTopic,
   getSudokuHelp,
   submitSudokuData
-} from '@/api/gameApi'
+} from '@/api/gameAPI'
 import SudokuGameArea from './sudoku/gameArea/index'
 import SudokuGameButtons from './sudoku/gameButtons/index'
 import AnswerResultModal from './modal/AnswerResultModal'
