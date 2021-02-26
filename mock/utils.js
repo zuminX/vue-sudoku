@@ -2,7 +2,7 @@ const Mock = require('mockjs')
 
 const mockAPI = (mockInfo) => {
   const apiInfo = mockInfo.apiInfo
-  Mock.mock(apiInfo.url, apiInfo.type, mockInfo.param)
+  Mock.mock(apiInfo.path, apiInfo.type, mockInfo.param)
 }
 
 module.exports = {

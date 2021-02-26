@@ -7,9 +7,9 @@ import { APIInfo } from '@/api/APIInfo'
 const baseUrl = 'game'
 
 const gameAPI = {
-  generateSudokuTopic: new APIInfo('generateTopic', 'get', baseUrl),
-  submitSudokuData: new APIInfo('check', 'post', baseUrl),
-  getSudokuHelp: new APIInfo('help', 'post', baseUrl)
+  generateSudokuTopic: new APIInfo('generateTopic', baseUrl),
+  submitSudokuData: new APIInfo('check', baseUrl, 'post'),
+  getSudokuHelp: new APIInfo('help', baseUrl, 'post')
 }
 
 /**

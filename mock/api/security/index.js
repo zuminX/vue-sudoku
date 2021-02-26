@@ -1,12 +1,15 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/security'
+/**
+ * 安全相关API的基地址
+ */
+const baseUrl = 'security'
 
 const securityAPI = {
-  login: new APIInfo(`${baseUrl}/login`, 'post'),
-  captchaImage: new APIInfo(`${baseUrl}/captchaImage`, 'get'),
-  logout: new APIInfo(`${baseUrl}/logout`, 'post')
+  login: new APIInfo('login', baseUrl, 'post'),
+  captchaImage: new APIInfo('captchaImage', baseUrl),
+  logout: new APIInfo('logout', baseUrl, 'post')
 }
 
 module.exports = [

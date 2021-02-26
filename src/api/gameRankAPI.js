@@ -7,9 +7,9 @@ import { request } from '@/api/index'
 const baseUrl = 'gameRank'
 
 const gameRankAPI = {
-  getLeaderboard: new APIInfo('leaderboard', 'get', baseUrl),
-  getRankingName: new APIInfo('rankingName', 'get', baseUrl),
-  getRank: new APIInfo('rank', 'get', baseUrl)
+  getLeaderboard: new APIInfo('leaderboard', baseUrl),
+  getRankingName: new APIInfo('rankingName', baseUrl),
+  getRank: new APIInfo('rank', baseUrl)
 }
 
 /**

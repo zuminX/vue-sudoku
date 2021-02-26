@@ -7,8 +7,8 @@ import { request } from '@/api/index'
 const baseUrl = 'gameRace'
 
 const gameRaceAPI = {
-  getPublicRaceList: new APIInfo('publicRaceList', 'get', baseUrl),
-  joinPublicRace: new APIInfo('joinPublicRace', 'get', baseUrl)
+  getPublicRaceList: new APIInfo('publicRaceList', baseUrl),
+  joinPublicRace: new APIInfo('joinPublicRace', baseUrl)
 }
 
 /**

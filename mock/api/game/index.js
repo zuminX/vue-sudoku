@@ -1,12 +1,15 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/game'
+/**
+ * 数独API的基地址
+ */
+const baseUrl = 'game'
 
 const gameAPI = {
-  generateSudokuTopic: new APIInfo(RegExp(`${baseUrl}/generateTopic.*`), 'get'),
-  submitSudokuData: new APIInfo(`${baseUrl}/check`, 'post'),
-  getSudokuHelp: new APIInfo(`${baseUrl}/help`, 'post')
+  generateSudokuTopic: new APIInfo('generateTopic.*', baseUrl, 'get', true),
+  submitSudokuData: new APIInfo('check', baseUrl, 'post'),
+  getSudokuHelp: new APIInfo('help', baseUrl, 'post')
 }
 
 module.exports = [

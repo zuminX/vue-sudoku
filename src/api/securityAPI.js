@@ -7,9 +7,9 @@ import { request } from '@/api/index'
 const baseUrl = 'security'
 
 const securityAPI = {
-  login: new APIInfo('login', 'post', baseUrl),
-  captchaImage: new APIInfo('captchaImage', 'get', baseUrl),
-  logout: new APIInfo('logout', 'post', baseUrl)
+  login: new APIInfo('login', baseUrl, 'post'),
+  captchaImage: new APIInfo('captchaImage', baseUrl),
+  logout: new APIInfo('logout', baseUrl, 'post')
 }
 
 /**

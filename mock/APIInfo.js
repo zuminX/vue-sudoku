@@ -3,11 +3,18 @@
  */
 class APIInfo {
   _url;
-  _type
+  _type;
+  _regExp;
 
-  constructor(url, type) {
-    this._url = url
+  constructor(url, baseUrl, type = 'get', regExp = false) {
+    this._url = `${baseUrl}/${url}`
     this._type = type;
+    this._regExp = regExp
+  }
+
+  get path() {
+    const path = `/${this._url}`
+    return this._url ? RegExp(path) : path;
   }
 
   get url() {

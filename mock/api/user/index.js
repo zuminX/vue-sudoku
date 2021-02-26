@@ -1,12 +1,15 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/user'
+/**
+ * 用户API的基地址
+ */
+const baseUrl = 'user'
 
 const userAPI = {
-  register: new APIInfo(`${baseUrl}/register`, 'post'),
-  getUserGameInformation: new APIInfo(`${baseUrl}/gameInformation`, 'get'),
-  getHistoryGameRecord: new APIInfo(RegExp(`${baseUrl}/historyGameRecord.*`), 'get')
+  register: new APIInfo('register', baseUrl, 'post'),
+  getUserGameInformation: new APIInfo('gameInformation', baseUrl),
+  getHistoryGameRecord: new APIInfo('historyGameRecord.*', baseUrl, 'get', true)
 }
 
 module.exports = [

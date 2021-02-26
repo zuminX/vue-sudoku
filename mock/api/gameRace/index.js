@@ -1,11 +1,14 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/gameRace'
+/**
+ * 数独游戏竞赛API的基地址
+ */
+const baseUrl = 'gameRace'
 
 const gameRaceAPI = {
-  getPublicRaceList: new APIInfo(`${baseUrl}/publicRaceList`, 'get'),
-  joinPublicRace: new APIInfo(`${baseUrl}/joinPublicRace`, 'get')
+  getPublicRaceList: new APIInfo('publicRaceList', baseUrl),
+  joinPublicRace: new APIInfo('joinPublicRace', baseUrl)
 }
 
 module.exports = [

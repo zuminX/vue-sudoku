@@ -22,6 +22,7 @@ axios.interceptors.request.use(config => {
   showErrorToast({
     message: '请求失败'
   })
+  console.log(error)
 })
 
 /**

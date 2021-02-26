@@ -1,12 +1,15 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/gameRank'
+/**
+ * 数独游戏排行API的基地址
+ */
+const baseUrl = 'gameRank'
 
 const gameRankAPI = {
-  getLeaderboard: new APIInfo(RegExp(`${baseUrl}/leaderboard.*`), 'get'),
-  getRankingName: new APIInfo(`${baseUrl}/rankingName`, 'get'),
-  getRank: new APIInfo(`${baseUrl}/rank`, 'get')
+  getLeaderboard: new APIInfo('leaderboard.*', baseUrl, 'get', true),
+  getRankingName: new APIInfo('rankingName', baseUrl),
+  getRank: new APIInfo('rank', baseUrl)
 }
 
 module.exports = [

@@ -7,9 +7,9 @@ import { request } from '@/api/index'
 const baseUrl = 'user'
 
 const userAPI = {
-  register: new APIInfo('register', 'post', baseUrl),
-  getUserGameInformation: new APIInfo('gameInformation', 'get', baseUrl),
-  getHistoryGameRecord: new APIInfo('historyGameRecord', 'get', baseUrl)
+  register: new APIInfo('register', baseUrl, 'post'),
+  getUserGameInformation: new APIInfo('gameInformation', baseUrl),
+  getHistoryGameRecord: new APIInfo('historyGameRecord', baseUrl)
 }
 
 /**

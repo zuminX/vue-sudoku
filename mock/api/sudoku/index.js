@@ -1,10 +1,13 @@
 const { MockInfo } = require('../../MockInfo')
 const { APIInfo } = require('../../APIInfo')
 
-const baseUrl = '/sudoku'
+/**
+ * 数独API的基地址
+ */
+const baseUrl = 'sudoku'
 
 const sudokuAPI = {
-  getSudokuLevels: new APIInfo(`${baseUrl}/sudokuLevels`, 'get')
+  getSudokuLevels: new APIInfo('sudokuLevels', baseUrl)
 }
 
 module.exports = [

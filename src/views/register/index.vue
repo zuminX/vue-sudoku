@@ -59,15 +59,15 @@ export default {
      */
     async submitRegister() {
       const { success, data } = await register(this.registerForm)
-      if (success) {
-        showSuccessToast({
-          message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
-        })
-        // 跳转到登陆页面，并携带用户名
-        await this.$router.replace(`/login?username=${data.username}`)
-      } else {
+      if (!success) {
         this.refreshCaptcha()
+        return
       }
+      showSuccessToast({
+        message: `${data.nickname}，恭喜你注册成功，现在正在跳转到登陆页面`
+      })
+      // 跳转到登陆页面，并携带用户名
+      await this.$router.replace(`/login?username=${data.username}`)
     },
     /**
      * 刷新验证码

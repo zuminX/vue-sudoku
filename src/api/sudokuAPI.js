@@ -9,7 +9,7 @@ import { APIInfo } from '@/api/APIInfo'
 const baseUrl = 'sudoku'
 
 const sudokuAPI = {
-  getSudokuLevels: new APIInfo('sudokuLevels', 'get', baseUrl)
+  getSudokuLevels: new APIInfo('sudokuLevels', baseUrl)
 }
 
 /**

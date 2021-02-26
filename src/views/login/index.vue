@@ -59,13 +59,13 @@ export default {
      */
     async submitLogin() {
       const { success, data } = await login(this.loginForm)
-      if (success) {
-        this.$store.commit('SET_USER', data.user)
-        this.$store.commit('SET_TOKEN', data.token)
-        await this.$router.replace('/home')
-      } else {
+      if (!success) {
         this.refreshCaptcha()
+        return
       }
+      this.$store.commit('SET_USER', data.user)
+      this.$store.commit('SET_TOKEN', data.token)
+      await this.$router.replace('/home')
     },
     /**
      * 从路由中获取用户名，并设置到表单中
