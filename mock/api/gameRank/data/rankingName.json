@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "code": 0,
+  "httpStatus": 200,
+  "message": null,
+  "data": [
+    "平均花费时间",
+    "回答正确数",
+    "最小花费时间"
+  ]
+}

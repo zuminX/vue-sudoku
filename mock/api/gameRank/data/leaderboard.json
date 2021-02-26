@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "code": 0,
+  "httpStatus": 200,
+  "message": null,
+  "data": {
+    "pageInformation": {
+      "totalPage": 1,
+      "currentPage": 1,
+      "pageSize": 5
+    },
+    "list": [
+      {
+        "username": "test1",
+        "data": 600000
+      }
+    ]
+  }
+}
