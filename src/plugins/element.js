@@ -10,7 +10,8 @@ import {
   MenuItem,
   Pagination,
   Scrollbar,
-  Submenu
+  Submenu,
+  Upload
 } from 'element-ui'
 
 Vue.use(Pagination)
@@ -24,4 +25,5 @@ Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Scrollbar)
 Vue.use(DatePicker)
+Vue.use(Upload)
 

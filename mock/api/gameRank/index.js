@@ -1,5 +1,5 @@
-const { MockInfo } = require('../../MockInfo')
-const { APIInfo } = require('../../APIInfo')
+const { MockInfo } = require('../../model/MockInfo')
+const { APIInfo } = require('../../model/APIInfo')
 
 /**
  * 数独游戏排行API的基地址
@@ -19,5 +19,7 @@ module.exports = [
   new MockInfo(gameRankAPI.getRankingName, () => {
     return require('./data/rankingName.json')
   }),
-  new MockInfo(gameRankAPI.getRank, {})
+  new MockInfo(gameRankAPI.getRank, () => {
+    return require('../../data/voidSuccess.json')
+  })
 ]

@@ -15,6 +15,11 @@
               首页
             </el-dropdown-item>
           </router-link>
+          <router-link to="/userInformation">
+            <el-dropdown-item>
+              个人信息
+            </el-dropdown-item>
+          </router-link>
           <a target="_blank" href="https://github.com/zuminX/vue-sudoku/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>

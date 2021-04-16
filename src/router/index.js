@@ -45,7 +45,7 @@ export const constantRouterMap = [
       name: 'UserInformation',
       component: () => import('@/views/user-information/index'),
       meta: {
-        title: '信息',
+        title: '个人信息',
         icon: 'people'
       }
     }]

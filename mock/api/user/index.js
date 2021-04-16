@@ -1,5 +1,5 @@
-const { MockInfo } = require('../../MockInfo')
-const { APIInfo } = require('../../APIInfo')
+const { MockInfo } = require('../../model/MockInfo')
+const { APIInfo } = require('../../model/APIInfo')
 
 /**
  * 用户API的基地址
@@ -13,7 +13,9 @@ const userAPI = {
 }
 
 module.exports = [
-  new MockInfo(userAPI.register, {}),
+  new MockInfo(userAPI.register, () => {
+    return require('../../data/voidSuccess.json')
+  }),
   new MockInfo(userAPI.getUserGameInformation, () => {
     return require('./data/gameInformation.json')
   }),

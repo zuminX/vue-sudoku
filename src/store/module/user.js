@@ -26,6 +26,10 @@ const mutations = {
     setData('token', token)
     state.token = token
   },
+  SET_AVATAR: (state, avatar) => {
+    state.user.avatar = avatar
+    setData('user', state.user)
+  },
   /**
    * 重置状态
    */

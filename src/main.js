@@ -15,7 +15,7 @@ import '@/assets/styles/index.scss'
 Vue.config.productionTip = false
 Vue.use(preventClick)
 
-if (process.env.VUE_APP_MOCK && process.env.NODE_ENV === 'development') {
+if (process.env.VUE_APP_MOCK === 'true' && process.env.NODE_ENV === 'development') {
   require('../mock')
 }
 

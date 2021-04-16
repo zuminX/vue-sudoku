@@ -1,5 +1,5 @@
-const { MockInfo } = require('../../MockInfo')
-const { APIInfo } = require('../../APIInfo')
+const { MockInfo } = require('../../model/MockInfo')
+const { APIInfo } = require('../../model/APIInfo')
 
 /**
  * 安全相关API的基地址

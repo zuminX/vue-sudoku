@@ -23,6 +23,24 @@ proxyObj['/'] = {
   }
 }
 
+function getDevServer() {
+  if (process.env.VUE_APP_MOCK === 'true' && process.env.NODE_ENV === 'development') {
+    return {
+      port,
+      open: true,
+      overlay: {
+        warnings: false,
+        errors: true
+      }
+    }
+  }
+  return {
+    host: 'localhost',
+    port: 8080,
+    proxy: proxyObj
+  }
+}
+
 // eslint-disable-next-line no-undef
 module.exports = {
   // 打包时不生成map文件
@@ -80,17 +98,5 @@ module.exports = {
   },
   publicPath: production ? '/home/' : '/',
   // 测试时的端口和反向代理到服务器
-  // devServer: {
-  //   host: 'localhost',
-  //   port: 8080,
-  //   proxy: proxyObj
-  // },
-  devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    }
-  }
+  devServer: getDevServer()
 }

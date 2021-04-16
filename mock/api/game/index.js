@@ -1,5 +1,5 @@
-const { MockInfo } = require('../../MockInfo')
-const { APIInfo } = require('../../APIInfo')
+const { MockInfo } = require('../../model/MockInfo')
+const { APIInfo } = require('../../model/APIInfo')
 
 /**
  * 数独API的基地址
@@ -16,6 +16,10 @@ module.exports = [
   new MockInfo(gameAPI.generateSudokuTopic, () => {
     return require('./data/generateTopic.json')
   }),
-  new MockInfo(gameAPI.submitSudokuData, {}),
-  new MockInfo(gameAPI.getSudokuHelp, {})
+  new MockInfo(gameAPI.submitSudokuData, () => {
+    return require('../../data/voidSuccess.json')
+  }),
+  new MockInfo(gameAPI.getSudokuHelp, () => {
+    return require('../../data/voidSuccess.json')
+  })
 ]

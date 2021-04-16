@@ -1,5 +1,5 @@
-const { MockInfo } = require('../../MockInfo')
-const { APIInfo } = require('../../APIInfo')
+const { MockInfo } = require('../../model/MockInfo')
+const { APIInfo } = require('../../model/APIInfo')
 
 /**
  * 数独游戏竞赛API的基地址
@@ -12,6 +12,10 @@ const gameRaceAPI = {
 }
 
 module.exports = [
-  new MockInfo(gameRaceAPI.getPublicRaceList, {}),
-  new MockInfo(gameRaceAPI.joinPublicRace, {})
+  new MockInfo(gameRaceAPI.getPublicRaceList, () => {
+    return require('../../data/voidSuccess.json')
+  }),
+  new MockInfo(gameRaceAPI.joinPublicRace, () => {
+    return require('../../data/voidSuccess.json')
+  })
 ]

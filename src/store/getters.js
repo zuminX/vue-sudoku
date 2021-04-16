@@ -5,6 +5,7 @@ const getters = {
   routers: state => state.permission.routers,
   user: state => state.user.user,
   token: state => state.user.token,
+  avatar: state => state.user.user.avatar,
   /**
    * 获取角色名列表
    * @param state 状态对象
