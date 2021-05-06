@@ -70,11 +70,6 @@ import {
   mapState
 } from 'vuex'
 import SudokuHelp from './sudoku/help/index'
-import {
-  generateSudokuTopic,
-  getSudokuHelp,
-  submitSudokuData
-} from '@/api/gameAPI'
 import SudokuGameArea from './sudoku/gameArea/index'
 import SudokuGameButtons from './sudoku/gameButtons/index'
 import AnswerResultModal from './modal/AnswerResultModal'
@@ -85,6 +80,11 @@ import {
   hideSudokuZeroData
 } from '@/utils/sudokuUtils'
 import { showModal } from '@/components/Modal/Modal'
+import {
+  generateSudokuTopic,
+  getSudokuHelp,
+  submitSudokuData
+} from '@/api/game/gameAPI'
 
 export default {
   name: 'Home',

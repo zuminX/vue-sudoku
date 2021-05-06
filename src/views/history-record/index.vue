@@ -13,10 +13,10 @@
       <tbody>
         <tr v-for="(record, index) in gameRecord" :key="index" class="center aligned">
           <td>
-            <div v-for="(rowData, i) in record.sudokuRecord.sudokuMatrix" :key="i" class="sudoku-row absolute-center">
+            <div v-for="(rowData, i) in record.gameRecord.matrix" :key="i" class="sudoku-row absolute-center">
               <div v-for="(data, j) in rowData" :key="j" class="mini-number">
                 <input
-                  :class="[record.sudokuRecord.sudokuHoles[i][j]?'input-color':'background-color-gray']"
+                  :class="[record.gameRecord.holes[i][j]?'input-color':'background-color-gray']"
                   :value="data"
                   class="sudoku-number-input"
                   disabled
@@ -26,16 +26,16 @@
             </div>
           </td>
           <td>
-            {{ record.sudokuRecord.sudokuLevelName }}
+            {{ record.gameRecord.gameLevelName }}
           </td>
           <td>
-            {{ formatEmptyData(record.sudokuRecord.startTime) }}
+            {{ formatEmptyData(record.gameRecord.startTime) }}
           </td>
           <td>
-            {{ formatEmptyData(record.sudokuRecord.endTime) }}
+            {{ formatEmptyData(record.gameRecord.endTime) }}
           </td>
           <td>
-            <i :class="[record.answerSituation === 0 ? 'checkmark green' : 'remove red']" class="icon" />
+            <i :class="[record.situation === 0 ? 'checkmark green' : 'remove red']" class="icon" />
           </td>
         </tr>
       </tbody>
@@ -53,9 +53,9 @@
 <script>
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import { formatEmptyData } from '@/utils/publicUtils'
-import { getHistoryGameRecord } from '@/api/userAPI'
 import PaginationMenu from '@/components/PaginationMenu/index'
 import Loader from '@/components/Loader/index'
+import { getHistoryGameRecord } from '@/api/game/userAPI'
 
 export default {
   name: 'HistoryRecordModal',

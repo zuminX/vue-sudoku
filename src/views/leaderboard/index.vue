@@ -44,7 +44,7 @@ import PaginationMenu from '@/components/PaginationMenu/index'
 import { getDefaultPageInformation } from '@/components/PaginationMenu/PaginationMenu'
 import Loader from '@/components/Loader/index'
 import { constStore } from '@/store/constStore'
-import { getLeaderboard } from '@/api/gameRankAPI'
+import { getLeaderboard } from '@/api/game/rankAPI'
 
 export default {
   name: 'LeaderboardModal',

@@ -1,10 +1,10 @@
-import { request } from '@/api/index'
 import { APIInfo } from '@/api/APIInfo'
+import { request } from '@/api'
 
 /**
- * 数独API的基地址
+ * 数独游戏API的基地址
  */
-const baseUrl = 'game'
+const baseUrl = 'game/game'
 
 const gameAPI = {
   generateSudokuTopic: new APIInfo('generateTopic', baseUrl),
@@ -14,7 +14,7 @@ const gameAPI = {
 
 /**
  * 获取数独数据
- * @param level 难度
+ * @param level 难度ID
  * @param isRecord 是否记录
  */
 export const generateSudokuTopic = (level = 0, isRecord = false) => {

@@ -67,8 +67,8 @@ import {
   showErrorToast,
   showSuccessToast
 } from '@/utils/publicUtils'
-import { getUploadAvatarPolicy } from '@/api/userProfileAPI'
 import axios from 'axios'
+import { getUploadAvatarPolicy } from '@/api/ums/profileAPI'
 
 export default {
   name: 'ModifyAvatarModal',

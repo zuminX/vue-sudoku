@@ -1,23 +1,14 @@
 import { APIInfo } from '@/api/APIInfo'
-import { request } from '@/api/index'
+import { request } from '@/api'
 
 /**
- * 用户API的基地址
+ * 用户游戏信息API的基地址
  */
-const baseUrl = 'user'
+const baseUrl = 'game/user'
 
 const userAPI = {
-  register: new APIInfo('register', baseUrl, 'post'),
   getUserGameInformation: new APIInfo('gameInformation', baseUrl),
   getHistoryGameRecord: new APIInfo('historyGameRecord', baseUrl)
-}
-
-/**
- * 注册用户
- * @param registerForm 注册表单
- */
-export const register = (registerForm) => {
-  return request(userAPI.register, registerForm)
 }
 
 /**

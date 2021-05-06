@@ -16,7 +16,7 @@ const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 const proxyObj = {}
 proxyObj['/'] = {
   ws: false,
-  target: 'http://localhost:8081',
+  target: 'http://localhost:9999',
   changeOrigin: true,
   pathRewrite: {
     '^/': ''

@@ -15,7 +15,7 @@
             <div class="m-padded-tb">
               <label>
                 <select v-model="gameModel" class="ui dropdown">
-                  <option v-for="(level, index) in sudokuLevelList" :key="index" :value="level.level">{{ level.name }}</option>
+                  <option v-for="(level, index) in sudokuLevelList" :key="index" :value="level.id">{{ level.name }}</option>
                 </select>
               </label>
             </div>

@@ -1,14 +1,12 @@
-import {
-  request
-} from './index'
 import { APIInfo } from '@/api/APIInfo'
+import { request } from '@/api'
 
 /**
- * 数独API的基地址
+ * 游戏难度API的基地址
  */
-const baseUrl = 'sudoku'
+const baseUrl = 'game/level'
 
-const sudokuAPI = {
+const levelAPI = {
   getSudokuLevels: new APIInfo('sudokuLevels', baseUrl)
 }
 
@@ -16,5 +14,5 @@ const sudokuAPI = {
  * 获取数独的所有难度等级
  */
 export const getSudokuLevels = () => {
-  return request(sudokuAPI.getSudokuLevels)
+  return request(levelAPI.getSudokuLevels)
 }

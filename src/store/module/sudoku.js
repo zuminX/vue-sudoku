@@ -4,7 +4,7 @@ const state = {
   // 游戏设置
   positionTips: true,
   clickMode: true,
-  gameModel: 0,
+  gameModel: 1,
   recordMode: false,
   // 游戏当前状态
   gameFinish: true,

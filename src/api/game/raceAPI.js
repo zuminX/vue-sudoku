@@ -2,11 +2,11 @@ import { APIInfo } from '@/api/APIInfo'
 import { request } from '@/api/index'
 
 /**
- * 数独游戏竞赛API的基地址
+ * 游戏竞赛API的基地址
  */
-const baseUrl = 'gameRace'
+const baseUrl = 'game/race'
 
-const gameRaceAPI = {
+const raceAPI = {
   getPublicRaceList: new APIInfo('publicRaceList', baseUrl),
   joinPublicRace: new APIInfo('joinPublicRace', baseUrl)
 }
@@ -15,7 +15,7 @@ const gameRaceAPI = {
  * 获取公开的数独游戏竞赛
  */
 export const getPublicRaceList = () => {
-  return request(gameRaceAPI.getPublicRaceList)
+  return request(raceAPI.getPublicRaceList)
 }
 
 /**
@@ -23,6 +23,6 @@ export const getPublicRaceList = () => {
  * @param raceId 竞赛ID
  */
 export const joinPublicRace = (raceId) => {
-  return request(gameRaceAPI.joinPublicRace, { raceId })
+  return request(raceAPI.joinPublicRace, { raceId })
 }
 

@@ -3,8 +3,8 @@ import {
   removeData,
   setData
 } from '@/utils/sessionStorageUtils'
-import { logout } from '@/api/securityAPI'
 import { resetRouter } from '@/router'
+import { logout } from '@/api/ums/securityAPI'
 
 const state = {
   user: getData('user'),
@@ -16,15 +16,15 @@ const mutations = {
    * 设置用户
    */
   SET_USER(state, user) {
-    setData('user', user)
     state.user = user
+    setData('user', user)
   },
   /**
    * 设置令牌
    */
   SET_TOKEN(state, token) {
-    setData('token', token)
     state.token = token
+    setData('token', token)
   },
   SET_AVATAR: (state, avatar) => {
     state.user.avatar = avatar

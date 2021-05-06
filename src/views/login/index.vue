@@ -22,12 +22,14 @@
 </template>
 
 <script>
-import { login } from '@/api/securityAPI'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 import Form from '@/components/Form/index'
 import LeftIconInputField from '@/components/Form/field/LeftIconInputField'
 import BasicField from '@/components/Form/field/BasicField'
+import { getBasicInfo } from '@/api/ums/infoAPI'
+import { setData } from '@/utils/sessionStorageUtils'
+import { login } from '@/api/ums/securityAPI'
 
 export default {
   name: 'Login',
@@ -58,14 +60,18 @@ export default {
      * 提交表单，进行登录
      */
     async submitLogin() {
-      const { success, data } = await login(this.loginForm)
-      if (!success) {
+      let result = await login(this.loginForm)
+      if (!result.success) {
         this.refreshCaptcha()
         return
       }
-      this.$store.commit('SET_USER', data.user)
-      this.$store.commit('SET_TOKEN', data.token)
-      await this.$router.replace('/home')
+      this.$store.commit('SET_TOKEN', result.data.token)
+      setData('refresh_token', result.data.refreshToken)
+      result = await getBasicInfo()
+      if (result.success) {
+        this.$store.commit('SET_USER', result.data)
+        await this.$router.replace('/home')
+      }
     },
     /**
      * 从路由中获取用户名，并设置到表单中

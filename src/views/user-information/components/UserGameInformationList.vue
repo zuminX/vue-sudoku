@@ -3,7 +3,7 @@
     <div class="ui top attached tabular menu">
       <a class="item active" data-tab="-1">总览</a>
       <a v-for="(information,index) in gameInformationList" :key="index" :data-tab="index" class="item">
-        {{ information.sudokuLevelName }}
+        {{ information.gameLevelName }}
       </a>
     </div>
     <div class="ui bottom attached tab segment active" data-tab="-1">
@@ -102,8 +102,8 @@ import {
   formatEmptyData,
   initMenuItem
 } from '@/utils/publicUtils'
-import { getUserGameInformation } from '@/api/userAPI'
 import { constStore } from '@/store/constStore'
+import { getUserGameInformation } from '@/api/game/userAPI'
 
 import('jquery-address')
 
@@ -161,17 +161,17 @@ export default {
      */
     async addLackSudokuLevel(gameInformationList) {
       const sudokuLevelList = await constStore.getSudokuLevelList()
-      const hasSudokuLevelList = gameInformationList.map(gameInformation => gameInformation.sudokuLevelName)
+      const hasSudokuLevelList = gameInformationList.map(gameInformation => gameInformation.gameLevelName)
       for (const sudokuLevel of sudokuLevelList) {
-        const sudokuLevelName = sudokuLevel.name
-        if (!hasSudokuLevelList.includes(sudokuLevelName)) {
+        const gameLevelName = sudokuLevel.name
+        if (!hasSudokuLevelList.includes(gameLevelName)) {
           gameInformationList.push({
             total: 0,
             correctNumber: 0,
             averageSpendTime: null,
             minSpendTime: null,
             maxSpendTime: null,
-            sudokuLevelName
+            gameLevelName
           })
         }
       }

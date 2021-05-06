@@ -1,12 +1,12 @@
 import { APIInfo } from '@/api/APIInfo'
-import { request } from '@/api/index'
+import { request } from '@/api'
 
 /**
- * 用户API的基地址
+ * 用户资源API的基地址
  */
-const baseUrl = 'user/profile'
+const baseUrl = 'ums/profile'
 
-const userProfileAPI = {
+const profileAPI = {
   uploadAvatar: new APIInfo('uploadAvatarPolicy', baseUrl, 'post')
 }
 
@@ -14,6 +14,5 @@ const userProfileAPI = {
  * 获取上传头像的凭证
  */
 export const getUploadAvatarPolicy = () => {
-  return request(userProfileAPI.uploadAvatar)
+  return request(profileAPI.uploadAvatar)
 }
-

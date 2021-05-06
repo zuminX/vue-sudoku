@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import { register } from '@/api/userAPI'
 import { showSuccessToast } from '@/utils/publicUtils'
 import { FormValidation } from '@/model/FormValidation'
 import CaptchaInput from '@/components/CaptchaInput/index'
 import Form from '@/components/Form/index'
 import LeftIconInputField from '@/components/Form/field/LeftIconInputField'
 import BasicField from '@/components/Form/field/BasicField'
+import { register } from '@/api/ums/securityAPI'
 
 export default {
   name: 'Register',
